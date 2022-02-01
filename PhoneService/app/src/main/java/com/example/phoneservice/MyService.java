@@ -27,6 +27,7 @@ public class MyService extends Service {
                 return;
             }
             startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:"+phoneNumber)));
+
         }
     };
 }
