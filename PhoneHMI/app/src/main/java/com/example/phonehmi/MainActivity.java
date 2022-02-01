@@ -16,7 +16,7 @@ import ServicePackage.aidlInterface;
 
 public class MainActivity extends AppCompatActivity {
 
-    static aidlInterface aidlObject;
+    static aidlInterface aidlObject = null;
     Context context;
     private TabLayout tabLayout;
     private ViewPager2 viewPager2;
@@ -71,18 +71,18 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent().setComponent(componentName);
         bindService(intent, serviceConnection, BIND_AUTO_CREATE);
     }
-        ServiceConnection serviceConnection = new ServiceConnection() {
-            @Override
-            public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-                aidlObject = aidlInterface.Stub.asInterface(iBinder);
+    ServiceConnection serviceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+            aidlObject = aidlInterface.Stub.asInterface(iBinder);
 
-            }
+        }
 
-            @Override
-            public void onServiceDisconnected(ComponentName componentName) {
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
 
-            }
-        };
+        }
+    };
     public static aidlInterface getAidl(){
         return aidlObject;
     }

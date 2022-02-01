@@ -23,15 +23,10 @@ public class MyService extends Service {
     aidlInterface.Stub stubObject = new aidlInterface.Stub() {
         @Override
         public void callNumber(String phoneNumber) throws RemoteException {
-            /*if(ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED){
+            if(ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED){
                 return;
             }
-            startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:"+phoneNumber)));*/
-            Intent intent = new Intent(Intent.ACTION_CALL);
-            intent.setData(Uri.parse("tel:"+phoneNumber));
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.addFlags(Intent.FLAG_FROM_BACKGROUND);
-            startActivity(intent);
+            startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:"+phoneNumber)));
         }
     };
 }
