@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Demo Project/Phone/PhoneHMI/app/src/main/res/layout/activity_main.xml" value="0.2871376811594203" />
+        <entry key="..\:/Demo Project/Phone/PhoneHMI/app/src/main/res/layout/contact_suggestion_item.xml" value="0.5" />
+        <entry key="..\:/Demo Project/Phone/PhoneHMI/app/src/main/res/layout/fragment_contact.xml" value="0.221875" />
         <entry key="..\:/Demo Project/Phone/PhoneHMI/app/src/main/res/layout/fragment_dialer.xml" value="0.2871376811594203" />
         <entry key="..\:/Demo Project/Phone/PhoneHMI/app/src/main/res/layout/fragment_favorites.xml" value="0.2" />
       </map>
