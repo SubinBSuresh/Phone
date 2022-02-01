@@ -20,6 +20,8 @@ public class MyService extends Service {
     public IBinder onBind(Intent intent) {
         return stubObject;
     }
+
+
     aidlInterface.Stub stubObject = new aidlInterface.Stub() {
         @Override
         public void callNumber(String phoneNumber) throws RemoteException {
@@ -29,5 +31,8 @@ public class MyService extends Service {
             startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:"+phoneNumber)));
 
         }
+
+
+
     };
 }
