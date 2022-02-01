@@ -10,6 +10,9 @@ import android.os.RemoteException;
 
 import androidx.core.app.ActivityCompat;
 
+import java.util.List;
+
+import ServicePackage.ContactModel;
 import ServicePackage.aidlInterface;
 
 public class MyService extends Service {
@@ -32,6 +35,11 @@ public class MyService extends Service {
 
         }
 
+        @Override
+        public List<ContactModel> getContacts() throws RemoteException {
+            DBHelper dbHelper = new DBHelper(getApplicationContext());
+            return dbHelper.getContacts();
+        }
 
 
     };

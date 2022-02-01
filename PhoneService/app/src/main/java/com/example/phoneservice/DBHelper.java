@@ -1,14 +1,20 @@
 package com.example.phoneservice;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import ServicePackage.ContactModel;
+import ServicePackage.FavoritesModel;
+import ServicePackage.RecentsModel;
 
 public class DBHelper extends SQLiteOpenHelper {
 
@@ -22,7 +28,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         //CONTACT TABLE
         String createContactTable = "CREATE TABLE " + DBVariables.CONTACTS_TABLE + " ("
-                + DBVariables.CONTACT_ID + " INTEGER PRIMARY KEY, " + DBVariables.CONTACT_NAME
+                + DBVariables.CONTACT_ID + " INTEGER PRIMARY KEY, AUTO_INCREMENT" + DBVariables.CONTACT_NAME
                 + " TEXT, " + DBVariables.CONTACT_NUMBER + " TEXT" + ")";
         sqLiteDatabase.execSQL(createContactTable);
 
@@ -66,7 +72,7 @@ public class DBHelper extends SQLiteOpenHelper {
             }while(cursor.moveToNext());
         }
         sqLiteDatabase.close();
-        return  contactModelList;
+        return contactModelList;
 
     }
 
@@ -109,6 +115,37 @@ public class DBHelper extends SQLiteOpenHelper {
         return  recentsModelList;
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*    //TEMP
+    public void addContact(String name, String number) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "INSERT INTO " + DBVariables.CONTACTS_TABLE + "VALUES (" + name + ", " + number + ")";
+        db.execSQL(query);
+    }*/
 
 
 }

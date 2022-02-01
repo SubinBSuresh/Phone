@@ -1,4 +1,4 @@
-package com.example.phoneservice;
+package ServicePackage;
 
 
 import android.os.Parcel;

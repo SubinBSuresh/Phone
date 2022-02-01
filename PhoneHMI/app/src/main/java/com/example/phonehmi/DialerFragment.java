@@ -22,6 +22,13 @@ import android.widget.TextView;
 
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import ServicePackage.ContactModel;
 import ServicePackage.aidlInterface;
 
 public class DialerFragment extends Fragment {
@@ -29,6 +36,8 @@ public class DialerFragment extends Fragment {
     TextView tvNumber;
     Button btn0, btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btnCall;
     ImageButton imageButtonBack;
+    RecyclerView recyclerView;
+    private ContactSuggestionAdapter contactSuggestionAdapter;
 
     public DialerFragment(){}
 
@@ -51,6 +60,12 @@ public class DialerFragment extends Fragment {
         btnCall = view.findViewById(R.id.buttonCall);
         imageButtonBack = view.findViewById(R.id.imageButtonBack);
         tvNumber = view.findViewById(R.id.textViewPhoneNumber);
+        recyclerView = view.findViewById(R.id.RecyclerViewSuggestion);
+
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        RecyclerView.LayoutManager layoutManager = linearLayoutManager;
+        recyclerView.setLayoutManager(layoutManager);
 
 
         //Button 0
@@ -82,6 +97,7 @@ public class DialerFragment extends Fragment {
 
         //Button 9
         btn9.setOnClickListener(v -> showPhoneNumber("9"));
+
 
         //Button Delete
         imageButtonBack.setOnClickListener(v -> {
@@ -128,6 +144,15 @@ public class DialerFragment extends Fragment {
 
             }
         });
+
+        List<ContactModel> contactModelList = new ArrayList<>();
+        try {
+            contactModelList.addAll(MainActivity.getAidl().getContacts());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        contactSuggestionAdapter = new ContactSuggestionAdapter(contactModelList, getContext());
+        recyclerView.setAdapter(contactSuggestionAdapter);
         return view;
     }
 
