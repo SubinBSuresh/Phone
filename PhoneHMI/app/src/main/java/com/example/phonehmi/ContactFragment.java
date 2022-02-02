@@ -12,7 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import ServicePackage.aidlInterface;
 
-public class ContactFragment extends Fragment { ab;
+public class ContactFragment extends Fragment {
 
     EditText etName;
     EditText etNumber;
