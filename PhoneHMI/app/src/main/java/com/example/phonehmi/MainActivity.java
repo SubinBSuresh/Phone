@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
     private void bindToAidlService() {
         ComponentName componentName = new ComponentName("com.example.phoneservice", "com.example.phoneservice.MyService");
         Intent intent = new Intent().setComponent(componentName);
-        bindService(intent, serviceConnection, BIND_AUTO_CREATE);
+        bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
     }
     ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
