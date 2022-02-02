@@ -111,6 +111,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 recents.setNumber(cursor.getString(2));
             }while(cursor.moveToNext());
         }
+
         sqLiteDatabase.close();
         return  recentsModelList;
     }
