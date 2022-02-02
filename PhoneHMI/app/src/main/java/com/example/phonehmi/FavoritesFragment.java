@@ -3,10 +3,17 @@ package com.example.phonehmi;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+
+import ServicePackage.FavoritesModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +30,12 @@ public class FavoritesFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    //creating object for recycler view
+    RecyclerView recyclerView;
+    ArrayList<FavoritesModel> favData;
+    private  FavoritesAdapter favoriteAdapter;
+    TextView textView;
 
     public FavoritesFragment() {
         // Required empty public constructor
@@ -59,6 +72,42 @@ public class FavoritesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-          return inflater.inflate(R.layout.fragment_favorites, container, false);
+          View view =  inflater.inflate(R.layout.fragment_favorites, container, false);
+        recyclerView=view.findViewById(R.id.recView);
+        textView = view.findViewById(R.id.empty_view_favorite);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        favData=new ArrayList<>();
+
+        // demo list for the recucler view
+        FavoritesModel ob1 = new FavoritesModel("Aarch","8606702593");
+        favData.add(ob1);
+        FavoritesModel ob2= new FavoritesModel("Sachin","8606702593");
+        favData.add(ob2);
+        FavoritesModel ob3 = new FavoritesModel("Vijay","4365785423");
+        favData.add(ob3);
+
+        FavoritesModel ob4= new FavoritesModel("Vinitha","4523566778");
+        favData.add(ob4);
+        FavoritesModel ob5 = new FavoritesModel("Ziona","34124567898");
+        favData.add(ob5);
+
+
+        favoriteAdapter = new FavoritesAdapter(favData, getContext());
+        recyclerView.setAdapter(favoriteAdapter);
+        //recyclerView.setAdapter(new FavAdapter(favData, getContext()));
+
+        //to display empty call log message
+        updateVisibility();
+        return view;
+    }
+
+    private void updateVisibility() {
+        if (favoriteAdapter.getItemCount() == 0) {
+            recyclerView.setVisibility(View.GONE);
+            textView.setVisibility(View.VISIBLE);
+        } else {
+            recyclerView.setVisibility(View.VISIBLE);
+            textView.setVisibility(View.GONE);
+        }
     }
 }
