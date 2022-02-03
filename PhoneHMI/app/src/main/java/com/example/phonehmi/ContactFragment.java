@@ -3,6 +3,7 @@ package com.example.phonehmi;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -30,6 +32,8 @@ public class ContactFragment extends Fragment {
 
     RecyclerView recyclerView; //recyclerview object
     ArrayList<ContactModel> ContactHolder;
+    TextView textView;
+    private ContactAdapter ContactAdapter;
 
 
     public ContactFragment() {
@@ -60,17 +64,22 @@ public class ContactFragment extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
     }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        // Inflate layout
         View view = inflater.inflate(R.layout.fragment_contact, container, false);
         recyclerView = view.findViewById(R.id.rvView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         ContactHolder = new ArrayList<>();
+        textView = view.findViewById(R.id.empty_view_contacts);
+
 
         ContactModel ob1 = new ContactModel("Niha");
         ContactHolder.add(ob1);
@@ -103,12 +112,24 @@ public class ContactFragment extends Fragment {
         ContactModel ob15 = new ContactModel("Bhayya");
         ContactHolder.add(ob15);
 
+        ContactAdapter  = new ContactAdapter(ContactHolder, getContext());
+        recyclerView.setAdapter(ContactAdapter);
+        //display no contact msg
+        updateVisibility();
 
-        recyclerView.setAdapter(new ContactAdapter(ContactHolder, getContext()));
         return view;
 
 
 
+    }
 
+    private void updateVisibility() {
+        if(ContactAdapter.getItemCount()==0){
+            recyclerView.setVisibility(View.GONE);
+            textView.setVisibility(View.VISIBLE);
+        } else {
+            recyclerView.setVisibility(View.VISIBLE);
+            textView.setVisibility(View.GONE);
+        }
     }
 }

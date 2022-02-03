@@ -8,16 +8,13 @@
         <entry key="..\:/Demo Project/Phone/PhoneHMI/app/src/main/res/layout/fragment_contact.xml" value="0.221875" />
         <entry key="..\:/Demo Project/Phone/PhoneHMI/app/src/main/res/layout/fragment_dialer.xml" value="0.2871376811594203" />
         <entry key="..\:/Demo Project/Phone/PhoneHMI/app/src/main/res/layout/fragment_favorites.xml" value="0.2" />
-
-
-
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.17325227963525835" />
-        <entry key="app/src/main/res/layout/contact_suggestion_item.xml" value="0.333786231884058" />
-        <entry key="app/src/main/res/layout/favorites_items.xml" value="0.333786231884058" />
-        <entry key="app/src/main/res/layout/fragment_contact.xml" value="0.333786231884058" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.3229166666666667" />
+        <entry key="app/src/main/res/layout/contact_suggestion_item.xml" value="0.3229166666666667" />
+        <entry key="app/src/main/res/layout/favorites_items.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_contact.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/fragment_dialer.xml" value="0.2572463768115942" />
-        <entry key="app/src/main/res/layout/fragment_favorites.xml" value="0.25" />
- main
+        <entry key="app/src/main/res/layout/fragment_favorites.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/row_items.xml" value="0.3229166666666667" />
       </map>
     </option>
   </component>
