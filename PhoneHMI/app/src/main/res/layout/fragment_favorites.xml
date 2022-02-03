@@ -5,11 +5,23 @@
     android:layout_height="match_parent"
     tools:context=".FavoritesFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingTop="40sp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
     <TextView
+        android:id="@+id/empty_view_favorite"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="Favorites Fragment" />
-
+        android:text="The favorite list is empty"
+        android:textSize="20sp"
+        android:visibility="gone" />
 </FrameLayout>
