@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.provider.CallLog;
+import android.provider.ContactsContract;
 
 import androidx.core.app.ActivityCompat;
 
@@ -68,6 +69,14 @@ public class MyService extends Service {
             DBHelper dbHelper= new DBHelper(getApplicationContext());
             dbHelper.deleteFavoriteById(id);
         }
+
+        //Contact Suggestion
+/*        @Override
+        public Cursor getSuggestion() throws RemoteException{
+            Uri uri = ContactsContract.Contacts.CONTENT_URI;
+            String sort = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC";
+            return getContentResolver().query(uri, null, null, null, sort);
+        }*/
 
 
         //Working code for recents.

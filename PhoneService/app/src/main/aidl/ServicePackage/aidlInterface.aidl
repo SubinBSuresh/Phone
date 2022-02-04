@@ -8,6 +8,7 @@ interface aidlInterface {
 
     void callNumber(String phoneNumber);
     List<ContactModel> getContacts();
+//     Cursor getSuggestion();
 
 
     List<FavoritesModel> getAllFavorites();

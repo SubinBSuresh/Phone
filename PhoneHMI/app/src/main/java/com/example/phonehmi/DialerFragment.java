@@ -1,16 +1,12 @@
 package com.example.phonehmi;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
-import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.os.RemoteException;
+import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -20,7 +16,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,26 +23,30 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-import ServicePackage.ContactModel;
-import ServicePackage.aidlInterface;
+import ServicePackage.SuggestionModel;
+
+
 
 public class DialerFragment extends Fragment {
     String number;
-    TextView tvNumber;
+  public static TextView tvNumber;
     Button btn0, btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btnCall;
     ImageButton imageButtonBack;
     RecyclerView recyclerView;
-    private ContactSuggestionAdapter contactSuggestionAdapter;
+    Cursor cursor;
+    List<SuggestionModel> contactModelList = new ArrayList<>();
 
-    public DialerFragment(){}
+    public DialerFragment() {
+    }
 
+    @SuppressLint("Range")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_dialer, container, false);
 
-        btn0 =  view.findViewById(R.id.button0);
+        btn0 = view.findViewById(R.id.button0);
         btn1 = view.findViewById(R.id.button1);
         btn2 = view.findViewById(R.id.button2);
         btn3 = view.findViewById(R.id.button3);
@@ -62,10 +61,10 @@ public class DialerFragment extends Fragment {
         tvNumber = view.findViewById(R.id.textViewPhoneNumber);
         recyclerView = view.findViewById(R.id.RecyclerViewSuggestion);
 
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         RecyclerView.LayoutManager layoutManager = linearLayoutManager;
         recyclerView.setLayoutManager(layoutManager);
+
 
 
         //Button 0
@@ -102,7 +101,7 @@ public class DialerFragment extends Fragment {
         //Button Delete
         imageButtonBack.setOnClickListener(v -> {
             StringBuilder stringBuilder = new StringBuilder(tvNumber.getText());
-            if(stringBuilder.length() > 0){
+            if (stringBuilder.length() > 0) {
                 stringBuilder.deleteCharAt(tvNumber.getText().length() - 1);
             }
             tvNumber.setText(stringBuilder.toString());
@@ -117,6 +116,7 @@ public class DialerFragment extends Fragment {
                 String phoneNum = tvNumber.getText().toString();
                 try {
                     MainActivity.getAidl().callNumber(phoneNum);
+                    tvNumber.setText(" ");
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
@@ -138,33 +138,75 @@ public class DialerFragment extends Fragment {
                 // Check the number with database and get suggestions and populate the recycler view
 
             }
-
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
 
-        List<ContactModel> contactModelList = new ArrayList<>();
-        try {
-            contactModelList.addAll(MainActivity.getAidl().getContacts());
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-        contactSuggestionAdapter = new ContactSuggestionAdapter(contactModelList, getContext());
+//        cursor = getSuggestion();
+
+
+
+/*        if (cursor.getCount() > 0) {
+            while (cursor.moveToNext()) {
+                String id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
+                String name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+                Uri uriPhone = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
+                String selection = ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " =? ";
+                Cursor phoneCursor = getContext().getContentResolver().query(uriPhone, null, selection, new String[]{id}, null);
+                if (phoneCursor.moveToNext()) {
+                    String number = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                    SuggestionModel suggestionModel = new SuggestionModel();
+                    suggestionModel.setContactName(name);
+                    suggestionModel.setContactNumber(number);
+                    contactModelList.add(suggestionModel);
+                    phoneCursor.close();
+                }
+            }
+            cursor.close();
+        }*/
+
+
+        ContactSuggestionAdapter contactSuggestionAdapter = new ContactSuggestionAdapter(getSuggestion(), getContext());
         recyclerView.setAdapter(contactSuggestionAdapter);
+        contactSuggestionAdapter.notifyDataSetChanged();
         return view;
+    }
+
+    private  List<SuggestionModel> getSuggestion() {
+        Uri uri = ContactsContract.Contacts.CONTENT_URI;
+        SuggestionModel suggestionModel;
+        String sort = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC";
+        cursor= getContext().getContentResolver().query(uri, null, null, null, sort);
+        if (cursor.getCount() > 0) {
+            while (cursor.moveToNext()) {
+                @SuppressLint("Range") String id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
+                @SuppressLint("Range") String name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+                Uri uriPhone = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
+                String selection = ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " =? ";
+                Cursor phoneCursor = getContext().getContentResolver().query(uriPhone, null, selection, new String[]{id}, null);
+                if (phoneCursor.moveToNext()) {
+                    @SuppressLint("Range") String number = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                     suggestionModel = new SuggestionModel();
+                    suggestionModel.setContactName(name);
+                    suggestionModel.setContactNumber(number);
+                    contactModelList.add(suggestionModel);
+                    phoneCursor.close();
+                }
+            }
+            cursor.close();
+        }
+        return contactModelList;
     }
 
 
     // Show Phone Number
     @SuppressLint("SetTextI18n")
-    private void showPhoneNumber(String digit){
+    private void showPhoneNumber(String digit) {
         number = tvNumber.getText().toString();
-        if (number.length()<15) {
+        if (number.length() < 15) {
             tvNumber.setText(number + digit);
         }
     }
-
 
 }
