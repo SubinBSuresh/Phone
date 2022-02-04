@@ -16,7 +16,7 @@ import ServicePackage.aidlInterface;
 
 public class MainActivity extends AppCompatActivity {
 
-    static aidlInterface aidlObject = null;
+    static aidlInterface aidlObject ;
     Context context;
     private TabLayout tabLayout;
     private ViewPager2 viewPager2;

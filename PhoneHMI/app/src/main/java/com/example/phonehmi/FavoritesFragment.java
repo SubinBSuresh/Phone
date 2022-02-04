@@ -6,12 +6,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.RemoteException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ServicePackage.FavoritesModel;
 
@@ -33,8 +35,7 @@ public class FavoritesFragment extends Fragment {
 
     //creating object for recycler view
     RecyclerView recyclerView;
-    ArrayList<FavoritesModel> favData;
-    private  FavoritesAdapter favoriteAdapter;
+    private  FavoritesAdapter favoritesAdapter;
     TextView textView;
 
     public FavoritesFragment() {
@@ -76,33 +77,63 @@ public class FavoritesFragment extends Fragment {
         recyclerView=view.findViewById(R.id.recView);
         textView = view.findViewById(R.id.empty_view_favorite);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        favData=new ArrayList<>();
 
-        // demo list for the recucler view
+        List<FavoritesModel> favoriteList = new ArrayList<>();
+        //favoriteList=new ArrayList<>();
+
+        /*demo list for the recucler view
         FavoritesModel ob1 = new FavoritesModel("Aarch","8606702593");
-        favData.add(ob1);
+        favoriteList.add(ob1);
         FavoritesModel ob2= new FavoritesModel("Sachin","8606702593");
-        favData.add(ob2);
+        favoriteList.add(ob2);
         FavoritesModel ob3 = new FavoritesModel("Vijay","4365785423");
-        favData.add(ob3);
+        favoriteList.add(ob3);
 
         FavoritesModel ob4= new FavoritesModel("Vinitha","4523566778");
-        favData.add(ob4);
+        favoriteList.add(ob4);
         FavoritesModel ob5 = new FavoritesModel("Ziona","34124567898");
-        favData.add(ob5);
+        favoriteList.add(ob5);
+
+         */
+        try {
+            favoriteList.addAll(MainActivity.getAidl().getAllFavorites());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
 
 
-        favoriteAdapter = new FavoritesAdapter(favData, getContext());
-        recyclerView.setAdapter(favoriteAdapter);
-        //recyclerView.setAdapter(new FavAdapter(favData, getContext()));
+        favoritesAdapter = new FavoritesAdapter((ArrayList<FavoritesModel>) favoriteList, getContext());
+        recyclerView.setAdapter(favoritesAdapter);
+        //recyclerView.setAdapter(new FavAdapter(favoriteList, getContext()));
 
         //to display empty call log message
         updateVisibility();
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateFavoriteList();
+        updateVisibility();
+
+    }
+
+    private void updateFavoriteList() {
+        List<FavoritesModel> favoriteList = new ArrayList<>();
+
+        try {
+            favoriteList.addAll(MainActivity.getAidl().getAllFavorites());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
+        favoritesAdapter = new FavoritesAdapter((ArrayList<FavoritesModel>) favoriteList, getContext());
+        recyclerView.setAdapter(favoritesAdapter);
+    }
+
     private void updateVisibility() {
-        if (favoriteAdapter.getItemCount() == 0) {
+        if (favoritesAdapter.getItemCount() == 0) {
             recyclerView.setVisibility(View.GONE);
             textView.setVisibility(View.VISIBLE);
         } else {

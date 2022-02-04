@@ -75,26 +75,71 @@ public class DBHelper extends SQLiteOpenHelper {
         return contactModelList;
 
     }
+    //FavoriteTableHandler
+    public void addFavorite(FavoritesModel favorite) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(DBVariables.FAVORITE_NAME, favorite.getName());
+        values.put(DBVariables.FAVORITE_NUMBER, favorite.getNumber());
+        db.insert(DBVariables.FAVORITES_TABLE, null, values);
+        db.close();
+    }
 
-
-    //FETCH FAVORITES
-    public List<FavoritesModel> getFavorites(){
-        List<FavoritesModel> favoritesModelList = new ArrayList<>();
-        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        String query = "SELECT * FROM " + DBVariables.FAVORITES_TABLE;
-        Cursor cursor = sqLiteDatabase.rawQuery(query,null);
-
-        if(cursor.moveToFirst()){
+    public List<FavoritesModel> getAllFavorites() {
+        List<FavoritesModel> favoritesList = new ArrayList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        //Generate the query to read from the database
+        String select = "SELECT * FROM " + DBVariables.FAVORITES_TABLE;
+        Cursor cursor = db.rawQuery(select, null);
+        //Loop through now
+        if (cursor.moveToFirst()) {
             do {
                 FavoritesModel favorites = new FavoritesModel();
                 favorites.setId(Integer.parseInt(cursor.getString(0)));
                 favorites.setName(cursor.getString(1));
                 favorites.setNumber(cursor.getString(2));
-            }while(cursor.moveToNext());
+                favoritesList.add(0, favorites);
+            } while (cursor.moveToNext());
         }
-        sqLiteDatabase.close();
-        return  favoritesModelList;
+        db.close();
+        return favoritesList;
+
     }
+
+    public int updateFavorite(FavoritesModel favorite) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(DBVariables.FAVORITE_NAME, favorite.getName());
+        values.put(DBVariables.FAVORITE_NUMBER, favorite.getNumber());
+        //Update now, return of update() is number of affected rows
+        return db.update(DBVariables.FAVORITES_TABLE, values, DBVariables.FAVORITE_ID + "=?",
+                new String[]{String.valueOf(favorite.getId())});
+
+
+    }
+
+    public void deleteFavoriteById(int favorite_id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(DBVariables.FAVORITES_TABLE, DBVariables.FAVORITE_ID + "=?", new String[]{String.valueOf(favorite_id)});
+        db.close();
+
+    }
+
+    public void deleteFavorite(FavoritesModel favorite) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(DBVariables.FAVORITES_TABLE, DBVariables.FAVORITE_ID + "=?", new String[]{String.valueOf(favorite.getId())});
+        db.close();
+    }
+
+    public int getFavoritesCount() {
+        String query = "SELECT * FROM " + DBVariables.FAVORITES_TABLE;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        return cursor.getCount();
+    }
+
+
+
 
     //FETCH RECENTS
     public List<RecentsModel> getRecents(){

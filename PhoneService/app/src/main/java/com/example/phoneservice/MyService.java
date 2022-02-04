@@ -13,10 +13,13 @@ import android.provider.CallLog;
 
 import androidx.core.app.ActivityCompat;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ServicePackage.ContactModel;
+import ServicePackage.FavoritesModel;
 import ServicePackage.aidlInterface;
+
 
 public class MyService extends Service {
     public MyService() {
@@ -37,11 +40,33 @@ public class MyService extends Service {
             startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phoneNumber)));
 
         }
+        //@Override
+        public List<String> getList() throws RemoteException {
+            List<String> list = new ArrayList<>();
+            list.add("Phone");
+            list.add("Contact");
+            list.add("Favorite");
+            list.add("Recent");
+            return list;
+        }
+
 
         @Override
         public List<ContactModel> getContacts() throws RemoteException {
             DBHelper dbHelper = new DBHelper(getApplicationContext());
             return dbHelper.getContacts();
+        }
+        @Override
+        public List<FavoritesModel> getAllFavorites() throws RemoteException {
+            DBHelper dbHelper = new DBHelper(getApplicationContext());
+            return dbHelper.getAllFavorites();
+        }
+
+
+        @Override
+        public void deleteFavorite(int id) throws RemoteException {
+            DBHelper dbHelper= new DBHelper(getApplicationContext());
+            dbHelper.deleteFavoriteById(id);
         }
 
 
