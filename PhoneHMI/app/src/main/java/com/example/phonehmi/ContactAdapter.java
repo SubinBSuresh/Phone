@@ -44,7 +44,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
         return ContactHolder.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView name;
         ToggleButton arbutton;
@@ -54,21 +54,14 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
 
             name = itemView.findViewById(R.id.contact_name);
             arbutton= itemView.findViewById(R.id.btn_add_favorite);
-            arbutton.setOnClickListener(this);
 
             arbutton.setBackgroundDrawable(ContextCompat.getDrawable(context, android.R.drawable.star_big_off));
 
-            name.setOnClickListener(this);
 
         }
 
 
-        @Override
-        public void onClick(View view) {
-             int position = this.getAdapterPosition();
-           ContactHolder.remove(position);
-           notifyItemRemoved(position);
-        }
+
     }
 }
 

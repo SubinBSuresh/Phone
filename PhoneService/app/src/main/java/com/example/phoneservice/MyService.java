@@ -1,12 +1,15 @@
 package com.example.phoneservice;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.provider.CallLog;
 
 import androidx.core.app.ActivityCompat;
 
@@ -31,10 +34,10 @@ public class MyService extends Service {
     aidlInterface.Stub stubObject = new aidlInterface.Stub() {
         @Override
         public void callNumber(String phoneNumber) throws RemoteException {
-            if(ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED){
+            if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
                 return;
             }
-            startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:"+phoneNumber)));
+            startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phoneNumber)));
 
         }
         //@Override
@@ -67,5 +70,20 @@ public class MyService extends Service {
         }
 
 
+        //Working code for recents.
+/*        @Override
+        public Cursor fetchCallLogs() throws RemoteException {
+            // reading all data in descending order according to DATE
+            String sortOrder = android.provider.CallLog.Calls.DATE + " DESC";
+
+            Cursor cursors = getContentResolver().query(
+                    CallLog.Calls.CONTENT_URI,
+                    null,
+                    null,
+                    null,
+                    sortOrder);
+            return cursors;
+
+        }*/
     };
 }
