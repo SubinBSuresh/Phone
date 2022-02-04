@@ -24,9 +24,6 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
         this.context = context;
     }
 
-    //public FavAdapter(ArrayList<FavModel> favData) {
-    //    this.favData = favData;
-    // }
 
     @NonNull
     @Override
@@ -56,7 +53,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
             super(itemView);
 
             name = itemView.findViewById(R.id.contact_name);
-            arbutton= itemView.findViewById(R.id.btn_addOrRemove_favorite);
+            arbutton= itemView.findViewById(R.id.btn_add_favorite);
             arbutton.setOnClickListener(this);
 
             arbutton.setBackgroundDrawable(ContextCompat.getDrawable(context, android.R.drawable.star_big_off));
