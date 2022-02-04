@@ -31,10 +31,10 @@ public class MyService extends Service {
     aidlInterface.Stub stubObject = new aidlInterface.Stub() {
         @Override
         public void callNumber(String phoneNumber) throws RemoteException {
-            if(ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED){
+            if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
                 return;
             }
-            startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:"+phoneNumber)));
+            startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phoneNumber)));
 
         }
 
@@ -43,21 +43,22 @@ public class MyService extends Service {
             DBHelper dbHelper = new DBHelper(getApplicationContext());
             return dbHelper.getContacts();
         }
-        @Override
-        public Cursor FetchCallLogs() throws RemoteException {
+
+
+        //Working code for recents.
+/*        @Override
+        public Cursor fetchCallLogs() throws RemoteException {
             // reading all data in descending order according to DATE
             String sortOrder = android.provider.CallLog.Calls.DATE + " DESC";
 
-            @SuppressLint("Recycle") Cursor cursor = getContentResolver().query(
+            Cursor cursors = getContentResolver().query(
                     CallLog.Calls.CONTENT_URI,
                     null,
                     null,
                     null,
                     sortOrder);
+            return cursors;
 
-            return cursor;
-
-
-        }
-        };
+        }*/
+    };
 }
