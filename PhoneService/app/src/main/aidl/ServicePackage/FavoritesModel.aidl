@@ -1,6 +1,6 @@
-// FavoriteModel.aidl
+// FavoritesModel.aidl
 package ServicePackage;
 
 // Declare any non-default types here with import statements
 
-parcelable FavoriteModel;
+parcelable FavoritesModel;

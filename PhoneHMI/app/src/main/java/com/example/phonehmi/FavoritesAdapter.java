@@ -1,6 +1,7 @@
 package com.example.phonehmi;
 
 import android.content.Context;
+import android.os.RemoteException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,11 +17,14 @@ import java.util.ArrayList;
 import ServicePackage.FavoritesModel;
 
 public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.ViewHolder>{
-    ArrayList<FavoritesModel> favData;
+    ArrayList<FavoritesModel> favoriteList;
     private Context context;
 
-    public FavoritesAdapter(ArrayList<FavoritesModel> favData, Context context) {
-        this.favData = favData;
+    private LayoutInflater layoutInflater;
+    FavoritesFragment favoritesFragment;
+
+    public FavoritesAdapter(ArrayList<FavoritesModel> favoriteList, Context context) {
+        this.favoriteList = favoriteList;
         this.context = context;
     }
 
@@ -35,13 +39,13 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        holder.name.setText(favData.get(position).getName());
+        holder.name.setText(favoriteList.get(position).getName());
 
     }
 
     @Override
     public int getItemCount() {
-        return favData.size();
+        return favoriteList.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -66,7 +70,13 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
         public void onClick(View v) {
 
             int position = this.getAdapterPosition();
-            favData.remove(position);
+            try {
+                MainActivity.getAidl().deleteFavorite(favoriteList.get(position).getId());
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+
+            favoriteList.remove(position);
             //remBtn.setBackgroundDrawable(ContextCompat.getDrawable(context, android.R.drawable.btn_star_big_off));
 
             notifyItemRemoved(position);

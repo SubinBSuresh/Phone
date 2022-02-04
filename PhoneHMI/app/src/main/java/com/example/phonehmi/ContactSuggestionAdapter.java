@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,14 +13,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import ServicePackage.ContactModel;
+import ServicePackage.SuggestionModel;
 
 public class ContactSuggestionAdapter extends RecyclerView.Adapter<ContactSuggestionAdapter.ViewHolder> {
 
-    private final List<ContactModel> contactModelList;
+    private final List<SuggestionModel> contactModelList;
     private final Context context;
-
-    public ContactSuggestionAdapter(List<ContactModel> contactList, Context context){
-        this.contactModelList = contactList;
+    public ContactSuggestionAdapter(List<SuggestionModel> contactModelList, Context context){
+        this.contactModelList = contactModelList;
         this.context = context;
     }
 
@@ -29,23 +30,17 @@ public class ContactSuggestionAdapter extends RecyclerView.Adapter<ContactSugges
     public ContactSuggestionAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View view = layoutInflater.inflate(R.layout.contact_suggestion_item,parent,false);
+
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        TextView tvSuggestedName;
-        TextView tvSuggestedNumber;
-        TextView tvContactID;
+        SuggestionModel suggestionModel = contactModelList.get(position);
+        holder.tvSuggestedName .setText(suggestionModel.getContactName());
+        holder.tvSuggestedNumber.setText(suggestionModel.getContactNumber());
 
-        tvSuggestedName = holder.tvSuggestedName;
-        tvSuggestedNumber = holder.tvSuggestedNumber;
-        tvContactID = holder.tvContactID;
-
-        tvSuggestedName.setText(contactModelList.get(position).getName());
-        tvContactID.setText(contactModelList.get(position).getId());
-        tvSuggestedNumber.setText(contactModelList.get(position).getNumber());
 
     }
 
@@ -58,18 +53,19 @@ public class ContactSuggestionAdapter extends RecyclerView.Adapter<ContactSugges
 
         TextView tvSuggestedName;
         TextView tvSuggestedNumber;
-        TextView tvContactID;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvSuggestedName = itemView.findViewById(R.id.tvContactSuggestionName);
             tvSuggestedNumber = itemView.findViewById(R.id.tvContactSuggestionNumber);
-            tvContactID = itemView.findViewById(R.id.tvContactId);
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
+            TextView contactNumber = view.findViewById(R.id.tvContactSuggestionNumber);
+          DialerFragment.tvNumber.setText(contactNumber.getText().toString());
+
         }
     }
 }
