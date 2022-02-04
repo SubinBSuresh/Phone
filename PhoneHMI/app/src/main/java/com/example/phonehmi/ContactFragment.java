@@ -75,6 +75,8 @@ public class ContactFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate layout
         View view = inflater.inflate(R.layout.fragment_contact, container, false);
+
+
         recyclerView = view.findViewById(R.id.rvView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         ContactHolder = new ArrayList<>();
