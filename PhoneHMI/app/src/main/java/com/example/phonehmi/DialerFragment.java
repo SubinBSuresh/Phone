@@ -1,7 +1,6 @@
 package com.example.phonehmi;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,15 +25,15 @@ import java.util.List;
 import ServicePackage.SuggestionModel;
 
 
-
 public class DialerFragment extends Fragment {
+    public static TextView tvNumber;
     String number;
-  public static TextView tvNumber;
     Button btn0, btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btnCall;
     ImageButton imageButtonBack;
     RecyclerView recyclerView;
     Cursor cursor;
     List<SuggestionModel> contactModelList = new ArrayList<>();
+    List<SuggestionModel> m;
 
     public DialerFragment() {
     }
@@ -64,7 +63,6 @@ public class DialerFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         RecyclerView.LayoutManager layoutManager = linearLayoutManager;
         recyclerView.setLayoutManager(layoutManager);
-
 
 
         //Button 0
@@ -138,6 +136,7 @@ public class DialerFragment extends Fragment {
                 // Check the number with database and get suggestions and populate the recycler view
 
             }
+
             @Override
             public void afterTextChanged(Editable s) {
             }
@@ -166,18 +165,22 @@ public class DialerFragment extends Fragment {
             cursor.close();
         }*/
 
-
-        ContactSuggestionAdapter contactSuggestionAdapter = new ContactSuggestionAdapter(getSuggestion(), getContext());
+        try {
+            m = MainActivity.getAidl().getSuggestions();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        ContactSuggestionAdapter contactSuggestionAdapter = new ContactSuggestionAdapter(m, getContext());
         recyclerView.setAdapter(contactSuggestionAdapter);
         contactSuggestionAdapter.notifyDataSetChanged();
         return view;
     }
 
-    private  List<SuggestionModel> getSuggestion() {
+    private List<SuggestionModel> getSuggestion() {
         Uri uri = ContactsContract.Contacts.CONTENT_URI;
         SuggestionModel suggestionModel;
         String sort = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC";
-        cursor= getContext().getContentResolver().query(uri, null, null, null, sort);
+        cursor = getContext().getContentResolver().query(uri, null, null, null, sort);
         if (cursor.getCount() > 0) {
             while (cursor.moveToNext()) {
                 @SuppressLint("Range") String id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
@@ -187,7 +190,7 @@ public class DialerFragment extends Fragment {
                 Cursor phoneCursor = getContext().getContentResolver().query(uriPhone, null, selection, new String[]{id}, null);
                 if (phoneCursor.moveToNext()) {
                     @SuppressLint("Range") String number = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                     suggestionModel = new SuggestionModel();
+                    suggestionModel = new SuggestionModel();
                     suggestionModel.setContactName(name);
                     suggestionModel.setContactNumber(number);
                     contactModelList.add(suggestionModel);
