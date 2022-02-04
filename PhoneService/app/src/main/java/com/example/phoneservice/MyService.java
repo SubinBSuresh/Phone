@@ -1,12 +1,15 @@
 package com.example.phoneservice;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.provider.CallLog;
 
 import androidx.core.app.ActivityCompat;
 
@@ -40,7 +43,21 @@ public class MyService extends Service {
             DBHelper dbHelper = new DBHelper(getApplicationContext());
             return dbHelper.getContacts();
         }
+        @Override
+        public Cursor FetchCallLogs() throws RemoteException {
+            // reading all data in descending order according to DATE
+            String sortOrder = android.provider.CallLog.Calls.DATE + " DESC";
+
+            @SuppressLint("Recycle") Cursor cursor = getContentResolver().query(
+                    CallLog.Calls.CONTENT_URI,
+                    null,
+                    null,
+                    null,
+                    sortOrder);
+
+            return cursor;
 
 
-    };
+        }
+        };
 }
