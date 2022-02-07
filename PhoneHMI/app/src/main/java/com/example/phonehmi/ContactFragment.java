@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import ServicePackage.ContactModel;
 import ServicePackage.aidlInterface;
 
 public class ContactFragment extends Fragment {
@@ -34,6 +35,7 @@ public class ContactFragment extends Fragment {
     ArrayList<ContactModel> ContactHolder;
     TextView textView;
     private ContactAdapter ContactAdapter;
+    private View view;
 
 
     public ContactFragment() {
@@ -74,7 +76,7 @@ public class ContactFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate layout
-        View view = inflater.inflate(R.layout.fragment_contact, container, false);
+         view = inflater.inflate(R.layout.fragment_contact, container, false);
 
 
         recyclerView = view.findViewById(R.id.rvView);
@@ -82,7 +84,7 @@ public class ContactFragment extends Fragment {
         ContactHolder = new ArrayList<>();
         textView = view.findViewById(R.id.empty_view_contacts);
 
-
+        /*
         ContactModel ob1 = new ContactModel("Niha");
         ContactHolder.add(ob1);
         ContactModel ob2 = new ContactModel("Safa");
@@ -113,6 +115,15 @@ public class ContactFragment extends Fragment {
         ContactHolder.add(ob14);
         ContactModel ob15 = new ContactModel("Bhayya");
         ContactHolder.add(ob15);
+
+
+         */
+
+        try {
+            ContactHolder.addAll(MainActivity.getAidl().getAllContacts());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
 
         ContactAdapter  = new ContactAdapter(ContactHolder, getContext());
         recyclerView.setAdapter(ContactAdapter);
