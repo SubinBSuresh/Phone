@@ -10,7 +10,7 @@ interface aidlInterface {
 
     void callNumber(String phoneNumber);
     List<ContactModel> getContacts();
-List<SuggestionModel> getSuggestions();
+List<SuggestionModel> getSuggestions(String searchedNumber);
 
 
     List<FavoritesModel> getAllFavorites();

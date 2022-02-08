@@ -1,7 +1,6 @@
 package com.example.phonehmi;
 
 import android.annotation.SuppressLint;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.text.Editable;
@@ -18,7 +17,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ServicePackage.SuggestionModel;
@@ -26,14 +24,14 @@ import ServicePackage.SuggestionModel;
 
 public class DialerFragment extends Fragment {
     @SuppressLint("StaticFieldLeak")
-    public static TextView tvNumber;
+    public static TextView tvNumber, tvName;
     String number;
     Button btn0, btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btnStar, btnHash;
     ImageButton imageButtonBack, btnCall;
     RecyclerView recyclerView;
-    Cursor cursor;
-    List<SuggestionModel> contactModelList = new ArrayList<>();
-    List<SuggestionModel> m;
+    List<SuggestionModel> suggestionModelList;
+    String searchedNumber = "";
+    ContactSuggestionAdapter contactSuggestionAdapter;
 
     public DialerFragment() {
     }
@@ -97,17 +95,15 @@ public class DialerFragment extends Fragment {
         btn9.setOnClickListener(v -> showPhoneNumber("9"));
 
         //Button Star
-        btnStar.setOnClickListener(view12 -> showPhoneNumber("*"));
+        btnStar.setOnClickListener(v -> showPhoneNumber("*"));
 
         //Button Hash
-        btnHash.setOnClickListener(view13 -> showPhoneNumber("#"));
+        btnHash.setOnClickListener(v -> showPhoneNumber("#"));
 
-        btn0.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                showPhoneNumber("+");
-                return true;
-            }
+        //Button 0 Long Press
+        btn0.setOnLongClickListener(v -> {
+            showPhoneNumber("+");
+            return true;
         });
 
 
@@ -120,23 +116,30 @@ public class DialerFragment extends Fragment {
             tvNumber.setText(stringBuilder.toString());
         });
 
+        imageButtonBack.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                showPhoneNumber("");
+                return true;
+            }
+        });
+
         //Button Call
         btnCall.setOnClickListener(view1 -> {
             String phoneNum = tvNumber.getText().toString();
-
-            if (phoneNum.isEmpty()){
-                Toast.makeText(getContext(),"Cannot be empty", Toast.LENGTH_SHORT).show();
-            }else{
-                if (phoneNum.length()>=10 && phoneNum.length()<=13){
+            if (phoneNum.isEmpty()) {
+                Toast.makeText(getContext(), "Cannot be empty", Toast.LENGTH_SHORT).show();
+            } else {
+                if (phoneNum.length() >= 10 && phoneNum.length() <= 13) {
 
                     try {
                         MainActivity.getAidl().callNumber(phoneNum);
-                        tvNumber.setText(" ");
+                        tvNumber.setText("");
                     } catch (RemoteException e) {
                         e.printStackTrace();
                     }
-                }else{
-                    Toast.makeText(getContext(),"Invalid Number",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "Invalid Number", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -145,82 +148,34 @@ public class DialerFragment extends Fragment {
         tvNumber.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                btnCall.setEnabled(tvNumber.getText().length() < 15);
-
+                searchedNumber = tvNumber.getText().toString();
                 // Check the number with database and get suggestions and populate the recycler view
+                if (searchedNumber.isEmpty()) {
+                    searchedNumber = "";
+                    suggestionModelList.clear();
 
+                } else {
+                    try {
+                        suggestionModelList = MainActivity.getAidl().getSuggestions(searchedNumber);
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                    }
+                    contactSuggestionAdapter = new ContactSuggestionAdapter(suggestionModelList, getContext());
+                    recyclerView.setAdapter(contactSuggestionAdapter);
+                }
+                contactSuggestionAdapter.notifyDataSetChanged();
+                btnCall.setEnabled(searchedNumber.length() < 15);
             }
-
             @Override
             public void afterTextChanged(Editable s) {
             }
         });
-
-//        cursor = getSuggestion();
-
-/*        if (cursor.getCount() > 0) {
-            while (cursor.moveToNext()) {
-                String id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
-                String name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-                Uri uriPhone = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
-                String selection = ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " =? ";
-                Cursor phoneCursor = getContext().getContentResolver().query(uriPhone, null, selection, new String[]{id}, null);
-                if (phoneCursor.moveToNext()) {
-                    String number = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                    SuggestionModel suggestionModel = new SuggestionModel();
-                    suggestionModel.setContactName(name);
-                    suggestionModel.setContactNumber(number);
-                    contactModelList.add(suggestionModel);
-                    phoneCursor.close();
-                }
-            }
-            cursor.close();
-        }*/
-
-        try {
-            m = MainActivity.getAidl().getSuggestions();
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-        ContactSuggestionAdapter contactSuggestionAdapter = new ContactSuggestionAdapter(m, getContext());
-        recyclerView.setAdapter(contactSuggestionAdapter);
-        contactSuggestionAdapter.notifyDataSetChanged();
         return view;
     }
-
-/*    private List<SuggestionModel> getSuggestion() {
-        Uri uri = ContactsContract.Contacts.CONTENT_URI;
-        SuggestionModel suggestionModel;
-        String sort = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC";
-        cursor = getContext().getContentResolver().query(uri, null, null, null, sort);
-        if (cursor.getCount() > 0) {
-            while (cursor.moveToNext()) {
-                @SuppressLint("Range") String id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
-                @SuppressLint("Range") String name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-                Uri uriPhone = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
-                String selection = ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " =? ";
-                Cursor phoneCursor = getContext().getContentResolver().query(uriPhone, null, selection, new String[]{id}, null);
-                if (phoneCursor.moveToNext()) {
-                    @SuppressLint("Range") String number = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                    suggestionModel = new SuggestionModel();
-                    suggestionModel.setContactName(name);
-                    suggestionModel.setContactNumber(number);
-                    contactModelList.add(suggestionModel);
-                    phoneCursor.close();
-                }
-            }
-            cursor.close();
-        }
-        return contactModelList;
-    }*/
-
-
     // Show Phone Number
     @SuppressLint("SetTextI18n")
     private void showPhoneNumber(String digit) {
@@ -229,5 +184,4 @@ public class DialerFragment extends Fragment {
             tvNumber.setText(number + digit);
         }
     }
-
 }

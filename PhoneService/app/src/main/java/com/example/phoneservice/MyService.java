@@ -53,6 +53,12 @@ public class MyService extends Service {
         }
 
         @Override
+        public List<SuggestionModel> getSuggestions(String searchedNumber) throws RemoteException {
+            DBHelper dbHelper = new DBHelper(getApplicationContext());
+            return dbHelper.getContactSuggestion(searchedNumber);
+        }
+
+/*        @Override
         public List<SuggestionModel> getSuggestions() throws RemoteException {
             Uri uri = ContactsContract.Contacts.CONTENT_URI;
             SuggestionModel suggestionModel;
@@ -78,7 +84,7 @@ public class MyService extends Service {
                 cursor.close();
             }
             return contactModelList;
-        }
+        }*/
 
         @Override
         public List<FavoritesModel> getAllFavorites() throws RemoteException {
