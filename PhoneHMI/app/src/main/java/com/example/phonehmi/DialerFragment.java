@@ -28,8 +28,8 @@ public class DialerFragment extends Fragment {
     @SuppressLint("StaticFieldLeak")
     public static TextView tvNumber;
     String number;
-    Button btn0, btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btnCall;
-    ImageButton imageButtonBack;
+    Button btn0, btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btnStar, btnHash;
+    ImageButton imageButtonBack, btnCall;
     RecyclerView recyclerView;
     Cursor cursor;
     List<SuggestionModel> contactModelList = new ArrayList<>();
@@ -56,6 +56,8 @@ public class DialerFragment extends Fragment {
         btn8 = view.findViewById(R.id.button8);
         btn9 = view.findViewById(R.id.button9);
         btnCall = view.findViewById(R.id.buttonCall);
+        btnStar = view.findViewById(R.id.buttonStar);
+        btnHash = view.findViewById(R.id.buttonHash);
         imageButtonBack = view.findViewById(R.id.imageButtonBack);
         tvNumber = view.findViewById(R.id.textViewPhoneNumber);
         recyclerView = view.findViewById(R.id.RecyclerViewSuggestion);
@@ -93,6 +95,20 @@ public class DialerFragment extends Fragment {
 
         //Button 9
         btn9.setOnClickListener(v -> showPhoneNumber("9"));
+
+        //Button Star
+        btnStar.setOnClickListener(view12 -> showPhoneNumber("*"));
+
+        //Button Hash
+        btnHash.setOnClickListener(view13 -> showPhoneNumber("#"));
+
+        btn0.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                showPhoneNumber("+");
+                return true;
+            }
+        });
 
 
         //Button Delete
