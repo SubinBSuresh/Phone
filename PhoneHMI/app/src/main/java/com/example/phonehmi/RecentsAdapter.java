@@ -11,15 +11,16 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ServicePackage.RecentsModel;
 
 public class RecentsAdapter extends RecyclerView.Adapter<RecentsAdapter.MyViewHolder> {
 
     Context context;
-    ArrayList<RecentsModel> callLogModelArrayList;
+    List<RecentsModel> callLogModelArrayList;
 
-    public RecentsAdapter(Context context, ArrayList<RecentsModel> callLogModelArrayList) {
+    public RecentsAdapter(Context context, List<RecentsModel> callLogModelArrayList) {
         this.context = context;
         this.callLogModelArrayList = callLogModelArrayList;
     }
@@ -34,8 +35,8 @@ public class RecentsAdapter extends RecyclerView.Adapter<RecentsAdapter.MyViewHo
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         RecentsModel currentLog=callLogModelArrayList.get(position);
-        holder.tv_ph_name.setText(currentLog.getPhnNumber());
-        holder.tv_date.setText(currentLog.getCallDate());
+        holder.tv_ph_name.setText(currentLog.getName());
+        holder.tv_date.setText(currentLog.getDate());
 
 
     }
