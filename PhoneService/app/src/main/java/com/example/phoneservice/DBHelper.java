@@ -24,55 +24,44 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
+    public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
         //CONTACT TABLE
         String createContactTable = "CREATE TABLE " + DBVariables.CONTACTS_TABLE + " ("
                 + DBVariables.CONTACT_ID + " INTEGER PRIMARY KEY, AUTO_INCREMENT" + DBVariables.CONTACT_NAME
                 + " TEXT, " + DBVariables.CONTACT_NUMBER + " TEXT" + ")";
-        db.execSQL(createContactTable);
+        sqLiteDatabase.execSQL(createContactTable);
 
         //FAVORITE TABLE
         String createFavoriteTable = "CREATE TABLE " + DBVariables.FAVORITES_TABLE + " ("
                 + DBVariables.CONTACT_ID + " INTEGER PRIMARY KEY, " + DBVariables.FAVORITE_NAME
                 + " TEXT, " + DBVariables.FAVORITE_NUMBER + " TEXT" + ")";
-        db.execSQL(createFavoriteTable);
+        sqLiteDatabase.execSQL(createFavoriteTable);
 
         //RECENTS TABLE
         String createRecentTable = "CREATE TABLE " + DBVariables.RECENTS_TABLE + " ("
                 + DBVariables.RECENT_ID + " INTEGER PRIMARY KEY, " + DBVariables.RECENT_NAME
                 + " TEXT, " + DBVariables.RECENT_NUMBER + " TEXT, " + DBVariables.RECENT_DATE + " TEXT " + ")";
-        db.execSQL(createRecentTable);
+        sqLiteDatabase.execSQL(createRecentTable);
 
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int i, int i1) {
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
 
-        db.execSQL("DROP TABLE IF EXISTS " + DBVariables.CONTACTS_TABLE);
-        db.execSQL("DROP TABLE IF EXISTS " + DBVariables.FAVORITES_TABLE);
-        db.execSQL("DROP TABLE IF EXISTS " + DBVariables.RECENTS_TABLE);
-        onCreate(db);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + DBVariables.CONTACTS_TABLE);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + DBVariables.FAVORITES_TABLE);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + DBVariables.RECENTS_TABLE);
+        onCreate(sqLiteDatabase);
 
-    }
-
-    //ContactTableHandler
-    public void addContact(ContactModel contact) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(DBVariables.CONTACT_NAME, contact.getName());
-        values.put(DBVariables.CONTACT_NUMBER, contact.getNumber());
-        db.insert(DBVariables.CONTACTS_TABLE, null, values);
-        Log.d("contactsdb", "Successfully inserted");
-        db.close();
     }
 
     //FETCH CONTACTS
     public List<ContactModel> getContacts(){
         List<ContactModel> contactModelList = new ArrayList<>();
-        SQLiteDatabase db = this.getReadableDatabase();
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
         String query = "SELECT * FROM " + DBVariables.CONTACTS_TABLE;
-        Cursor cursor = db.rawQuery(query,null);
+        Cursor cursor = sqLiteDatabase.rawQuery(query,null);
 
         if(cursor.moveToFirst()){
             do {
@@ -82,40 +71,9 @@ public class DBHelper extends SQLiteOpenHelper {
                 contacts.setNumber(cursor.getString(2));
             }while(cursor.moveToNext());
         }
-        db.close();
+        sqLiteDatabase.close();
         return contactModelList;
 
-    }
-    public int updateContact(ContactModel contact) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(DBVariables.CONTACT_NAME, contact.getName());
-        values.put(DBVariables.CONTACT_NUMBER, contact.getNumber());
-        //Update now, return of update() is number of affected rows
-        return db.update(DBVariables.CONTACTS_TABLE, values, DBVariables.CONTACT_ID + "=?",
-                new String[]{String.valueOf(contact.getId())});
-
-
-    }
-
-    public void deleteContactById(int contact_id) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(DBVariables.CONTACTS_TABLE, DBVariables.CONTACT_ID + "=?", new String[]{String.valueOf(contact_id)});
-        db.close();
-
-    }
-
-    public void deleteContact(ContactModel contact) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(DBVariables.CONTACTS_TABLE, DBVariables.CONTACT_ID + "=?", new String[]{String.valueOf(contact.getId())});
-        db.close();
-    }
-
-    public int getContactsCount() {
-        String query = "SELECT * FROM " + DBVariables.CONTACTS_TABLE;
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
-        return cursor.getCount();
     }
     //FavoriteTableHandler
     public void addFavorite(FavoritesModel favorite) {
@@ -183,7 +141,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
 
-    /* FETCH RECENTS
+    //FETCH RECENTS
     public List<RecentsModel> getRecents(){
         List<RecentsModel> recentsModelList = new ArrayList<>();
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
@@ -202,7 +160,7 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.close();
         return  recentsModelList;
     }
-*/
+
 
 
 

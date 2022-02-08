@@ -100,7 +100,6 @@ public class MyService extends Service {
             dbHelper.deleteFavoriteById(id);
         }
 
-
         //Working code for recents.
 /*        @Override
         public Cursor fetchCallLogs() throws RemoteException {
