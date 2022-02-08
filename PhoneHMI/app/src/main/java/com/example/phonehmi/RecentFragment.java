@@ -27,11 +27,11 @@ import ServicePackage.RecentsModel;
 
 public class RecentFragment extends Fragment {
 
-    private ArrayList<RecentsModel> callLogModelArrayList;
+
     private RecyclerView rv_call_logs;
     private RecentsAdapter recentsAdapter;
     public String str_number, str_contact_name, str_date;
-
+    List<RecentsModel> recentsModels ;
     private static final int PERMISSIONS_REQUEST_CODE = 999;
     public Cursor cursor;
 
@@ -51,42 +51,35 @@ public class RecentFragment extends Fragment {
         rv_call_logs = view.findViewById(R.id.activity_main_rv);
         rv_call_logs.setHasFixedSize(true);
         rv_call_logs.setLayoutManager(new LinearLayoutManager(getContext()));
-        callLogModelArrayList = new ArrayList<>();
-        recentsAdapter = new RecentsAdapter(getContext(), callLogModelArrayList);
-        rv_call_logs.setAdapter(recentsAdapter);
 
-        if (CheckAndRequestPermission()) {
+
+
+
+      /*  if (CheckAndRequestPermission()) {
             try {
-//                cursor = MainActivity.getAidl().fetchCallLogs();
+//              cursor = MainActivity.getAidl().fetchCallLogs();
                 cursor = fetchCallLogs();
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
+        }*/
+
+        try {
+            recentsModels = MainActivity.getAidl().fetchCallLogs();
+        } catch (RemoteException e) {
+            e.printStackTrace();
         }
+        RecentsAdapter recentsAdapter=new RecentsAdapter(getContext(),recentsModels);
 
-        while (cursor.moveToNext()) {
+        rv_call_logs.setAdapter(recentsAdapter);
 
-            str_number = cursor.getString(cursor.getColumnIndex(CallLog.Calls.NUMBER));
-
-            str_contact_name = cursor.getString(cursor.getColumnIndex(CallLog.Calls.CACHED_NAME));
-
-            str_contact_name = str_contact_name == null || str_contact_name.equals("") ? str_number : str_contact_name;
-
-            str_date = cursor.getString(cursor.getColumnIndex(CallLog.Calls.DATE));
-            SimpleDateFormat dateFormatter = new SimpleDateFormat(
-                    "dd MMM yyyy hh:mm a");
-            str_date = dateFormatter.format(new Date(Long.parseLong(str_date)));
-            RecentsModel callLogItem = new RecentsModel(str_contact_name, str_date);
-
-            callLogModelArrayList.add(callLogItem);
-        }
         recentsAdapter.notifyDataSetChanged();
         return view;
 
     }
 
 
-    public boolean CheckAndRequestPermission() {
+    /*public boolean CheckAndRequestPermission() {
         //checking which permissions are granted
         List<String> listPermissionNeeded = new ArrayList<>();
         for (String item : appPermissions) {
@@ -102,11 +95,11 @@ public class RecentFragment extends Fragment {
         }
         //App has all permissions. Proceed ahead
         return true;
-    }
+    }*/
 
 
     // Working code
-    public Cursor fetchCallLogs() throws RemoteException {
+   /* public Cursor fetchCallLogs() throws RemoteException {
         // reading all data in descending order according to DATE
         String sortOrder = android.provider.CallLog.Calls.DATE + " DESC";
 
@@ -117,7 +110,7 @@ public class RecentFragment extends Fragment {
                 null,
                 sortOrder);
         return cursor;
-    }
+    }*/
 
 
 }

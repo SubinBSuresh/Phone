@@ -3,6 +3,7 @@ package ServicePackage;
 import ServicePackage.ContactModel;
 import ServicePackage.FavoritesModel;
 import ServicePackage.SuggestionModel;
+import ServicePackage.RecentsModel;
 // Declare any non-default types here with import statements
 
 interface aidlInterface {
@@ -16,5 +17,5 @@ interface aidlInterface {
 
     void deleteFavorite(int id);
 
-//    Cursor fetchCallLogs();
+List<RecentsModel> fetchCallLogs();
 }

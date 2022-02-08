@@ -6,6 +6,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.icu.text.SimpleDateFormat;
 import android.net.Uri;
 import android.os.IBinder;
 import android.os.RemoteException;
@@ -15,10 +16,12 @@ import android.provider.ContactsContract;
 import androidx.core.app.ActivityCompat;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import ServicePackage.ContactModel;
 import ServicePackage.FavoritesModel;
+import ServicePackage.RecentsModel;
 import ServicePackage.SuggestionModel;
 import ServicePackage.aidlInterface;
 
@@ -101,19 +104,43 @@ public class MyService extends Service {
         }
 
         //Working code for recents.
-/*        @Override
-        public Cursor fetchCallLogs() throws RemoteException {
+   @Override
+
+
+        @SuppressLint({"Range", "Range"})
+        public List<RecentsModel> fetchCallLogs() throws RemoteException {
+
+       String str_number,str_date,str_contact_name;
+            RecentsModel recentsModel;
+            List<RecentsModel> recentsModelList = new ArrayList<>();
             // reading all data in descending order according to DATE
             String sortOrder = android.provider.CallLog.Calls.DATE + " DESC";
 
-            Cursor cursors = getContentResolver().query(
+            Cursor cursor = getContentResolver().query(
                     CallLog.Calls.CONTENT_URI,
                     null,
                     null,
                     null,
                     sortOrder);
-            return cursors;
 
-        }*/
+
+            str_number=cursor.getString(cursor.getColumnIndex(CallLog.Calls.NUMBER));
+
+            str_contact_name = cursor.getString(cursor.getColumnIndex(CallLog.Calls.CACHED_NAME));
+            str_date = cursor.getString(cursor.getColumnIndex(CallLog.Calls.DATE));
+
+
+            recentsModel = new RecentsModel();
+            recentsModel.setDate(str_date);
+            recentsModel.setNumber(str_number);
+            recentsModelList.add(recentsModel);
+            return recentsModelList;
+        }
+
+
+
+
+
+
     };
 }
