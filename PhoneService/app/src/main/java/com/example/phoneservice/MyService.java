@@ -6,7 +6,6 @@ import android.app.Service;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.icu.text.SimpleDateFormat;
 import android.net.Uri;
 import android.os.IBinder;
 import android.os.RemoteException;
@@ -16,7 +15,6 @@ import android.provider.ContactsContract;
 import androidx.core.app.ActivityCompat;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import ServicePackage.ContactModel;
@@ -27,15 +25,6 @@ import ServicePackage.aidlInterface;
 
 
 public class MyService extends Service {
-    public MyService() {
-    }
-
-    @Override
-    public IBinder onBind(Intent intent) {
-        return stubObject;
-    }
-
-
     aidlInterface.Stub stubObject = new aidlInterface.Stub() {
         @Override
         public void callNumber(String phoneNumber) throws RemoteException {
@@ -45,6 +34,7 @@ public class MyService extends Service {
             startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phoneNumber)));
 
         }
+
         //@Override
         public List<String> getList() throws RemoteException {
             List<String> list = new ArrayList<>();
@@ -68,7 +58,7 @@ public class MyService extends Service {
             SuggestionModel suggestionModel;
             List<SuggestionModel> contactModelList = new ArrayList<>();
             String sort = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC";
-            Cursor cursor= getContentResolver().query(uri, null, null, null, sort);
+            Cursor cursor = getContentResolver().query(uri, null, null, null, sort);
             if (cursor.getCount() > 0) {
                 while (cursor.moveToNext()) {
                     @SuppressLint("Range") String id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
@@ -99,18 +89,18 @@ public class MyService extends Service {
 
         @Override
         public void deleteFavorite(int id) throws RemoteException {
-            DBHelper dbHelper= new DBHelper(getApplicationContext());
+            DBHelper dbHelper = new DBHelper(getApplicationContext());
             dbHelper.deleteFavoriteById(id);
         }
 
         //Working code for recents.
-   @Override
+        @Override
 
 
         @SuppressLint({"Range", "Range"})
         public List<RecentsModel> fetchCallLogs() throws RemoteException {
 
-       String str_number,str_date,str_contact_name;
+            String str_number, str_date, str_contact_name;
             RecentsModel recentsModel;
             List<RecentsModel> recentsModelList = new ArrayList<>();
             // reading all data in descending order according to DATE
@@ -123,24 +113,32 @@ public class MyService extends Service {
                     null,
                     sortOrder);
 
+            while (cursor.moveToNext()) {
+                str_number = cursor.getString(cursor.getColumnIndex(CallLog.Calls.NUMBER));
 
-            str_number=cursor.getString(cursor.getColumnIndex(CallLog.Calls.NUMBER));
-
-            str_contact_name = cursor.getString(cursor.getColumnIndex(CallLog.Calls.CACHED_NAME));
-            str_date = cursor.getString(cursor.getColumnIndex(CallLog.Calls.DATE));
+                str_contact_name = cursor.getString(cursor.getColumnIndex(CallLog.Calls.CACHED_NAME));
+                str_date = cursor.getString(cursor.getColumnIndex(CallLog.Calls.DATE));
 
 
-            recentsModel = new RecentsModel();
-            recentsModel.setDate(str_date);
-            recentsModel.setNumber(str_number);
-            recentsModelList.add(recentsModel);
-            return recentsModelList;
+                recentsModel = new RecentsModel();
+                recentsModel.setDate(str_date);
+                recentsModel.setNumber(str_number);
+                recentsModelList.add(recentsModel);
+                return recentsModelList;
+
+            }
+
+
+            return (List<RecentsModel>) cursor;
         }
 
-
-
-
-
-
     };
+
+    public MyService() {
+    }
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        return stubObject;
+    }
 }

@@ -55,31 +55,26 @@ public class RecentFragment extends Fragment {
 
 
 
-      /*  if (CheckAndRequestPermission()) {
-            try {
-//              cursor = MainActivity.getAidl().fetchCallLogs();
-                cursor = fetchCallLogs();
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
-        }*/
+       if (CheckAndRequestPermission()) {
+           try {
+               recentsModels = MainActivity.getAidl().fetchCallLogs();
+           } catch (RemoteException e) {
+               e.printStackTrace();
+           }
+           RecentsAdapter recentsAdapter=new RecentsAdapter(getContext(),recentsModels);
 
-        try {
-            recentsModels = MainActivity.getAidl().fetchCallLogs();
-        } catch (RemoteException e) {
-            e.printStackTrace();
+           rv_call_logs.setAdapter(recentsAdapter);
+
+           recentsAdapter.notifyDataSetChanged();
         }
-        RecentsAdapter recentsAdapter=new RecentsAdapter(getContext(),recentsModels);
 
-        rv_call_logs.setAdapter(recentsAdapter);
 
-        recentsAdapter.notifyDataSetChanged();
         return view;
 
     }
 
 
-    /*public boolean CheckAndRequestPermission() {
+    public boolean CheckAndRequestPermission() {
         //checking which permissions are granted
         List<String> listPermissionNeeded = new ArrayList<>();
         for (String item : appPermissions) {
@@ -95,22 +90,8 @@ public class RecentFragment extends Fragment {
         }
         //App has all permissions. Proceed ahead
         return true;
-    }*/
-
-
-    // Working code
-   /* public Cursor fetchCallLogs() throws RemoteException {
-        // reading all data in descending order according to DATE
-        String sortOrder = android.provider.CallLog.Calls.DATE + " DESC";
-
-        @SuppressLint("Recycle") Cursor cursor = getContext().getContentResolver().query(
-                CallLog.Calls.CONTENT_URI,
-                null,
-                null,
-                null,
-                sortOrder);
-        return cursor;
-    }*/
+    }
+    
 
 
 }
