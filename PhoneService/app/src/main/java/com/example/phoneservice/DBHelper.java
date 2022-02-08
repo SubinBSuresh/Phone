@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -15,6 +14,7 @@ import java.util.List;
 import ServicePackage.ContactModel;
 import ServicePackage.FavoritesModel;
 import ServicePackage.RecentsModel;
+import ServicePackage.SuggestionModel;
 
 public class DBHelper extends SQLiteOpenHelper {
 
@@ -57,24 +57,25 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     //FETCH CONTACTS
-    public List<ContactModel> getContacts(){
+    public List<ContactModel> getContacts() {
         List<ContactModel> contactModelList = new ArrayList<>();
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
         String query = "SELECT * FROM " + DBVariables.CONTACTS_TABLE;
-        Cursor cursor = sqLiteDatabase.rawQuery(query,null);
+        Cursor cursor = sqLiteDatabase.rawQuery(query, null);
 
-        if(cursor.moveToFirst()){
+        if (cursor.moveToFirst()) {
             do {
                 ContactModel contacts = new ContactModel();
                 contacts.setId(Integer.parseInt(cursor.getString(0)));
                 contacts.setName(cursor.getString(1));
                 contacts.setNumber(cursor.getString(2));
-            }while(cursor.moveToNext());
+            } while (cursor.moveToNext());
         }
         sqLiteDatabase.close();
         return contactModelList;
 
     }
+
     //FavoriteTableHandler
     public void addFavorite(FavoritesModel favorite) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -139,59 +140,44 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
 
-
-
     //FETCH RECENTS
-    public List<RecentsModel> getRecents(){
+    public List<RecentsModel> getRecents() {
         List<RecentsModel> recentsModelList = new ArrayList<>();
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
         String query = "SELECT * FROM " + DBVariables.RECENTS_TABLE;
-        Cursor cursor = sqLiteDatabase.rawQuery(query,null);
+        Cursor cursor = sqLiteDatabase.rawQuery(query, null);
 
-        if(cursor.moveToFirst()){
+        if (cursor.moveToFirst()) {
             do {
                 RecentsModel recents = new RecentsModel();
                 recents.setId(Integer.parseInt(cursor.getString(0)));
                 recents.setName(cursor.getString(1));
                 recents.setNumber(cursor.getString(2));
-            }while(cursor.moveToNext());
+            } while (cursor.moveToNext());
         }
 
         sqLiteDatabase.close();
-        return  recentsModelList;
+        return recentsModelList;
     }
 
 
+    //GET SUGGESTION CONTACTS
+    public List<SuggestionModel> getContactSuggestion(String searchedNumber) {
+        List<SuggestionModel> suggestionModelList = new ArrayList<>();
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+        String query = "SELECT " + DBVariables.CONTACT_NAME + ", " + DBVariables.CONTACT_NUMBER + " FROM " + DBVariables.CONTACTS_TABLE + " WHERE " + DBVariables.CONTACT_NUMBER + " LIKE " + "'" + searchedNumber + "%'";
 
+        Cursor cursor = sqLiteDatabase.rawQuery(query, null);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*    //TEMP
-    public void addContact(String name, String number) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        String query = "INSERT INTO " + DBVariables.CONTACTS_TABLE + "VALUES (" + name + ", " + number + ")";
-        db.execSQL(query);
-    }*/
+        while (cursor.moveToNext()) {
+            SuggestionModel suggestionModel = new SuggestionModel();
+            suggestionModel.setContactName(cursor.getString(0));
+            suggestionModel.setContactNumber(cursor.getString(1));
+            suggestionModelList.add(suggestionModel);
+        }
+        sqLiteDatabase.close();
+        return suggestionModelList;
+    }
 
 
 }

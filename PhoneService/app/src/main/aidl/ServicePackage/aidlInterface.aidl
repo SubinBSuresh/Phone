@@ -11,11 +11,11 @@ interface aidlInterface {
     void callNumber(String phoneNumber);
     List<String> getList();
     List<ContactModel> getContacts();
-    List<SuggestionModel> getSuggestions();
+    List<SuggestionModel> getSuggestions(String searchedNumber);
      List<FavoritesModel> getAllFavorites();
 
     void deleteFavorite(int id);
-    void addToFavorite(ContactModel contacts);
+//    void addToFavorite(ContactModel contacts);
 
 List<RecentsModel> fetchCallLogs();
 }
