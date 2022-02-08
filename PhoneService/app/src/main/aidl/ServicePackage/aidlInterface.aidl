@@ -8,13 +8,13 @@ import ServicePackage.SuggestionModel;
 interface aidlInterface {
 
     void callNumber(String phoneNumber);
+    List<String> getList();
     List<ContactModel> getContacts();
     List<SuggestionModel> getSuggestions();
-
-
-    List<FavoritesModel> getAllFavorites();
+     List<FavoritesModel> getAllFavorites();
 
     void deleteFavorite(int id);
+    void addToFavorite(ContactModel contacts);
 
 //    Cursor fetchCallLogs();
 }
