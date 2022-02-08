@@ -40,11 +40,7 @@ public class RecentsModel implements Parcelable {
         this.id = id;
     }
 
-    public RecentsModel(String name, String number, String date) {
-        this.name = name;
-        this.number = number;
-        this.date = date;
-    }
+
 
     public RecentsModel() {
 
