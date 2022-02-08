@@ -2,10 +2,8 @@ package com.example.phonehmi;
 
 import android.annotation.SuppressLint;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.RemoteException;
-import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -14,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -26,6 +25,7 @@ import ServicePackage.SuggestionModel;
 
 
 public class DialerFragment extends Fragment {
+    @SuppressLint("StaticFieldLeak")
     public static TextView tvNumber;
     String number;
     Button btn0, btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btnCall;
@@ -38,7 +38,7 @@ public class DialerFragment extends Fragment {
     public DialerFragment() {
     }
 
-    @SuppressLint("Range")
+    @SuppressLint({"Range", "NotifyDataSetChanged"})
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -60,8 +60,7 @@ public class DialerFragment extends Fragment {
         tvNumber = view.findViewById(R.id.textViewPhoneNumber);
         recyclerView = view.findViewById(R.id.RecyclerViewSuggestion);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        RecyclerView.LayoutManager layoutManager = linearLayoutManager;
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
 
 
@@ -105,18 +104,23 @@ public class DialerFragment extends Fragment {
             tvNumber.setText(stringBuilder.toString());
         });
 
-
         //Button Call
+        btnCall.setOnClickListener(view1 -> {
+            String phoneNum = tvNumber.getText().toString();
 
-        btnCall.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String phoneNum = tvNumber.getText().toString();
-                try {
-                    MainActivity.getAidl().callNumber(phoneNum);
-                    tvNumber.setText(" ");
-                } catch (RemoteException e) {
-                    e.printStackTrace();
+            if (phoneNum.isEmpty()){
+                Toast.makeText(getContext(),"Cannot be empty", Toast.LENGTH_SHORT).show();
+            }else{
+                if (phoneNum.length()>=10 && phoneNum.length()<=13){
+
+                    try {
+                        MainActivity.getAidl().callNumber(phoneNum);
+                        tvNumber.setText(" ");
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                    }
+                }else{
+                    Toast.makeText(getContext(),"Invalid Number",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -143,8 +147,6 @@ public class DialerFragment extends Fragment {
         });
 
 //        cursor = getSuggestion();
-
-
 
 /*        if (cursor.getCount() > 0) {
             while (cursor.moveToNext()) {
@@ -176,7 +178,7 @@ public class DialerFragment extends Fragment {
         return view;
     }
 
-    private List<SuggestionModel> getSuggestion() {
+/*    private List<SuggestionModel> getSuggestion() {
         Uri uri = ContactsContract.Contacts.CONTENT_URI;
         SuggestionModel suggestionModel;
         String sort = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC";
@@ -200,7 +202,7 @@ public class DialerFragment extends Fragment {
             cursor.close();
         }
         return contactModelList;
-    }
+    }*/
 
 
     // Show Phone Number
