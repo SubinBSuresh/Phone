@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -13,7 +14,7 @@ import java.util.List;
 
 import ServicePackage.ContactModel;
 import ServicePackage.FavoritesModel;
-import ServicePackage.RecentsModel;
+import ServicePackage.RecentModel;
 import ServicePackage.SuggestionModel;
 
 public class DBHelper extends SQLiteOpenHelper {
@@ -141,15 +142,15 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     //FETCH RECENTS
-    public List<RecentsModel> getRecents() {
-        List<RecentsModel> recentsModelList = new ArrayList<>();
+    public List<RecentModel> getAllRecents() {
+        List<RecentModel> recentsModelList = new ArrayList<>();
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
         String query = "SELECT * FROM " + DBVariables.RECENTS_TABLE;
         Cursor cursor = sqLiteDatabase.rawQuery(query, null);
 
         if (cursor.moveToFirst()) {
             do {
-                RecentsModel recents = new RecentsModel();
+                RecentModel recents = new RecentModel();
                 recents.setId(Integer.parseInt(cursor.getString(0)));
                 recents.setName(cursor.getString(1));
                 recents.setNumber(cursor.getString(2));
@@ -178,6 +179,20 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.close();
         return suggestionModelList;
     }
+
+
+    public void addRecent(RecentModel recent) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(DBVariables.RECENT_NAME, recent.getName());
+        values.put(DBVariables.RECENT_NUMBER, recent.getNumber());
+        values.put(DBVariables.RECENT_DATE, recent.getDate());
+        db.insert(DBVariables.RECENTS_TABLE, null, values);
+        Log.d("recentsdb", "Successfully inserted");
+        db.close();
+    }
+
+
 
 
 }
