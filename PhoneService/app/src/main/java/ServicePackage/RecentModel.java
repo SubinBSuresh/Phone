@@ -9,26 +9,26 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class RecentsModel implements Parcelable {
+public class RecentModel implements Parcelable {
     private int id;
     private String name, number, date;
 
-    protected RecentsModel(Parcel in) {
+    protected RecentModel(Parcel in) {
         id = in.readInt();
         name = in.readString();
         number = in.readString();
         date = in.readString();
     }
 
-    public static final Creator<RecentsModel> CREATOR = new Creator<RecentsModel>() {
+    public static final Creator<RecentModel> CREATOR = new Creator<RecentModel>() {
         @Override
-        public RecentsModel createFromParcel(Parcel in) {
-            return new RecentsModel(in);
+        public RecentModel createFromParcel(Parcel in) {
+            return new RecentModel(in);
         }
 
         @Override
-        public RecentsModel[] newArray(int size) {
-            return new RecentsModel[size];
+        public RecentModel[] newArray(int size) {
+            return new RecentModel[size];
         }
     };
 
@@ -42,7 +42,7 @@ public class RecentsModel implements Parcelable {
 
 
 
-    public RecentsModel() {
+    public RecentModel() {
 
     }
 
