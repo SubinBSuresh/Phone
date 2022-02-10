@@ -112,7 +112,7 @@ public class MyService extends Service {
             recentModel.setName(contact.getName());
             recentModel.setNumber(contact.getNumber());
             recentModel.setDate();
-            phoneDbHandler.addRecent(recentModel);
+            phoneDbHandler.addtoRecent(recentModel);
         }
 
 

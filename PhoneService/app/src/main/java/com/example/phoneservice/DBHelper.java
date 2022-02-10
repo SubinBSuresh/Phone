@@ -140,7 +140,16 @@ public class DBHelper extends SQLiteOpenHelper {
         return cursor.getCount();
     }
 
-
+    public void addtoRecent(RecentModel recent) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(DBVariables.RECENT_NAME, recent.getName());
+        values.put(DBVariables.RECENT_NUMBER, recent.getNumber());
+        values.put(DBVariables.RECENT_DATE, recent.getDate());
+        db.insert(DBVariables.RECENTS_TABLE, null, values);
+        Log.d("recentsdb", "Successfully inserted");
+        db.close();
+    }
     //FETCH RECENTS
     public List<RecentModel> getAllRecents() {
         List<RecentModel> recentsModelList = new ArrayList<>();
