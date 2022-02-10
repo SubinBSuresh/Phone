@@ -9,8 +9,9 @@ import ServicePackage.RecentModel;
 interface aidlInterface {
 
     void callNumber(String phoneNumber);
+    List<SuggestionModel> getSuggestions(String searchedNumber);
     List<ContactModel> getContacts();
-List<SuggestionModel> getSuggestions(String searchedNumber);
+
 
 
     List<FavoritesModel> getAllFavorites();

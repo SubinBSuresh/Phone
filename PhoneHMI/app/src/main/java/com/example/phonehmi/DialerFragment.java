@@ -1,6 +1,7 @@
 package com.example.phonehmi;
 
 import android.annotation.SuppressLint;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.text.Editable;
@@ -24,13 +25,13 @@ import ServicePackage.SuggestionModel;
 
 public class DialerFragment extends Fragment {
     @SuppressLint("StaticFieldLeak")
-    public static TextView tvNumber, tvName;
+    public static TextView tvCallSelectedNumber, tvCallSelectedName;
     String number;
     Button btn0, btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btnStar, btnHash;
     ImageButton imageButtonBack, btnCall;
     RecyclerView recyclerView;
     List<SuggestionModel> suggestionModelList;
-    String searchedNumber = "";
+    String searchedNumber;
     ContactSuggestionAdapter contactSuggestionAdapter;
 
     public DialerFragment() {
@@ -57,7 +58,8 @@ public class DialerFragment extends Fragment {
         btnStar = view.findViewById(R.id.buttonStar);
         btnHash = view.findViewById(R.id.buttonHash);
         imageButtonBack = view.findViewById(R.id.imageButtonBack);
-        tvNumber = view.findViewById(R.id.textViewPhoneNumber);
+        tvCallSelectedNumber = view.findViewById(R.id.textViewPhoneNumber);
+        tvCallSelectedName = view.findViewById(R.id.textViewContactName);
         recyclerView = view.findViewById(R.id.RecyclerViewSuggestion);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -109,32 +111,29 @@ public class DialerFragment extends Fragment {
 
         //Button Delete
         imageButtonBack.setOnClickListener(v -> {
-            StringBuilder stringBuilder = new StringBuilder(tvNumber.getText());
+            StringBuilder stringBuilder = new StringBuilder(tvCallSelectedNumber.getText());
             if (stringBuilder.length() > 0) {
-                stringBuilder.deleteCharAt(tvNumber.getText().length() - 1);
+                stringBuilder.deleteCharAt(tvCallSelectedNumber.getText().length() - 1);
             }
-            tvNumber.setText(stringBuilder.toString());
+            tvCallSelectedNumber.setText(stringBuilder.toString());
         });
 
-        imageButtonBack.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                showPhoneNumber("");
-                return true;
-            }
+        imageButtonBack.setOnLongClickListener(view12 -> {
+            showPhoneNumber("");
+            return true;
         });
 
         //Button Call
         btnCall.setOnClickListener(view1 -> {
-            String phoneNum = tvNumber.getText().toString();
+            String phoneNum = tvCallSelectedNumber.getText().toString();
             if (phoneNum.isEmpty()) {
                 Toast.makeText(getContext(), "Cannot be empty", Toast.LENGTH_SHORT).show();
             } else {
                 if (phoneNum.length() >= 10 && phoneNum.length() <= 13) {
-
                     try {
                         MainActivity.getAidl().callNumber(phoneNum);
-                        tvNumber.setText("");
+                        tvCallSelectedNumber.setText("");
+                        tvCallSelectedName.setText("");
                     } catch (RemoteException e) {
                         e.printStackTrace();
                     }
@@ -145,19 +144,19 @@ public class DialerFragment extends Fragment {
         });
 
 
-        tvNumber.addTextChangedListener(new TextWatcher() {
+        //Number Textview Change Listener
+        tvCallSelectedNumber.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                searchedNumber = tvNumber.getText().toString();
+                searchedNumber = tvCallSelectedNumber.getText().toString();
                 // Check the number with database and get suggestions and populate the recycler view
                 if (searchedNumber.isEmpty()) {
                     searchedNumber = "";
                     suggestionModelList.clear();
-
                 } else {
                     try {
                         suggestionModelList = MainActivity.getAidl().getSuggestions(searchedNumber);
@@ -170,18 +169,20 @@ public class DialerFragment extends Fragment {
                 contactSuggestionAdapter.notifyDataSetChanged();
                 btnCall.setEnabled(searchedNumber.length() < 15);
             }
+
             @Override
             public void afterTextChanged(Editable s) {
             }
         });
         return view;
     }
+
     // Show Phone Number
     @SuppressLint("SetTextI18n")
     private void showPhoneNumber(String digit) {
-        number = tvNumber.getText().toString();
+        number = tvCallSelectedNumber.getText().toString();
         if (number.length() < 15) {
-            tvNumber.setText(number + digit);
+            tvCallSelectedNumber.setText(number + digit);
         }
     }
 }
