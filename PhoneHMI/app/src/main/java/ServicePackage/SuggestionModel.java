@@ -4,10 +4,21 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class SuggestionModel implements Parcelable {
-    String contactName;
-            String contactNumber;
+    public static final Creator<SuggestionModel> CREATOR = new Creator<SuggestionModel>() {
+        @Override
+        public SuggestionModel createFromParcel(Parcel in) {
+            return new SuggestionModel(in);
+        }
 
-    public SuggestionModel(String contactName, String contactNumber){
+        @Override
+        public SuggestionModel[] newArray(int size) {
+            return new SuggestionModel[size];
+        }
+    };
+    String contactName;
+    String contactNumber;
+
+    public SuggestionModel(String contactName, String contactNumber) {
         this.contactName = contactName;
         this.contactNumber = contactNumber;
     }
@@ -21,29 +32,17 @@ public class SuggestionModel implements Parcelable {
         contactNumber = in.readString();
     }
 
-    public static final Creator<SuggestionModel> CREATOR = new Creator<SuggestionModel>() {
-        @Override
-        public SuggestionModel createFromParcel(Parcel in) {
-            return new SuggestionModel(in);
-        }
-
-        @Override
-        public SuggestionModel[] newArray(int size) {
-            return new SuggestionModel[size];
-        }
-    };
-
     public String getContactName() {
         return contactName;
+    }
+
+    public void setContactName(String contactName) {
+        this.contactName = contactName;
     }
 
     public String getContactNumber() {
 
         return contactNumber;
-    }
-
-    public void setContactName(String contactName) {
-        this.contactName = contactName;
     }
 
     public void setContactNumber(String contactNumber) {
