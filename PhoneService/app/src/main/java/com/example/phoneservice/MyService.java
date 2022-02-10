@@ -9,8 +9,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.IBinder;
 import android.os.RemoteException;
-import android.provider.CallLog;
-
+import android.provider.ContactsContract;
 
 import androidx.core.app.ActivityCompat;
 
@@ -20,7 +19,6 @@ import java.util.List;
 import ServicePackage.ContactModel;
 import ServicePackage.FavoritesModel;
 import ServicePackage.RecentModel;
-
 import ServicePackage.SuggestionModel;
 import ServicePackage.aidlInterface;
 
@@ -61,13 +59,10 @@ public class MyService extends Service {
         }
 
         @Override
-        public List<SuggestionModel> getSuggestions(String searchedNumber) {
-            DBHelper dbHelper = new DBHelper(getApplicationContext());
-            return dbHelper.getContactSuggestion(searchedNumber);
-        }
+        public List<SuggestionModel> getSuggestions(String searchedNumber) throws RemoteException {
 
-/*        @Override
-        public List<SuggestionModel> getSuggestions() throws RemoteException {
+            //**********************If Using ContentProvider for Contacts - USE THIS *********************************
+
             Uri uri = ContactsContract.Contacts.CONTENT_URI;
             SuggestionModel suggestionModel;
             List<SuggestionModel> contactModelList = new ArrayList<>();
@@ -78,8 +73,8 @@ public class MyService extends Service {
                     @SuppressLint("Range") String id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
                     @SuppressLint("Range") String name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
                     Uri uriPhone = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
-                    String selection = ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " =? ";
-                    Cursor phoneCursor = getContentResolver().query(uriPhone, null, selection, new String[]{id}, null);
+                    String selection = ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " =? AND " + ContactsContract.CommonDataKinds.Phone.NUMBER + " LIKE ?";
+                    Cursor phoneCursor = getContentResolver().query(uriPhone, null, selection, new String[]{id, searchedNumber + "%"}, null);
                     if (phoneCursor.moveToNext()) {
                         @SuppressLint("Range") String number = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
                         suggestionModel = new SuggestionModel();
@@ -92,7 +87,10 @@ public class MyService extends Service {
                 cursor.close();
             }
             return contactModelList;
-        }*/
+            //********************** If Using SQLite DB - USE THIS & DBHelper CODE*********************************
+/*            DBHelper dbHelper = new DBHelper(getApplicationContext());
+            return dbHelper.getContactSuggestion(searchedNumber);*/
+        }
 
         @Override
         public List<FavoritesModel> getAllFavorites() throws RemoteException {
@@ -108,7 +106,6 @@ public class MyService extends Service {
         }
 
 
-
         public void addToRecent(ContactModel contact) throws RemoteException {
             DBHelper phoneDbHandler = new DBHelper(getApplicationContext());
             RecentModel recentModel = new RecentModel();
@@ -117,8 +114,6 @@ public class MyService extends Service {
             recentModel.setDate();
             phoneDbHandler.addRecent(recentModel);
         }
-
-
 
 
     };

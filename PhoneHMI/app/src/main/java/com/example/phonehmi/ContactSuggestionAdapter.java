@@ -1,10 +1,12 @@
 package com.example.phonehmi;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,7 +31,6 @@ public class ContactSuggestionAdapter extends RecyclerView.Adapter<ContactSugges
     public ContactSuggestionAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View view = layoutInflater.inflate(R.layout.contact_suggestion_item, parent, false);
-
         return new ViewHolder(view);
     }
 
@@ -40,6 +41,10 @@ public class ContactSuggestionAdapter extends RecyclerView.Adapter<ContactSugges
         holder.tvSuggestedName.setText(suggestionModel.getContactName());
         holder.tvSuggestedNumber.setText(suggestionModel.getContactNumber());
 
+        //For live viewing from Run Tab
+        Log.e("Contact name",suggestionModel.getContactName());
+        Log.e("Contact Number", suggestionModel.getContactNumber());
+
 
     }
 
@@ -49,7 +54,6 @@ public class ContactSuggestionAdapter extends RecyclerView.Adapter<ContactSugges
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
         TextView tvSuggestedName;
         TextView tvSuggestedNumber;
 
@@ -62,11 +66,17 @@ public class ContactSuggestionAdapter extends RecyclerView.Adapter<ContactSugges
 
         @Override
         public void onClick(View view) {
-            TextView contactNumber = view.findViewById(R.id.tvContactSuggestionNumber);
-            TextView contactName = view.findViewById(R.id.tvContactSuggestionName);
-            DialerFragment.tvNumber.setText(contactNumber.getText().toString());
-            DialerFragment.tvName.setText(contactName.getText().toString());
+            TextView clickedContactName = view.findViewById(R.id.tvContactSuggestionName);
+            TextView clickedContactNumber = view.findViewById(R.id.tvContactSuggestionNumber);
+             String contactName = clickedContactName.getText().toString();
+             String contactNumber = clickedContactNumber.getText().toString();
+             //Add contact to the main contact space
+            DialerFragment.tvCallSelectedName.setText(contactName);
+            DialerFragment.tvCallSelectedNumber.setText(contactNumber);
 
+            //For testing if the list works
+//            System.out.println(contactNumber+contactName);
+//            Toast.makeText(view.getContext(), contactNumber+contactName, Toast.LENGTH_SHORT).show();
         }
     }
 }

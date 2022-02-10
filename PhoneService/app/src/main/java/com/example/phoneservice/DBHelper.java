@@ -163,7 +163,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     //GET SUGGESTION CONTACTS
-    public List<SuggestionModel> getContactSuggestion(String searchedNumber) {
+/*    public List<SuggestionModel> getContactSuggestion(String searchedNumber) {
         List<SuggestionModel> suggestionModelList = new ArrayList<>();
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
         String query = "SELECT " + DBVariables.CONTACT_NAME + ", " + DBVariables.CONTACT_NUMBER + " FROM " + DBVariables.CONTACTS_TABLE + " WHERE " + DBVariables.CONTACT_NUMBER + " LIKE " + "'" + searchedNumber + "%'";
@@ -178,7 +178,7 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         sqLiteDatabase.close();
         return suggestionModelList;
-    }
+    }*/
 
 
     public void addRecent(RecentModel recent) {

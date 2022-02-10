@@ -13,15 +13,16 @@
         android:background="#F5F5F5"
         android:orientation="vertical"
         android:paddingLeft="10dp"
-        android:paddingTop="40sp"
+        android:paddingTop="10sp"
         android:paddingRight="10dp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/RecyclerViewSuggestion"
             android:layout_width="match_parent"
-            android:layout_height="125dp"
+            android:layout_height="146dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
             android:visibility="visible">
 
         </androidx.recyclerview.widget.RecyclerView>
@@ -49,9 +50,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="35dp"
                     android:gravity="center"
-                    android:hint="Name"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
+                    android:paddingRight="30sp"
                     android:textColor="#FFFFFF"
                     android:textColorHint="#FFFFFF"
                     android:textSize="20sp"
@@ -71,7 +70,6 @@
                         android:layout_height="37dp"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:hint="Number goes here"
                         android:textColor="#FFFFFF"
                         android:textColorHint="#FFFFFF"
                         android:textSize="20sp"
