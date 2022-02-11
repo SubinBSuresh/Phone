@@ -1,7 +1,6 @@
 package com.example.phonehmi;
 
 import android.annotation.SuppressLint;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.text.Editable;
@@ -23,7 +22,7 @@ import java.util.List;
 import ServicePackage.SuggestionModel;
 
 
-public class DialerFragment extends Fragment {
+public class DialerFragment extends Fragment implements View.OnClickListener {
     @SuppressLint("StaticFieldLeak")
     public static TextView tvCallSelectedNumber, tvCallSelectedName;
     String number;
@@ -31,7 +30,7 @@ public class DialerFragment extends Fragment {
     ImageButton imageButtonBack, btnCall;
     RecyclerView recyclerView;
     List<SuggestionModel> suggestionModelList;
-    String searchedNumber;
+    String searchedNumber, searchedName;
     ContactSuggestionAdapter contactSuggestionAdapter;
 
     public DialerFragment() {
@@ -66,7 +65,12 @@ public class DialerFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
 
-        //Button 0
+
+/*        CODE WITH ONCLICKLISTENER FOR INDIVIDUAL BUTTONS
+*         TO UNDO CHANGES REMOVE THE "implements View.OnClickListener" AND REMOVE ITS SUPER CONSTRUCTOR
+*
+* */
+/*        //Button 0
         btn0.setOnClickListener(v -> showPhoneNumber("0"));
 
         //Button 1
@@ -100,7 +104,20 @@ public class DialerFragment extends Fragment {
         btnStar.setOnClickListener(v -> showPhoneNumber("*"));
 
         //Button Hash
-        btnHash.setOnClickListener(v -> showPhoneNumber("#"));
+        btnHash.setOnClickListener(v -> showPhoneNumber("#"));*/
+
+        btn0.setOnClickListener(this);
+        btn1.setOnClickListener(this);
+        btn2.setOnClickListener(this);
+        btn3.setOnClickListener(this);
+        btn4.setOnClickListener(this);
+        btn5.setOnClickListener(this);
+        btn6.setOnClickListener(this);
+        btn7.setOnClickListener(this);
+        btn8.setOnClickListener(this);
+        btn9.setOnClickListener(this);
+        btnHash.setOnClickListener(this);
+        btnStar.setOnClickListener(this);
 
         //Button 0 Long Press
         btn0.setOnLongClickListener(v -> {
@@ -116,24 +133,26 @@ public class DialerFragment extends Fragment {
                 stringBuilder.deleteCharAt(tvCallSelectedNumber.getText().length() - 1);
             }
             tvCallSelectedNumber.setText(stringBuilder.toString());
+            tvCallSelectedName.setText("");
         });
 
         imageButtonBack.setOnLongClickListener(view12 -> {
             showPhoneNumber("");
-            return true;
+            return false;
         });
 
         //Button Call
         btnCall.setOnClickListener(view1 -> {
             String phoneNum = tvCallSelectedNumber.getText().toString();
+            searchedName = tvCallSelectedNumber.getText().toString();
+
             if (phoneNum.isEmpty()) {
                 Toast.makeText(getContext(), "Cannot be empty", Toast.LENGTH_SHORT).show();
             } else {
                 if (phoneNum.length() >= 10 && phoneNum.length() <= 13) {
                     try {
-                        MainActivity.getAidl().callNumber(phoneNum);
+                        MainActivity.getAidl().callNumber(phoneNum, searchedName);
                         tvCallSelectedNumber.setText("");
-                        tvCallSelectedName.setText("");
                     } catch (RemoteException e) {
                         e.printStackTrace();
                     }
@@ -157,9 +176,10 @@ public class DialerFragment extends Fragment {
                 if (searchedNumber.isEmpty()) {
                     searchedNumber = "";
                     suggestionModelList.clear();
+                    tvCallSelectedName.setText("");
                 } else {
                     try {
-                        suggestionModelList = MainActivity.getAidl().getSuggestions(searchedNumber);
+                        suggestionModelList = MainActivity.getAidl().getSuggestions(searchedNumber );
                     } catch (RemoteException e) {
                         e.printStackTrace();
                     }
@@ -183,6 +203,51 @@ public class DialerFragment extends Fragment {
         number = tvCallSelectedNumber.getText().toString();
         if (number.length() < 15) {
             tvCallSelectedNumber.setText(number + digit);
+        }
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.button0:
+                showPhoneNumber("0");
+                break;
+            case R.id.button1:
+                showPhoneNumber("1");
+                break;
+            case R.id.button2:
+                showPhoneNumber("2");
+                break;
+            case R.id.button3:
+                showPhoneNumber("3");
+                break;
+            case R.id.button4:
+                showPhoneNumber("4");
+                break;
+            case R.id.button5:
+                showPhoneNumber("5");
+                break;
+            case R.id.button6:
+                showPhoneNumber("6");
+                break;
+            case R.id.button7:
+                showPhoneNumber("7");
+                break;
+            case R.id.button8:
+                showPhoneNumber("8");
+                break;
+            case R.id.button9:
+                showPhoneNumber("9");
+                break;
+            case R.id.buttonStar:
+                showPhoneNumber("*");
+                break;
+            case R.id.buttonHash:
+                showPhoneNumber("#");
+                break;
+            default:
+                break;
         }
     }
 }

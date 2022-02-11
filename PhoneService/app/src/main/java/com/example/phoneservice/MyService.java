@@ -26,12 +26,18 @@ import ServicePackage.aidlInterface;
 public class MyService extends Service {
     aidlInterface.Stub stubObject = new aidlInterface.Stub() {
         @Override
-        public void callNumber(String phoneNumber) throws RemoteException {
-            if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+        public void callNumber(String phoneNumber, String name) throws RemoteException {
+            //MAKE ACTUAL PHONE CALL
+/*            if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
                 return;
             }
-            startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phoneNumber)));
+            startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phoneNumber)));*/
 
+
+
+
+            // GO TO CALL SCREEN FROM ACTIVITY
+//            startActivity(new Intent(getApplicationContext(),phone.class));
         }
 
         //@Override
