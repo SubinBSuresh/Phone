@@ -8,7 +8,7 @@ import ServicePackage.RecentModel;
 
 interface aidlInterface {
 
-    void callNumber(String phoneNumber);
+    void callNumber(String phoneNumber, String name);
     List<SuggestionModel> getSuggestions(String searchedNumber);
     List<ContactModel> getContacts();
 
