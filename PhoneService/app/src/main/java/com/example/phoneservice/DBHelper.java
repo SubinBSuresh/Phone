@@ -140,7 +140,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return cursor.getCount();
     }
 
-    public void addtoRecent(RecentModel recent) {
+    public void addRecent(RecentModel recent) {
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues values = new ContentValues();
         values.put(DBVariables.RECENT_NAME, recent.getName());
@@ -163,6 +163,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 recents.setId(Integer.parseInt(cursor.getString(0)));
                 recents.setName(cursor.getString(1));
                 recents.setNumber(cursor.getString(2));
+                recents.setDate(cursor.getString(3));
+                recentsModelList.add(0,recents);
             } while (cursor.moveToNext());
         }
 
@@ -190,16 +192,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }*/
 
 
-    public void addRecent(RecentModel recent) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(DBVariables.RECENT_NAME, recent.getName());
-        values.put(DBVariables.RECENT_NUMBER, recent.getNumber());
-        values.put(DBVariables.RECENT_DATE, recent.getDate());
-        db.insert(DBVariables.RECENTS_TABLE, null, values);
-        Log.d("recentsdb", "Successfully inserted");
-        db.close();
-    }
+
 
 
 
