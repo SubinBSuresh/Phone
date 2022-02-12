@@ -101,14 +101,14 @@ public class MyService extends Service {
         @Override
         public List<FavoritesModel> getAllFavorites() throws RemoteException {
             DBHelper dbHelper = new DBHelper(getApplicationContext());
-            return dbHelper.getAllFavorites();
+            return dbHelper.getFAvorites();
         }
 
 
         @Override
         public void deleteFavorite(int id) throws RemoteException {
             DBHelper dbHelper = new DBHelper(getApplicationContext());
-            dbHelper.deleteFavoriteById(id);
+            dbHelper.removeContactFromFavorites(id);
         }
 
 
