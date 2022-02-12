@@ -1,10 +1,12 @@
 package com.example.phonehmi;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.RemoteException;
 import android.view.LayoutInflater;
@@ -23,6 +25,7 @@ import ServicePackage.FavoritesModel;
  * create an instance of this fragment.
  */
 public class FavoritesFragment extends Fragment {
+    @SuppressLint("StaticFieldLeak")
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -37,6 +40,21 @@ public class FavoritesFragment extends Fragment {
     RecyclerView recyclerView;
     private  FavoritesAdapter favoritesAdapter;
     TextView textView;
+
+
+    SwipeRefreshLayout swipeRefreshLayoutFavorites;
+    private static List<FavoritesModel> favoriteList;
+
+
+    public static List<FavoritesModel> refreshContacts() {
+        try {
+            favoriteList=MainActivity.getAidl().getFavorites();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        //favoriteList = MainActivity.getAidl().getFAvorites();
+        return favoriteList;
+    }
 
     public FavoritesFragment() {
         // Required empty public constructor
@@ -78,59 +96,34 @@ public class FavoritesFragment extends Fragment {
         textView = view.findViewById(R.id.empty_view_favorite);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        List<FavoritesModel> favoriteList = new ArrayList<>();
-        //favoriteList=new ArrayList<>();
+        favoriteList = new ArrayList<>();
+        swipeRefreshLayoutFavorites = view.findViewById(R.id.swipeRefreshLayoutFavorites);
 
-        /*demo list for the recucler view
-        FavoritesModel ob1 = new FavoritesModel("Aarch","8606702593");
-        favoriteList.add(ob1);
-        FavoritesModel ob2= new FavoritesModel("Sachin","8606702593");
-        favoriteList.add(ob2);
-        FavoritesModel ob3 = new FavoritesModel("Vijay","4365785423");
-        favoriteList.add(ob3);
-
-        FavoritesModel ob4= new FavoritesModel("Vinitha","4523566778");
-        favoriteList.add(ob4);
-        FavoritesModel ob5 = new FavoritesModel("Ziona","34124567898");
-        favoriteList.add(ob5);
-
-         */
         try {
-            favoriteList.addAll(MainActivity.getAidl().getAllFavorites());
+            favoriteList=MainActivity.getAidl().getFavorites();
         } catch (RemoteException e) {
             e.printStackTrace();
         }
 
-
+        swipeRefreshLayoutFavorites.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayoutFavorites.setRefreshing(false);
+                recyclerView.setAdapter(favoritesAdapter);
+                favoritesAdapter.notifyDataSetChanged();
+                favoritesAdapter = new FavoritesAdapter((ArrayList<FavoritesModel>) refreshContacts(), getContext());
+            }
+        });
         favoritesAdapter = new FavoritesAdapter((ArrayList<FavoritesModel>) favoriteList, getContext());
         recyclerView.setAdapter(favoritesAdapter);
-        //recyclerView.setAdapter(new FavAdapter(favoriteList, getContext()));
-
-        //to display empty call log message
+        favoritesAdapter.notifyDataSetChanged();
         updateVisibility();
+
+
         return view;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        updateFavoriteList();
-        updateVisibility();
 
-    }
-
-    private void updateFavoriteList() {
-        List<FavoritesModel> favoriteList = new ArrayList<>();
-
-        try {
-            favoriteList.addAll(MainActivity.getAidl().getAllFavorites());
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-
-        favoritesAdapter = new FavoritesAdapter((ArrayList<FavoritesModel>) favoriteList, getContext());
-        recyclerView.setAdapter(favoritesAdapter);
-    }
 
     private void updateVisibility() {
         if (favoritesAdapter.getItemCount() == 0) {
@@ -141,4 +134,6 @@ public class FavoritesFragment extends Fragment {
             textView.setVisibility(View.GONE);
         }
     }
+
+
 }
