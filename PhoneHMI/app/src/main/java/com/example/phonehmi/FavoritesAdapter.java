@@ -1,10 +1,12 @@
 package com.example.phonehmi;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.RemoteException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -22,6 +24,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
 
     private LayoutInflater layoutInflater;
     FavoritesFragment favoritesFragment;
+    FavoritesAdapter favoritesAdapter;
 
     public FavoritesAdapter(ArrayList<FavoritesModel> favoriteList, Context context) {
         this.favoriteList = favoriteList;
@@ -40,6 +43,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         holder.name.setText(favoriteList.get(position).getName());
+        holder.remBtn.setBackgroundResource(R.drawable.star_on_foreground);
 
     }
 
@@ -48,38 +52,61 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
         return favoriteList.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class ViewHolder extends RecyclerView.ViewHolder  {
 
         TextView name;
-        ToggleButton remBtn;
+        ImageButton remBtn;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             name = itemView.findViewById(R.id.favorite_name);
             remBtn = itemView.findViewById(R.id.btn_remove_favorite);
-            remBtn.setOnClickListener(this);
+           // remBtn.setOnClickListener(this);
 
-            remBtn.setBackgroundDrawable(ContextCompat.getDrawable(context, android.R.drawable.btn_star_big_on));
+            remBtn.setOnClickListener(new View.OnClickListener() {
+                @SuppressLint("NotifyDataSetChanged")
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+                    //dbHelper = new DBHelper(context);
+                    final FavoritesModel favoritesModel = favoriteList.get(position);
+                    try {
+                        MainActivity.getAidl().removeContactFromFavorites(favoritesModel.getId());
 
-            //name.setOnClickListener(this);
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                    }
+
+                    favoriteList.remove(position);
+
+
+                    //contactFragment.rvAll.invalidate();
+                    notifyItemRemoved(position);
+                    notifyItemRangeChanged(position, favoriteList.size());
+                    //FavoritesFragment.favoritesAdapter.notifyDataSetChanged();
+                    favoritesAdapter.notifyDataSetChanged();
+
+
+                }
+            });
+
+          /* name.setOnLongClickListener(new View.OnLongClickListener() {
+               @Override
+               public boolean onLongClick(View v) {
+                   try {
+                       MainActivity.getAidl().placeCall(favoriteList.get(getAdapterPosition()).getNumber());
+                   } catch (RemoteException e) {
+                       e.printStackTrace();
+                   }
+                   return false;
+               }
+           });
+
+           */
 
         }
 
-        @Override
-        public void onClick(View v) {
 
-            int position = this.getAdapterPosition();
-            try {
-                MainActivity.getAidl().deleteFavorite(favoriteList.get(position).getId());
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
-
-            favoriteList.remove(position);
-            //remBtn.setBackgroundDrawable(ContextCompat.getDrawable(context, android.R.drawable.btn_star_big_off));
-
-            notifyItemRemoved(position);
-        }
     }
 }

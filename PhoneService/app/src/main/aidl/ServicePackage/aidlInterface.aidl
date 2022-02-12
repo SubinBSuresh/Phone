@@ -13,11 +13,16 @@ interface aidlInterface {
     List<String> getList();
     List<ContactModel> getContacts();
 
-     List<FavoritesModel> getAllFavorites();
+
      List<RecentModel> getAllRecents();
 
-    void deleteFavorite(int id);
-//    void addToFavorite(ContactModel contacts);
+     List<FavoritesModel> getFavorites();
+     void addContactToFavorites(int id);
+     void removeContactFromFavorites(int id);
+     boolean checkContactPresentInFavoritesTable(int id);
+
+
+
 
 
 }
