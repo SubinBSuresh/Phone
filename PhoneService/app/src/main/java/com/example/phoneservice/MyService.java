@@ -93,19 +93,44 @@ public class MyService extends Service {
 /*            DBHelper dbHelper = new DBHelper(getApplicationContext());
             return dbHelper.getContactSuggestion(searchedNumber);*/
         }
-
+/*
         @Override
         public List<FavoritesModel> getAllFavorites() throws RemoteException {
             DBHelper dbHelper = new DBHelper(getApplicationContext());
-            return dbHelper.getAllFavorites();
+            return dbHelper.getFAvorites();
         }
 
 
         @Override
         public void deleteFavorite(int id) throws RemoteException {
             DBHelper dbHelper = new DBHelper(getApplicationContext());
-            dbHelper.deleteFavoriteById(id);
+            dbHelper.removeContactFromFavorites(id);
         }
+
+ */
+        //-------------------Favorites---------------------------------------------------------------
+     public List<FavoritesModel> getFavorites() throws RemoteException {
+         List<FavoritesModel> favoriteList = new ArrayList<>();
+         DBHelper phoneDbHandler = new DBHelper(getApplicationContext());
+         return phoneDbHandler.getFAvorites();
+     }
+
+        public void addContactToFavorites(int id) throws RemoteException{
+            DBHelper phoneDbHandler = new DBHelper(getApplicationContext());
+            phoneDbHandler.addContactToFavorites(id);
+
+        }
+        public void removeContactFromFavorites(int id) throws RemoteException{
+            DBHelper phoneDbHandler = new DBHelper(getApplicationContext());
+            phoneDbHandler.removeContactFromFavorites(id);
+
+        }
+        public boolean checkContactPresentInFavoritesTable(int id) throws RemoteException{
+            DBHelper phoneDbHandler = new DBHelper(getApplicationContext());
+            return phoneDbHandler.checkContactPresentInContactTable(id);
+        }
+
+        //---------------------------------------------------------------------------------------
 
 
         public void addtoRecent(ContactModel contact) throws RemoteException {
