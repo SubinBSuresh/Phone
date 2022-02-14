@@ -133,13 +133,13 @@ public class MyService extends Service {
         //---------------------------------------------------------------------------------------
 
 
-        public void addtoRecent(ContactModel contact) throws RemoteException {
+        public void addToRecent(ContactModel contact) throws RemoteException {
             DBHelper phoneDbHandler = new DBHelper(getApplicationContext());
             RecentModel recentModel = new RecentModel();
             recentModel.setName(contact.getName());
             recentModel.setNumber(contact.getNumber());
             recentModel.setDate();
-            phoneDbHandler.addRecent(recentModel);
+            phoneDbHandler.addtoRecent(recentModel);
         }
 
 
