@@ -130,18 +130,23 @@ class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
 
 
     }
+
+    @Override
+    public void onClick(View view) {
+
+    }
     //   }
     //  });
 }
 
 
-    @Override
+/*    @Override
     public void onClick(View view) {
         TextView name  = view.findViewById(R.id.contact_name);
         Toast.makeText(view.getContext(),name.getText().toString(),Toast.LENGTH_SHORT).show();
         Log.e("*******************", name.getText().toString());
-    }
+    }*/
 }
 
-}
+
 

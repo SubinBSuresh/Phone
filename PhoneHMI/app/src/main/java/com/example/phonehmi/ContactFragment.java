@@ -52,7 +52,7 @@ public class ContactFragment extends Fragment {
 
         // textView = view.findViewById(R.id.empty_view_contacts);
 
-        swipeRefreshLayoutContacts = view.findViewById(R.id.swipeRefreshLayoutContacts);
+//        swipeRefreshLayoutContacts = view.findViewById(R.id.swipeRefreshLayoutContacts);
 
         //ADDING CONTACTS FROM CONTENT PROVIDER TO CURSOR
         ContentResolver resolver = getContext().getContentResolver();
