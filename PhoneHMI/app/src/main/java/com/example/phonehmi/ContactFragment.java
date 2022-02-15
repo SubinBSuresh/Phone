@@ -24,6 +24,7 @@ import ServicePackage.ContactModel;
 public class ContactFragment extends Fragment {
 
 
+
     RecyclerView recyclerView; //recyclerview object
     TextView textView;
     List<ContactModel> contactList;
