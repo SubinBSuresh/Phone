@@ -16,7 +16,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PhoneService">
-
+        <activity
+            android:name=".Call_screen"
+            android:exported="false" />
+        <activity
+            android:name=".Call_End"
+            android:exported="false" />
 
         <service
             android:name=".MyService"

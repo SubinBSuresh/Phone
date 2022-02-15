@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.RemoteException;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -136,10 +137,12 @@ public class DialerFragment extends Fragment implements View.OnClickListener {
             tvCallSelectedName.setText("");
         });
 
+/*
         imageButtonBack.setOnLongClickListener(view12 -> {
             showPhoneNumber("");
             return false;
         });
+*/
 
         //Button Call
         btnCall.setOnClickListener(view1 -> {
@@ -151,7 +154,8 @@ public class DialerFragment extends Fragment implements View.OnClickListener {
             } else {
                 if (phoneNum.length() >= 10 && phoneNum.length() <= 13) {
                     try {
-                        MainActivity.getAidl().callNumber(phoneNum, searchedName);
+                        Log.e("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$", phoneNum+tvCallSelectedName.getText().toString());
+                        MainActivity.getAidl().callNumber(phoneNum, tvCallSelectedName.getText().toString());
                         tvCallSelectedNumber.setText("");
                     } catch (RemoteException e) {
                         e.printStackTrace();
