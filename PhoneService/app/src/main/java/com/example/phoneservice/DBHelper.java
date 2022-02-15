@@ -154,7 +154,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     // ADD A FAVORITE TO FAVORITES TABLE
-    public void addContactToFAvorites(Integer id) {
+    public void addContactToFavorites(Integer id) {
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
         String query = "SELECT * FROM " + CONTACT_TABLE + " WHERE " + CONTACT_ID + " = " + id;
         Cursor cursor = sqLiteDatabase.rawQuery(query, null);
