@@ -39,7 +39,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     //RECENTS TABLE COLUMN
-    private static final String RECENTS_TABLE = "FAVORITESS";
+    private static final String RECENTS_TABLE = "RECENTS";
     public static final String RECENT_ID = "ID";
     public static final String RECENT_NAME = "NAME";
     public static final String RECENT_NUMBER = "NUMBER";
@@ -196,7 +196,16 @@ public class DBHelper extends SQLiteOpenHelper {
     /******************************************************* RECENTS TABLE OPERATION *****************************************************/
 
 
-
+    public void addtoRecent(RecentModel recent) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(RECENT_NAME, recent.getName());
+        values.put(RECENT_NUMBER, recent.getNumber());
+        values.put(RECENT_DATE, recent.getDate());
+        db.insert(RECENTS_TABLE, null, values);
+        Log.d("recentsdb", "Successfully inserted");
+        db.close();
+    }
 
     //FETCH RECENTS
     public List<RecentModel> getAllRecents() {
@@ -219,16 +228,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
 
-    public void addtoRecent(RecentModel recent) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(RECENT_NAME, recent.getName());
-        values.put(RECENT_NUMBER, recent.getNumber());
-        values.put(RECENT_DATE, recent.getDate());
-        db.insert(RECENTS_TABLE, null, values);
-        Log.d("recentsdb", "Successfully inserted");
-        db.close();
-    }
+
 
 
     /***************************************************OTHERS***************************************************************************/
