@@ -26,7 +26,6 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     ContactModel contactModel;
     private Context context;
 
-}
 
 
     public ContactAdapter(List<ContactModel> contactList, Context context) {
@@ -51,6 +50,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
 
         //subine ithu correct anonn areelatto
        /* try {
+
             if (MainActivity.getAidl().checkContactPresentInFavoritesTable(int id));
             {
                 holder.arbutton.setBackgroundResource(R.drawable.ic_baseline_unstar_24);
@@ -65,10 +65,11 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
 */
     }
 
-    @Override
+        @Override
     public int getItemCount() {
         return contactList.size();
     }
+
 
 class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -78,6 +79,7 @@ class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     //arbutton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
     //@Override
     //  public void onCheckedChanged(CompoundButton compoundButton, boolean ischecked) {
+
 /*
                     if (ischecked) {
                         arbutton.setBackgroundResource(R.drawable.ic_baseline_star_24);
@@ -107,6 +109,7 @@ class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
         //arbutton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
         //@Override
         //  public void onCheckedChanged(CompoundButton compoundButton, boolean ischecked) {
+
 /*
                     if (ischecked) {
                         arbutton.setBackgroundResource(R.drawable.ic_baseline_star_24);
@@ -125,18 +128,25 @@ class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
                         }
             };*/
 
+
+    }
+
+    @Override
+    public void onClick(View view) {
+
     }
     //   }
     //  });
 }
 
 
-    @Override
+/*    @Override
     public void onClick(View view) {
         TextView name  = view.findViewById(R.id.contact_name);
         Toast.makeText(view.getContext(),name.getText().toString(),Toast.LENGTH_SHORT).show();
         Log.e("*******************", name.getText().toString());
-    }
+    }*/
 }
 
-}
+
+
