@@ -1,17 +1,13 @@
 package com.example.phoneservice;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.provider.ContactsContract;
-
-import androidx.core.app.ActivityCompat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -143,7 +139,7 @@ public class MyService extends Service {
             recentModel.setName(contact.getName());
             recentModel.setNumber(contact.getNumber());
             recentModel.setDate();
-            phoneDbHandler.addRecent(recentModel);
+            phoneDbHandler.addtoRecent(recentModel);
         }
 
 
