@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+
 import java.util.List;
 
 import ServicePackage.ContactModel;
@@ -37,6 +38,8 @@ public class ContactFragment extends Fragment {
     }
 
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -46,7 +49,9 @@ public class ContactFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.rvView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
         // textView = view.findViewById(R.id.empty_view_contacts);
+
         swipeRefreshLayoutContacts = view.findViewById(R.id.swipeRefreshLayoutContacts);
 
         //ADDING CONTACTS FROM CONTENT PROVIDER TO CURSOR
@@ -72,6 +77,7 @@ public class ContactFragment extends Fragment {
         contactAdapter = new ContactAdapter(contactList, getContext());
         recyclerView.setAdapter(contactAdapter);
         contactAdapter.notifyDataSetChanged();
+
         // updateVisibility();
         return view;
     }
@@ -84,6 +90,7 @@ public class ContactFragment extends Fragment {
         }
         return contactList;
     }
+
 
    /* private void updateVisibility() {
         if (contactAdapter.getItemCount() == 0) {
