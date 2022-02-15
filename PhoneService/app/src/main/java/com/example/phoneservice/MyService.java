@@ -24,7 +24,7 @@ public class MyService extends Service {
         @Override
         public void callNumber(String phoneNumber, String name) throws RemoteException {
             //MAKE ACTUAL PHONE CALL
-/*            if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+/*           if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
                 return;
             }
             startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phoneNumber)));*/
@@ -33,7 +33,7 @@ public class MyService extends Service {
 
 
             // GO TO CALL SCREEN FROM ACTIVITY
-//            startActivity(new Intent(getApplicationContext(),phone.class));
+           startActivity(new Intent(getApplicationContext(),Call_screen.class));
         }
 
         //@Override
