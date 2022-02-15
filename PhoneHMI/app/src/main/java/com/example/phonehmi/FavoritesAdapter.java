@@ -18,6 +18,8 @@ import java.util.ArrayList;
 
 import ServicePackage.FavoritesModel;
 
+// this is some random push file
+
 public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.ViewHolder>{
     ArrayList<FavoritesModel> favoriteList;
     private Context context;
