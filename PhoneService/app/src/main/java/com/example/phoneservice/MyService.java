@@ -1,13 +1,19 @@
 package com.example.phoneservice;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.provider.ContactsContract;
+import android.util.Log;
+import android.widget.Toast;
+
+import androidx.core.app.ActivityCompat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,10 +36,13 @@ public class MyService extends Service {
             startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phoneNumber)));*/
 
 
-
+//            Log.e("############################",phoneNumber+name);
 
             // GO TO CALL SCREEN FROM ACTIVITY
+/*           startActivity(new Intent(getApplicationContext(),Call_screen.class));
+           Intent intent = new Intent(getApplicationContext());*/
            startActivity(new Intent(getApplicationContext(),Call_screen.class));
+//            Toast.makeText(getApplicationContext(),phoneNumber+name, Toast.LENGTH_SHORT).show();
         }
 
         //@Override

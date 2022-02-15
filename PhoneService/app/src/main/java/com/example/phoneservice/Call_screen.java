@@ -13,14 +13,13 @@ import android.widget.Toast;
 public class Call_screen extends AppCompatActivity {
     private Chronometer chronometer;
     private boolean running;
-    private ImageButton BtnEnd;
-    private TextView textViewName;
+//    private TextView textViewName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_call_screen);
-        BtnEnd = findViewById(R.id.btnEnd);
+        ImageButton btnEnd = findViewById(R.id.btnEnd);
         chronometer = findViewById(R.id.tvTimer);
 
 
@@ -28,15 +27,11 @@ public class Call_screen extends AppCompatActivity {
             chronometer.start();
             running = true;
         }
-        BtnEnd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                chronometer.stop();
-                Toast.makeText(getApplicationContext(),"call ended",Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(getApplicationContext(),Call_End.class);
-                startActivity(intent);
-
-            }
+        btnEnd.setOnClickListener(v -> {
+            chronometer.stop();
+            Toast.makeText(getApplicationContext(),"call ended",Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(getApplicationContext(),Call_End.class);
+            startActivity(intent);
 
         });
     }

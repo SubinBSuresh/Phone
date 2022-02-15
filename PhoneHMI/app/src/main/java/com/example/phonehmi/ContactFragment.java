@@ -65,6 +65,8 @@ public class ContactFragment extends Fragment {
         swipeRefreshLayoutContacts.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 
 
+
+
             @Override
             public void onRefresh() {
 
