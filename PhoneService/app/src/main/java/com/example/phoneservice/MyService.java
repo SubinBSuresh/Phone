@@ -11,7 +11,10 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.provider.ContactsContract;
 import android.util.Log;
+n
+
 import android.widget.Toast;
+
 
 import androidx.core.app.ActivityCompat;
 
@@ -57,16 +60,19 @@ public class MyService extends Service {
 
 
         @Override
-        public List<RecentModel> getAllRecents() {
+        public List<RecentModel> getAllRecents() throws RemoteException {
             List<RecentModel> recentModelArrayList = new ArrayList<>();
             DBHelper phoneDbHandler = new DBHelper(getApplicationContext());
             return phoneDbHandler.getAllRecents();
         }
 
         @Override
-        public List<ContactModel> getContacts() {
+        public List<ContactModel> getContacts() throws RemoteException {
             DBHelper dbHelper = new DBHelper(getApplicationContext());
-            return dbHelper.getContacts();
+            List<ContactModel>list = dbHelper.getContacts();
+            Log.e("######",""+list.size());
+
+            return  list;
         }
 
         @Override
@@ -137,6 +143,14 @@ public class MyService extends Service {
         public boolean checkContactPresentInFavoritesTable(int id) throws RemoteException{
             DBHelper phoneDbHandler = new DBHelper(getApplicationContext());
             return phoneDbHandler.checkContactPresentInContactTable(id);
+        }
+
+        @Override
+        public void addContactToDatabase(List<ContactModel> contactListDatabase) throws RemoteException {
+            DBHelper dbHelper = new DBHelper(getApplicationContext());
+            Log.e("######","");
+            dbHelper.saveContact(contactListDatabase);
+
         }
 
         //---------------------------------------------------------------------------------------

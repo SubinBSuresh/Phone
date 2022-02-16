@@ -20,7 +20,11 @@ interface aidlInterface {
      void addContactToFavorites(int id);
      void removeContactFromFavorites(int id);
      boolean checkContactPresentInFavoritesTable(int id);
+
+      void addContactToDatabase(in List<ContactModel> contactListDatabase);
+
      void addToRecent(in ContactModel contact);
+
 
 
 

@@ -49,11 +49,11 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
 
 
         //subine ithu correct anonn areelatto
-       /* try {
+      /* try {
 
-            if (MainActivity.getAidl().checkContactPresentInFavoritesTable(int id));
+            if (MainActivity.getAidl().checkContactPresentInFavoritesTable(contactModel.getId()));
             {
-                holder.arbutton.setBackgroundResource(R.drawable.ic_baseline_unstar_24);
+                holder.arbutton.setBackgroundResource(R.drawable.ic_baseline_star_unstar_24);
             }
             else {
                 holder.arbutton.setBackgroundResource(R.drawable.ic_baseline_star_24);
@@ -64,8 +64,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     }
 */
     }
-
-        @Override
+    @Override
     public int getItemCount() {
         return contactList.size();
     }
@@ -106,11 +105,11 @@ class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
 
         //sheriyano enn doubt aanu
 
-        //arbutton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-        //@Override
-        //  public void onCheckedChanged(CompoundButton compoundButton, boolean ischecked) {
+       /* arbutton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        @Override
+          public void onCheckedChanged(CompoundButton compoundButton, boolean ischecked) {
 
-/*
+
                     if (ischecked) {
                         arbutton.setBackgroundResource(R.drawable.ic_baseline_star_24);
                         try {
@@ -133,19 +132,21 @@ class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
 
     @Override
     public void onClick(View view) {
-
+        int position = getAdapterPosition();
+        view.setOnClickListener(this);
+        contactModel = contactList.get(position);
     }
     //   }
     //  });
 }
 
 
-/*    @Override
+  //@Override
     public void onClick(View view) {
         TextView name  = view.findViewById(R.id.contact_name);
         Toast.makeText(view.getContext(),name.getText().toString(),Toast.LENGTH_SHORT).show();
         Log.e("*******************", name.getText().toString());
-    }*/
+    }
 }
 
 
