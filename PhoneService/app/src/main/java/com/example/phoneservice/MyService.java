@@ -11,6 +11,10 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.provider.ContactsContract;
 import android.util.Log;
+n
+
+import android.widget.Toast;
+
 
 import androidx.core.app.ActivityCompat;
 
@@ -29,16 +33,19 @@ public class MyService extends Service {
         @Override
         public void callNumber(String phoneNumber, String name) throws RemoteException {
             //MAKE ACTUAL PHONE CALL
-/*            if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+/*           if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
                 return;
             }
             startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phoneNumber)));*/
 
 
-
+//            Log.e("############################",phoneNumber+name);
 
             // GO TO CALL SCREEN FROM ACTIVITY
-//            startActivity(new Intent(getApplicationContext(),phone.class));
+/*           startActivity(new Intent(getApplicationContext(),Call_screen.class));
+           Intent intent = new Intent(getApplicationContext());*/
+           startActivity(new Intent(getApplicationContext(),Call_screen.class));
+//            Toast.makeText(getApplicationContext(),phoneNumber+name, Toast.LENGTH_SHORT).show();
         }
 
         //@Override
@@ -155,7 +162,7 @@ public class MyService extends Service {
             recentModel.setName(contact.getName());
             recentModel.setNumber(contact.getNumber());
             recentModel.setDate();
-            phoneDbHandler.addRecent(recentModel);
+            phoneDbHandler.addtoRecent(recentModel);
         }
 
 

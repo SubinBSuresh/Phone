@@ -91,6 +91,11 @@ public class ContactFragment extends Fragment {
 
 
            @Override
+
+
+
+            @Override
+
             public void onRefresh() {
 
                 swipeRefreshLayoutContacts.setRefreshing(false);

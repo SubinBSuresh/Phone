@@ -234,7 +234,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
 
-    public void addRecent(RecentModel recent) {
+    public void addtoRecent(RecentModel recent) {
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues values = new ContentValues();
         values.put(RECENT_NAME, recent.getName());

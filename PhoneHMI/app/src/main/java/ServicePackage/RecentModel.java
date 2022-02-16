@@ -71,7 +71,7 @@ public class RecentModel implements Parcelable {
     public void setDate(){
         Date date = Calendar.getInstance().getTime();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-//        DateFormat dateFormat = new SimpleDateFormat("yyyy MMMM dd hh:mm:ss");
+
         this.date = dateFormat.format(date);
     }
 

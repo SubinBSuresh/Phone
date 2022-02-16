@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Call_screen">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="3dp"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/index" />
+
+        <TextView
+            android:id="@+id/tvName"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:text="1111"
+            android:textSize="30dp" />
+
+
+        <Chronometer
+            android:id="@+id/tvTimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+
+            android:textSize="15dp"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="30dp"
+            android:orientation="horizontal"
+            android:weightSum="100"
+            android:padding="2dp"
+            >
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="33.3"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:weightSum="100"
+                android:padding="3dp">
+
+                <ImageButton
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    android:padding="10dp"
+                    android:src="@drawable/ic_baseline_mic_off_24"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Mute"
+                    android:gravity="center"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="33.3"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:weightSum="100"
+                android:padding="3dp">
+
+                <ImageButton
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    android:padding="10dp"
+                    android:src="@drawable/ic_baseline_dialpad_24"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Dial"
+                    android:gravity="center"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="33.3"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:weightSum="100"
+                android:padding="3dp">
+
+                <ImageButton
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    android:padding="10dp"
+                    android:src="@drawable/ic_baseline_volume_up_24"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Loud"
+                    android:gravity="center"/>
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="30dp"
+            android:orientation="horizontal"
+            android:weightSum="100"
+            android:padding="2dp"
+            >
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="33.3"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:weightSum="100"
+                android:padding="3dp">
+
+                <ImageButton
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    android:padding="10dp"
+                    android:src="@drawable/ic_baseline_add_ic_call_24"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Add"
+                    android:gravity="center"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="33.3"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:weightSum="100"
+                android:padding="3dp">
+
+                <ImageButton
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    android:padding="10dp"
+                    android:src="@drawable/ic_baseline_bluetooth_24"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Bluetooth"
+                    android:gravity="center"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="33.3"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:weightSum="100"
+                android:padding="3dp">
+
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_baseline_account_circle_24"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Contact"
+                    android:gravity="center"/>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="50dp"
+            android:orientation="horizontal"
+            android:weightSum="100"
+            android:padding="2dp"
+            >
+            <ImageButton
+                android:id="@+id/btnEnd"
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:padding="10dp"
+                android:src="@drawable/ic_baseline_call_end_24"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+
+</LinearLayout>
+
