@@ -27,7 +27,6 @@ public class MyService extends Service {
         @Override
         public void addContactToDatabase(List<ContactModel> contactListDatabase) throws RemoteException {
             DBHelper dbHelper = new DBHelper(getApplicationContext());
-            Log.e("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&", "" + contactListDatabase.size());
             dbHelper.saveContact(contactListDatabase);
 
         }
@@ -77,6 +76,12 @@ public class MyService extends Service {
             return list;
         }
 
+        @Override
+        public boolean checkContactPresentInFavoritesTable(int id) throws RemoteException {
+            DBHelper phoneDbHandler = new DBHelper(getApplicationContext());
+            return phoneDbHandler.checkContactPresentInFavoritesTable(id);
+        }
+
 
         @Override
         public List<SuggestionModel> getSuggestions(String searchedNumber) throws RemoteException {
@@ -114,27 +119,31 @@ public class MyService extends Service {
 
 
         //-------------------Favorites---------------------------------------------------------------
+
+        @Override
+        public void addContactToFavorites(int id) throws RemoteException {
+            Log.e("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$","HERE IN ADD CONTACT TO FAVORITES"+id);
+
+            DBHelper phoneDbHandler = new DBHelper(getApplicationContext());
+            phoneDbHandler.addToFavorites(id);
+
+        }
+
+
+
+
+
+        @Override
+        public void removeContactFromFavorites(int id) throws RemoteException {
+            DBHelper phoneDbHandler = new DBHelper(getApplicationContext());
+            phoneDbHandler.removeContactFromFavorites(id);
+        }
+
+        @Override
         public List<FavoritesModel> getFavorites() throws RemoteException {
             List<FavoritesModel> favoriteList = new ArrayList<>();
             DBHelper phoneDbHandler = new DBHelper(getApplicationContext());
             return phoneDbHandler.getFAvorites();
-        }
-
-        public void addContactToFavorites(int id) throws RemoteException {
-            DBHelper phoneDbHandler = new DBHelper(getApplicationContext());
-            phoneDbHandler.addContactToFavorites(id);
-
-        }
-
-        public void removeContactFromFavorites(int id) throws RemoteException {
-            DBHelper phoneDbHandler = new DBHelper(getApplicationContext());
-            phoneDbHandler.removeContactFromFavorites(id);
-
-        }
-
-        public boolean checkContactPresentInFavoritesTable(int id) throws RemoteException {
-            DBHelper phoneDbHandler = new DBHelper(getApplicationContext());
-            return phoneDbHandler.checkContactPresentInFavoritesTable(id);
         }
 
 

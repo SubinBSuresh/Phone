@@ -16,16 +16,17 @@ interface aidlInterface {
 
     List<ContactModel> getContacts();
 
+    boolean checkContactPresentInFavoritesTable(int id);
 
-
+    void removeContactFromFavorites(int id);
 //favourites
      List<FavoritesModel> getFavorites();
-     void addContactToFavorites(int id);
-     void removeContactFromFavorites(int id);
-     boolean checkContactPresentInFavoritesTable(int id);
+    void addContactToFavorites(int id);
 
 
-     void addToRecent(in ContactModel contact);
+
+
+//     void addToRecent(in ContactModel contact);
      List<RecentModel> getAllRecents();
 
 

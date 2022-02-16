@@ -1,5 +1,6 @@
 package com.example.phonehmi;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.RemoteException;
 import android.util.Log;
@@ -19,13 +20,13 @@ import ServicePackage.ContactModel;
 
 public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder> {
 
-    private static List<ServicePackage.ContactModel> contactList;
-    private final Context context;
+    public static List<ContactModel> contactList;
+     Context context;
     ContactModel contactModel;
 
 
     public ContactAdapter(List<ContactModel> contactList, Context context) {
-       this.contactList = contactList;
+       ContactAdapter.contactList = contactList;
         this.context = context;
     }
 
@@ -33,24 +34,25 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_items, parent, false);
+        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        View view = layoutInflater.inflate(R.layout.row_items, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
-        holder.name.setText(contactList.get(position).getName());
         contactModel = contactList.get(position);
 
+        holder.name.setText(contactModel.getName());
 
-        //subine ithu correct anonn areelatto
+
+        // CODE FOR SHOWING DATA IS PRESENT IN FAVORITES TABLE OR NOT
         try {
 
             if (!MainActivity.getAidl().checkContactPresentInFavoritesTable(contactModel.getId())) {
-                holder.arbutton.setBackgroundResource(R.drawable.ic_baseline_star_unstar_24);
+                holder.imageButton.setBackgroundResource(R.drawable.ic_baseline_star_unstar_24);
             } else {
-                holder.arbutton.setBackgroundResource(R.drawable.ic_baseline_star_24);
+                holder.imageButton.setBackgroundResource(R.drawable.ic_baseline_star_24);
             }
         } catch (Exception e) {
             Log.e("%%%%%%%%%%%%", "broken");
@@ -64,39 +66,50 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     }
 
 
-    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView name;
-        ImageButton arbutton;
+        ImageButton imageButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             name = itemView.findViewById(R.id.contact_name);
-            arbutton = itemView.findViewById(R.id.btn_add_favorite);
+            imageButton = itemView.findViewById(R.id.btn_add_favorite);
 
-            arbutton.setOnClickListener(new View.OnClickListener() {
+            imageButton.setOnClickListener(new View.OnClickListener() {
+                @SuppressLint("NotifyDataSetChanged")
                 @Override
                 public void onClick(View view) {
-                      view.setOnClickListener(this);
-                    contactModel = contactList.get(getAdapterPosition());
-                    Toast.makeText(view.getContext(), "toastworking",Toast.LENGTH_SHORT).show();
+                    int position = getAdapterPosition();
+                    contactModel = contactList.get(position);
+                    Toast.makeText(view.getContext(), "toastworking"+contactModel.getId(),Toast.LENGTH_SHORT).show();
+
+                    // CODE FOR ADDING DATA TO FAVORITE TABLE
 
                     try {
                         if (!MainActivity.getAidl().checkContactPresentInFavoritesTable(contactModel.getId())) {
+
+//                            Log.e("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$",""+test);
                             MainActivity.getAidl().addContactToFavorites(contactModel.getId());
-                            arbutton.setBackgroundResource(R.drawable.ic_baseline_star_24);
-                            arbutton.setSelected(true);
-                            notifyDataSetChanged();
+                            imageButton.setBackgroundResource(R.drawable.ic_baseline_star_24);
+                            Toast.makeText(context, ""+contactModel.getId(), Toast.LENGTH_SHORT).show();
+
+                            imageButton.setSelected(true);
                         } else {
+//                            test = true;
+//                            Log.e("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&",""+test);
+
                             MainActivity.getAidl().removeContactFromFavorites(contactModel.getId());
-                            arbutton.setBackgroundResource(R.drawable.ic_baseline_star_unstar_24);
-                            arbutton.setSelected(false);
-                            notifyDataSetChanged();
+                            imageButton.setBackgroundResource(R.drawable.ic_baseline_star_unstar_24);
+                            imageButton.setSelected(false);
                         }
+                        notifyDataSetChanged();
                     } catch (RemoteException e) {
                         e.printStackTrace();
                     }
+//                    Toast.makeText(view.getContext(), "toastworking"+test,Toast.LENGTH_SHORT).show();
+
 
 
                 }
@@ -104,12 +117,6 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
         }
 
 
-        @Override
-        public void onClick(View view) {
-            TextView name = view.findViewById(R.id.contact_name);
-            Toast.makeText(view.getContext(), name.getText().toString(), Toast.LENGTH_SHORT).show();
-            Log.e("*******************", name.getText().toString());
-        }
     }
 }
 
