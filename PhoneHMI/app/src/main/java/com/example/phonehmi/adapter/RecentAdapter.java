@@ -20,9 +20,9 @@ import ServicePackage.RecentModel;
 public class RecentAdapter extends RecyclerView.Adapter<RecentAdapter.ViewHolder>{
 
     private LayoutInflater layoutInflater;
-    private Context mContext;
+    private final Context mContext;
 
-    private List<RecentModel> mlistRecents;
+    private final List<RecentModel> mlistRecents;
 
     public RecentAdapter(Context context, List<RecentModel> listRecents) {
         mContext = context;

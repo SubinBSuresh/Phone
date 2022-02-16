@@ -22,7 +22,7 @@ import ServicePackage.FavoritesModel;
 
 public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.ViewHolder>{
     ArrayList<FavoritesModel> favoriteList;
-    private Context context;
+    private final Context context;
 
     private LayoutInflater layoutInflater;
     FavoritesFragment favoritesFragment;

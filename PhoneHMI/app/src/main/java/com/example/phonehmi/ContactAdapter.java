@@ -24,12 +24,12 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     private static List<ServicePackage.ContactModel> contactList;
 
     ContactModel contactModel;
-    private Context context;
+    private final Context context;
 
 
 
     public ContactAdapter(List<ContactModel> contactList, Context context) {
-        this.contactList = contactList;
+        ContactAdapter.contactList = contactList;
         this.context = context;
     }
 

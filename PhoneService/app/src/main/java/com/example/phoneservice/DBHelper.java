@@ -22,7 +22,7 @@ import ServicePackage.SuggestionModel;
 public class DBHelper extends SQLiteOpenHelper {
 
 
-    public static final String DATABASE_NAME = "CONTACTSSS";
+    public static final String DATABASE_NAME = "CONTACTSMSS";
     public static final int DATABASE_VERSION = 1;
 
     //CONTACT TABLE COLUMNS
