@@ -6,6 +6,7 @@ import android.os.RemoteException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -29,7 +30,7 @@ public class FavoritesFragment extends Fragment {
 
 
     SwipeRefreshLayout swipeRefreshLayoutFavorites;
-    private FavoritesAdapter favoritesAdapter;
+    public static FavoritesAdapter favoritesAdapter;
 
 
     public FavoritesFragment() {
@@ -69,18 +70,20 @@ public class FavoritesFragment extends Fragment {
             @Override
             public void onRefresh() {
                 swipeRefreshLayoutFavorites.setRefreshing(false);
-                recyclerView.setAdapter(favoritesAdapter);
-                favoritesAdapter.notifyDataSetChanged();
-                favoritesAdapter = new FavoritesAdapter((ArrayList<FavoritesModel>) refreshContacts(), getContext());
+listUpdate();
             }
         });
-        favoritesAdapter = new FavoritesAdapter(favoriteList, getContext());
-        recyclerView.setAdapter(favoritesAdapter);
-        favoritesAdapter.notifyDataSetChanged();
+listUpdate();
         updateVisibility();
 
 
         return view;
+    }
+
+    private void listUpdate(){
+        favoritesAdapter = new FavoritesAdapter(refreshContacts(), getContext());
+        recyclerView.setAdapter(favoritesAdapter);
+        favoritesAdapter.notifyDataSetChanged();
     }
 
 

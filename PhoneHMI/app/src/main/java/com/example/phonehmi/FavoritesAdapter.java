@@ -22,15 +22,14 @@ import ServicePackage.FavoritesModel;
 // this is some random push file
 
 public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.ViewHolder>{
-    List<FavoritesModel> favoriteList;
+    public static List<FavoritesModel> favoriteList;
      Context context;
 
     private LayoutInflater layoutInflater;
     FavoritesFragment favoritesFragment;
-    FavoritesAdapter favoritesAdapter;
 
     public FavoritesAdapter(List<FavoritesModel> favoriteList, Context context) {
-        this.favoriteList = favoriteList;
+        FavoritesAdapter.favoriteList = favoriteList;
         this.context = context;
     }
 
@@ -84,11 +83,11 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
                     favoriteList.remove(position);
 
 
-                    //contactFragment.rvAll.invalidate();
+//                    contactFragment.rvAll.invalidate();
                     notifyItemRemoved(position);
                     notifyItemRangeChanged(position, favoriteList.size());
-                    //FavoritesFragment.favoritesAdapter.notifyDataSetChanged();
-                    favoritesAdapter.notifyDataSetChanged();
+                    FavoritesFragment.favoritesAdapter.notifyDataSetChanged();
+//                    favoritesAdapter.notifyDataSetChanged();
 
 
                 }
