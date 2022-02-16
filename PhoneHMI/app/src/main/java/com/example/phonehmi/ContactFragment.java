@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -27,7 +26,6 @@ public class ContactFragment extends Fragment {
 
 
     RecyclerView recyclerView; //recyclerview object
-    TextView textView;
     List<ContactModel> contactList;
     SwipeRefreshLayout swipeRefreshLayoutContacts;
     List<ContactModel> contactListDatabase = new ArrayList<>();
@@ -38,7 +36,7 @@ public class ContactFragment extends Fragment {
     }
 
 
-    @SuppressLint("Range")
+    @SuppressLint({"Range", "NotifyDataSetChanged"})
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -52,7 +50,7 @@ public class ContactFragment extends Fragment {
 
         //ADDING CONTACTS FROM CONTENT PROVIDER TO CURSOR
         ContentResolver resolver = getContext().getContentResolver();
-        Cursor cursor = resolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
+        @SuppressLint("Recycle") Cursor cursor = resolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
 
         while (cursor.moveToNext()) {
             ContactModel contactModel = new ContactModel();
@@ -77,9 +75,7 @@ public class ContactFragment extends Fragment {
         }
 */
 
-
         swipeRefreshLayoutContacts.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-
 
             @Override
 

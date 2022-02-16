@@ -11,21 +11,21 @@ interface aidlInterface {
     void callNumber(String phoneNumber, String name);
     List<SuggestionModel> getSuggestions(String searchedNumber);
 
-   void addContactToDatabase(in List<ContactModel>contactListDatabase);
+    void addContactToDatabase(in List<ContactModel>contactListDatabase);
 
     List<ContactModel> getContacts();
 
+    boolean checkContactPresentInFavoritesTable(int id);
 
+    void removeContactFromFavorites(int id);
 
        List<RecentModel> getAllRecents();
 
        List<FavoritesModel> getFavorites();
        void addContactToFavorites(int id);
-       void removeContactFromFavorites(int id);
-       boolean checkContactPresentInFavoritesTable(int id);
 
 
-       void addToRecent(in ContactModel contact);
+//       void addToRecent(in ContactModel contact);
 
 
 }
