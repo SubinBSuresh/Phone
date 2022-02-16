@@ -17,7 +17,7 @@ interface aidlInterface {
 
 
 
-      List<RecentModel> getAllRecents();
+       List<RecentModel> getAllRecents();
 
        List<FavoritesModel> getFavorites();
        void addContactToFavorites(int id);

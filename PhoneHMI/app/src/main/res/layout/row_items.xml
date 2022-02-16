@@ -39,13 +39,11 @@
         </LinearLayout>
 
 
-        <ToggleButton
+        <ImageButton
             android:id="@+id/btn_add_favorite"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:layout_gravity="right"
-            android:textOn=""
-            android:textOff=""/>
+            android:layout_gravity="right" />
     </LinearLayout>
 
 

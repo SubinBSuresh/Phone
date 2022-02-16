@@ -134,7 +134,7 @@ public class MyService extends Service {
 
         public boolean checkContactPresentInFavoritesTable(int id) throws RemoteException {
             DBHelper phoneDbHandler = new DBHelper(getApplicationContext());
-            return phoneDbHandler.checkContactPresentInContactTable(id);
+            return phoneDbHandler.checkContactPresentInFavoritesTable(id);
         }
 
 
