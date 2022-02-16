@@ -6,30 +6,26 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ServicePackage.ContactModel;
 
-public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder>{
+public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder> {
 
     private static List<ServicePackage.ContactModel> contactList;
-
-    ContactModel contactModel;
     private final Context context;
-
+    ContactModel contactModel;
 
 
     public ContactAdapter(List<ContactModel> contactList, Context context) {
-        ContactAdapter.contactList = contactList;
+       this.contactList = contactList;
         this.context = context;
     }
 
@@ -37,7 +33,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.row_items,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_items, parent, false);
         return new ViewHolder(view);
     }
 
@@ -49,105 +45,74 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
 
 
         //subine ithu correct anonn areelatto
-      /* try {
+        try {
 
-            if (MainActivity.getAidl().checkContactPresentInFavoritesTable(contactModel.getId()));
-            {
+            if (!MainActivity.getAidl().checkContactPresentInFavoritesTable(contactModel.getId())) {
                 holder.arbutton.setBackgroundResource(R.drawable.ic_baseline_star_unstar_24);
-            }
-            else {
+            } else {
                 holder.arbutton.setBackgroundResource(R.drawable.ic_baseline_star_24);
             }
         } catch (Exception e) {
             Log.e("%%%%%%%%%%%%", "broken");
         }
     }
-*/
-    }
+
+
     @Override
     public int getItemCount() {
         return contactList.size();
     }
 
 
-class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-    TextView name;
-    ToggleButton arbutton;
+        TextView name;
+        ImageButton arbutton;
 
-    //arbutton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-    //@Override
-    //  public void onCheckedChanged(CompoundButton compoundButton, boolean ischecked) {
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
 
-/*
-                    if (ischecked) {
-                        arbutton.setBackgroundResource(R.drawable.ic_baseline_star_24);
-                        try {
-                            MainActivity.getAidl().checkContactPresentInFavoritesTable(contactList.get(getAdapterPosition()));
-                            MainActivity.getAidl().addContactToFavorites(contactList.get(getAdapterPosition()));
-                        } catch (RemoteException e) {
-                            e.printStackTrace();
+            name = itemView.findViewById(R.id.contact_name);
+            arbutton = itemView.findViewById(R.id.btn_add_favorite);
+
+            arbutton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                      view.setOnClickListener(this);
+                    contactModel = contactList.get(getAdapterPosition());
+                    Toast.makeText(view.getContext(), "toastworking",Toast.LENGTH_SHORT).show();
+
+                    try {
+                        if (!MainActivity.getAidl().checkContactPresentInFavoritesTable(contactModel.getId())) {
+                            MainActivity.getAidl().addContactToFavorites(contactModel.getId());
+                            arbutton.setBackgroundResource(R.drawable.ic_baseline_star_24);
+                            arbutton.setSelected(true);
+                            notifyDataSetChanged();
+                        } else {
+                            MainActivity.getAidl().removeContactFromFavorites(contactModel.getId());
+                            arbutton.setBackgroundResource(R.drawable.ic_baseline_star_unstar_24);
+                            arbutton.setSelected(false);
+                            notifyDataSetChanged();
                         }
-                    }else {
-                      arbutton.setBackgroundResource(R.drawable.ic_baseline_unstar_24);
-                        try {
-                            MainActivity.getAidl().removeContactFromFavorites.(contactList.get(getAdapterPosition()));
-                        } catch (RemoteException e) {
-                            e.printStackTrace();
-                        }
-            };*/
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                    }
 
-    public ViewHolder(@NonNull View itemView) {
-        super(itemView);
 
-        name = itemView.findViewById(R.id.contact_name);
-        arbutton = itemView.findViewById(R.id.btn_add_favorite);
+                }
+            });
+        }
 
-        //sheriyano enn doubt aanu
 
-       /* arbutton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
         @Override
-          public void onCheckedChanged(CompoundButton compoundButton, boolean ischecked) {
-
-
-                    if (ischecked) {
-                        arbutton.setBackgroundResource(R.drawable.ic_baseline_star_24);
-                        try {
-                            MainActivity.getAidl().checkContactPresentInFavoritesTable(contactList.get(getAdapterPosition()));
-                            MainActivity.getAidl().addContactToFavorites(contactList.get(getAdapterPosition()));
-                        } catch (RemoteException e) {
-                            e.printStackTrace();
-                        }
-                    }else {
-                      arbutton.setBackgroundResource(R.drawable.ic_baseline_unstar_24);
-                        try {
-                            MainActivity.getAidl().removeContactFromFavorites.(contactList.get(getAdapterPosition()));
-                        } catch (RemoteException e) {
-                            e.printStackTrace();
-                        }
-            };*/
-
-
-    }
-
-    @Override
-    public void onClick(View view) {
-        int position = getAdapterPosition();
-        view.setOnClickListener(this);
-        contactModel = contactList.get(position);
-    }
-    //   }
-    //  });
-}
-
-
-  //@Override
-    public void onClick(View view) {
-        TextView name  = view.findViewById(R.id.contact_name);
-        Toast.makeText(view.getContext(),name.getText().toString(),Toast.LENGTH_SHORT).show();
-        Log.e("*******************", name.getText().toString());
+        public void onClick(View view) {
+            TextView name = view.findViewById(R.id.contact_name);
+            Toast.makeText(view.getContext(), name.getText().toString(), Toast.LENGTH_SHORT).show();
+            Log.e("*******************", name.getText().toString());
+        }
     }
 }
+
 
 
 
