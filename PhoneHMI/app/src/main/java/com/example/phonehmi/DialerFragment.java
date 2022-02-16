@@ -154,7 +154,6 @@ public class DialerFragment extends Fragment implements View.OnClickListener {
             } else {
                 if (phoneNum.length() >= 10 && phoneNum.length() <= 13) {
                     try {
-                        Log.e("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$", phoneNum+tvCallSelectedName.getText().toString());
                         MainActivity.getAidl().callNumber(phoneNum, tvCallSelectedName.getText().toString());
                         tvCallSelectedNumber.setText("");
                     } catch (RemoteException e) {

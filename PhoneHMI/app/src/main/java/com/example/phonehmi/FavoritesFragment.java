@@ -2,17 +2,17 @@ package com.example.phonehmi;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.RemoteException;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
-import android.os.RemoteException;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,21 +21,25 @@ import ServicePackage.FavoritesModel;
 
 
 public class FavoritesFragment extends Fragment {
+    private static List<FavoritesModel> favoriteList;
     @SuppressLint("StaticFieldLeak")
 
     //creating object for recycler view
     RecyclerView recyclerView;
-    private  FavoritesAdapter favoritesAdapter;
     TextView textView;
 
 
     SwipeRefreshLayout swipeRefreshLayoutFavorites;
-    private static List<FavoritesModel> favoriteList;
+    public static FavoritesAdapter favoritesAdapter;
 
+
+    public FavoritesFragment() {
+        // Required empty public constructor
+    }
 
     public static List<FavoritesModel> refreshContacts() {
         try {
-            favoriteList=MainActivity.getAidl().getFavorites();
+            favoriteList = MainActivity.getAidl().getFavorites();
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -43,18 +47,13 @@ public class FavoritesFragment extends Fragment {
         return favoriteList;
     }
 
-    public FavoritesFragment() {
-        // Required empty public constructor
-    }
-
-
-
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-          View view =  inflater.inflate(R.layout.fragment_favorites, container, false);
-        recyclerView=view.findViewById(R.id.recView);
+        View view = inflater.inflate(R.layout.fragment_favorites, container, false);
+        recyclerView = view.findViewById(R.id.recView);
         textView = view.findViewById(R.id.empty_view_favorite);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -62,7 +61,7 @@ public class FavoritesFragment extends Fragment {
         swipeRefreshLayoutFavorites = view.findViewById(R.id.swipeRefreshLayoutFavorites);
 
         try {
-            favoriteList=MainActivity.getAidl().getFavorites();
+            favoriteList = MainActivity.getAidl().getFavorites();
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -71,20 +70,21 @@ public class FavoritesFragment extends Fragment {
             @Override
             public void onRefresh() {
                 swipeRefreshLayoutFavorites.setRefreshing(false);
-                recyclerView.setAdapter(favoritesAdapter);
-                favoritesAdapter.notifyDataSetChanged();
-                favoritesAdapter = new FavoritesAdapter((ArrayList<FavoritesModel>) refreshContacts(), getContext());
+listUpdate();
             }
         });
-        favoritesAdapter = new FavoritesAdapter((ArrayList<FavoritesModel>) favoriteList, getContext());
-        recyclerView.setAdapter(favoritesAdapter);
-        favoritesAdapter.notifyDataSetChanged();
+listUpdate();
         updateVisibility();
 
 
         return view;
     }
 
+    private void listUpdate(){
+        favoritesAdapter = new FavoritesAdapter(refreshContacts(), getContext());
+        recyclerView.setAdapter(favoritesAdapter);
+        favoritesAdapter.notifyDataSetChanged();
+    }
 
 
     private void updateVisibility() {

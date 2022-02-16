@@ -21,12 +21,12 @@ import ServicePackage.ContactModel;
 public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder> {
 
     public static List<ContactModel> contactList;
-     Context context;
+    Context context;
     ContactModel contactModel;
 
 
     public ContactAdapter(List<ContactModel> contactList, Context context) {
-       ContactAdapter.contactList = contactList;
+        ContactAdapter.contactList = contactList;
         this.context = context;
     }
 
@@ -66,7 +66,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     }
 
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         TextView name;
         ImageButton imageButton;
@@ -83,17 +83,17 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
                 public void onClick(View view) {
                     int position = getAdapterPosition();
                     contactModel = contactList.get(position);
-                    Toast.makeText(view.getContext(), "toastworking"+contactModel.getId(),Toast.LENGTH_SHORT).show();
-
+//                    Toast.makeText(view.getContext(), "toastworking" + contactModel.getId(), Toast.LENGTH_SHORT).show();
+                    view.setOnClickListener(this);
                     // CODE FOR ADDING DATA TO FAVORITE TABLE
 
                     try {
                         if (!MainActivity.getAidl().checkContactPresentInFavoritesTable(contactModel.getId())) {
+                            imageButton.setBackgroundResource(R.drawable.ic_baseline_star_24);
 
 //                            Log.e("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$",""+test);
                             MainActivity.getAidl().addContactToFavorites(contactModel.getId());
-                            imageButton.setBackgroundResource(R.drawable.ic_baseline_star_24);
-                            Toast.makeText(context, ""+contactModel.getId(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "first condition", Toast.LENGTH_SHORT).show();
 
                             imageButton.setSelected(true);
                         } else {
@@ -101,6 +101,8 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
 //                            Log.e("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&",""+test);
 
                             MainActivity.getAidl().removeContactFromFavorites(contactModel.getId());
+                            Toast.makeText(context, "second condition", Toast.LENGTH_SHORT).show();
+
                             imageButton.setBackgroundResource(R.drawable.ic_baseline_star_unstar_24);
                             imageButton.setSelected(false);
                         }
@@ -111,12 +113,15 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
 //                    Toast.makeText(view.getContext(), "toastworking"+test,Toast.LENGTH_SHORT).show();
 
 
-
                 }
             });
         }
 
 
+        @Override
+        public void onClick(View view) {
+            Toast.makeText(view.getContext(), "Item click", Toast.LENGTH_SHORT).show();
+        }
     }
 }
 

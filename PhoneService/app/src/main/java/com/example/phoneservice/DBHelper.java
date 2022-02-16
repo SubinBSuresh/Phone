@@ -1,5 +1,6 @@
 package com.example.phoneservice;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -17,7 +18,7 @@ import ServicePackage.RecentModel;
 public class DBHelper extends SQLiteOpenHelper {
 
 
-    public static final String DATABASE_NAME = "CONTACTS";
+    public static final String DATABASE_NAME = "PHONE-DB";
     public static final int DATABASE_VERSION = 1;
     public static final String RECENT_ID = "ID";
     public static final String RECENT_NAME = "NAME";
@@ -70,21 +71,20 @@ public class DBHelper extends SQLiteOpenHelper {
     //ADD CONTACTS TO TABLE
     public void saveContact(List<ContactModel> contactModelList) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-
-        Log.e("######", "" + contactModelList.size());
         for (int i = 0; i < contactModelList.size(); i++) {
             ContentValues contentValues = new ContentValues();
             ContactModel contactModel = contactModelList.get(i);
-            contentValues.put(CONTACT_NAME, contactModel.getName());
+            if (!checkContactPresentInContactTable(contactModel.getId()))
+            { contentValues.put(CONTACT_NAME, contactModel.getName());
             contentValues.put(CONTACT_NUMBER, contactModel.getNumber());
             contentValues.put(CONTACT_ID, contactModel.getId());
             sqLiteDatabase.insert(CONTACT_TABLE, null, contentValues);
+        }
         }
     }
 
 
     //CONDITION FOR CHECKING IF THE DATA IS ALREADY PRESENT IN TABLE
-/*
 
     // CHECK IF A CONTACT IS ALREADY PRESENT IN TABLE
     public boolean checkContactPresentInContactTable(Integer id) {
@@ -102,7 +102,6 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
 
-    */
     //GET CONTACTS
     public List<ContactModel> getContacts() {
         List<ContactModel> contactModelList = new ArrayList<>();
@@ -119,6 +118,7 @@ public class DBHelper extends SQLiteOpenHelper {
             contactModel.setId(Integer.parseInt(cursor.getString(0)));
             contactModelList.add(contactModel);
         }
+        cursor.close();
         sqLiteDatabase.close();
         return contactModelList;
     }
@@ -127,7 +127,7 @@ public class DBHelper extends SQLiteOpenHelper {
     /************************************************************ FAVORITES TABLE OPERATION ************************************************************/
 
 
-    public List<FavoritesModel> getFAvorites() {
+    public List<FavoritesModel> getFavorites() {
         List<FavoritesModel> favoriteModelList = new ArrayList<>();
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
         String query = "SELECT * FROM " + FAVORITES_TABLE;
@@ -141,13 +141,14 @@ public class DBHelper extends SQLiteOpenHelper {
             favoriteModel.setId(cursor.getInt(0));
             favoriteModelList.add(favoriteModel);
         }
+        cursor.close();
         sqLiteDatabase.close();
         return favoriteModelList;
     }
 
 
     // ADD A FAVORITE TO FAVORITES TABLE
-    public void addContactToFAvorites(Integer id) {
+    public void addContactToFavorites(Integer id) {
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
         String query = "SELECT * FROM " + CONTACT_TABLE + " WHERE " + CONTACT_ID + " = " + id;
         Cursor cursor = sqLiteDatabase.rawQuery(query, null);
@@ -163,7 +164,7 @@ public class DBHelper extends SQLiteOpenHelper {
         cursor.close();
     }
 
-    public void addToFavorites(Integer id) {
+/*    public void addToFavorites(Integer id) {
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
         Log.e("#################################", "HERE INSIDE DBHANDLER "+id);
 
@@ -176,8 +177,9 @@ public class DBHelper extends SQLiteOpenHelper {
         Log.e("#################################", contactName+contactNumber+contactId);
         String addQuery = "INSERT INTO " + FAVORITES_TABLE + " VALUES (" + contactId + ", " + contactName + ", " + contactNumber + ")";
         sqLiteDatabase.execSQL(addQuery);
+        cursor.close();
         sqLiteDatabase.close();
-    }
+    }*/
 
 
     // REMOVE A FAVORITE FROM FAVORITES TABLE
@@ -210,7 +212,7 @@ public class DBHelper extends SQLiteOpenHelper {
         List<RecentModel> recentsModelList = new ArrayList<>();
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
         String query = "SELECT * FROM " + RECENTS_TABLE;
-        Cursor cursor = sqLiteDatabase.rawQuery(query, null);
+        @SuppressLint("Recycle") Cursor cursor = sqLiteDatabase.rawQuery(query, null);
 
         if (cursor.moveToFirst()) {
             do {

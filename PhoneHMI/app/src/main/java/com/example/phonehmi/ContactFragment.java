@@ -49,7 +49,7 @@ public class ContactFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         //ADDING CONTACTS FROM CONTENT PROVIDER TO CURSOR
-        ContentResolver resolver = getContext().getContentResolver();
+        ContentResolver resolver = requireContext().getContentResolver();
         @SuppressLint("Recycle") Cursor cursor = resolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
 
         while (cursor.moveToNext()) {

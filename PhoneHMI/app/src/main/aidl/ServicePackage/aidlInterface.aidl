@@ -7,25 +7,33 @@ import ServicePackage.RecentModel;
 // Declare any non-default types here with import statements
 
 interface aidlInterface {
+    void addContactToDatabase(in List<ContactModel> contactListDatabase);
 
     void callNumber(String phoneNumber, String name);
-    List<SuggestionModel> getSuggestions(String searchedNumber);
-
-    void addContactToDatabase(in List<ContactModel>contactListDatabase);
-
-    List<ContactModel> getContacts();
-
-    boolean checkContactPresentInFavoritesTable(int id);
-
     void removeContactFromFavorites(int id);
 
-       List<RecentModel> getAllRecents();
-
-       List<FavoritesModel> getFavorites();
-       void addContactToFavorites(int id);
+    void addContactToFavorites(int id);
+    boolean checkContactPresentInFavoritesTable(int id);
 
 
-//       void addToRecent(in ContactModel contact);
+    List<SuggestionModel> getSuggestions(String searchedNumber);
+    List<ContactModel> getContacts();
+     List<FavoritesModel> getFavorites();
+     List<RecentModel> getAllRecents();
+    List<String> getList();
+
+
+
+
+//favourites
+
+
+
+
+//     void addToRecent(in ContactModel contact);
+
+
+
 
 
 }
