@@ -22,11 +22,11 @@ import ServicePackage.SuggestionModel;
 public class DBHelper extends SQLiteOpenHelper {
 
 
-    public static final String DATABASE_NAME = "CONTACTS__d_LIST";
+    public static final String DATABASE_NAME = "CONTACTSSS";
     public static final int DATABASE_VERSION = 1;
 
     //CONTACT TABLE COLUMNS
-    private static final String CONTACT_TABLE = "CONTACTScsdsSS";
+    private static final String CONTACT_TABLE = "CONTACTS";
     private static final String CONTACT_ID = "ID";
     private static final String CONTACT_NAME = "NAME";
     private static final String CONTACT_NUMBER = "NUMBER";
@@ -39,7 +39,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     //RECENTS TABLE COLUMN
-    private static final String RECENTS_TABLE = "FAVORITESS";
+    private static final String RECENTS_TABLE = "RECENTS";
     public static final String RECENT_ID = "ID";
     public static final String RECENT_NAME = "NAME";
     public static final String RECENT_NUMBER = "NUMBER";
@@ -50,7 +50,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String CREATE_FAVORITES_TABLE = "CREATE TABLE " + FAVORITES_TABLE + " (" + FAVORITE_ID + " INTEGER PRIMARY KEY UNIQUE ," + FAVORITE_NAME + " TEXT, " + FAVORITE_NUMBER + " TEXT" + ")";
     private static final String CREATE_RECENTS_TABLE = "CREATE TABLE " + RECENTS_TABLE + " (" + RECENT_ID + " INTEGER PRIMARY KEY, " + RECENT_NAME + " TEXT, " + RECENT_NUMBER + " TEXT, " + RECENT_DATE + " TEXT " + ")";
 
-    public DBHelper(@Nullable Context context) {
+    public DBHelper(Context context) {
         super(context,DATABASE_NAME, null,DATABASE_VERSION);
 
     }
@@ -79,9 +79,24 @@ public class DBHelper extends SQLiteOpenHelper {
 
     //ADD CONTACTS TO TABLE
     @SuppressLint("Range")
-    public void saveContact(Cursor contactCursor) {
+    public void saveContact(List<ContactModel> contactModelList) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-        if (contactCursor != null) {
+
+          Log.e("######",""+contactModelList.size());
+        for (int i = 0; i < contactModelList.size(); i++) {
+            ContentValues contentValues = new ContentValues();
+            ContactModel contactModel = contactModelList.get(i);
+            contentValues.put(CONTACT_NAME, contactModel.getName());
+            contentValues.put(CONTACT_NUMBER, contactModel.getNumber());
+            contentValues.put(CONTACT_ID, contactModel.getId());
+            sqLiteDatabase.insert(CONTACT_TABLE, null, contentValues);
+
+            Log.e("#####",""+ contactModel.getName());
+        }
+
+
+
+        /*if (contactCursor != null) {
             while (contactCursor.moveToNext()) {
                 if (!checkContactPresentInContactTable(contactCursor.getInt(contactCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID)))) {
                     ContentValues contentValues = new ContentValues();
@@ -91,7 +106,7 @@ public class DBHelper extends SQLiteOpenHelper {
                     sqLiteDatabase.insert(CONTACT_TABLE, null, contentValues);
                 }
             }
-        }
+        }*/
     }
 
     // CHECK IF A CONTACT IS ALREADY PRESENT IN TABLE
