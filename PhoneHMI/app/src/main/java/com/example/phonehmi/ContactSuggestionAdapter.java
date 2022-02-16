@@ -28,6 +28,10 @@ public class ContactSuggestionAdapter extends RecyclerView.Adapter<ContactSugges
 
 
 
+
+
+
+
     @NonNull
     @Override
     public ContactSuggestionAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
