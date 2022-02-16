@@ -10,8 +10,10 @@ interface aidlInterface {
 
     void callNumber(String phoneNumber, String name);
     List<SuggestionModel> getSuggestions(String searchedNumber);
-    List<ContactModel> getContacts();
 
+   void addContactToDatabase(in List<ContactModel>contactListDatabase);
+
+    List<ContactModel> getContacts();
 
 
 
@@ -22,7 +24,6 @@ interface aidlInterface {
        void removeContactFromFavorites(int id);
        boolean checkContactPresentInFavoritesTable(int id);
 
-     void addContactToDatabase(in List<ContactModel> contactListDatabase);
 
        void addToRecent(in ContactModel contact);
 

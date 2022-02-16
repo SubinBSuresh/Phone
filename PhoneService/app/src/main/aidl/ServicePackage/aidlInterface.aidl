@@ -9,24 +9,27 @@ import ServicePackage.RecentModel;
 interface aidlInterface {
 
     void callNumber(String phoneNumber, String name);
+
     List<SuggestionModel> getSuggestions(String searchedNumber);
-    List<String> getList();
+
+    void addContactToDatabase(in List<ContactModel> contactListDatabase);
+
     List<ContactModel> getContacts();
 
 
-     List<RecentModel> getAllRecents();
 
+//favourites
      List<FavoritesModel> getFavorites();
      void addContactToFavorites(int id);
      void removeContactFromFavorites(int id);
      boolean checkContactPresentInFavoritesTable(int id);
 
-      void addContactToDatabase(in List<ContactModel> contactListDatabase);
 
      void addToRecent(in ContactModel contact);
+     List<RecentModel> getAllRecents();
 
 
-
+    List<String> getList();
 
 
 

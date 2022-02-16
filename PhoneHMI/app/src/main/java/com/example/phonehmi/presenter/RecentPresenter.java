@@ -1,7 +1,7 @@
 package com.example.phonehmi.presenter;
 
 public class RecentPresenter {
-    private View view;
+    private final View view;
 
     public RecentPresenter(View view) {
         this.view = view;

@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,21 +26,16 @@ import ServicePackage.ContactModel;
 public class ContactFragment extends Fragment {
 
 
-
     RecyclerView recyclerView; //recyclerview object
     TextView textView;
     List<ContactModel> contactList;
-    private ContactAdapter contactAdapter;
     SwipeRefreshLayout swipeRefreshLayoutContacts;
-
-
-
+    List<ContactModel> contactListDatabase = new ArrayList<>();
+    private ContactAdapter contactAdapter;
 
     public ContactFragment() {
         // Required empty public constructor
     }
-
-
 
 
     @SuppressLint("Range")
@@ -53,45 +47,38 @@ public class ContactFragment extends Fragment {
 
 
         recyclerView = view.findViewById(R.id.rvView);
-       swipeRefreshLayoutContacts = view.findViewById(R.id.swipeRefreshLayoutContacts);
+        swipeRefreshLayoutContacts = view.findViewById(R.id.swipeRefreshLayoutContacts);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         //ADDING CONTACTS FROM CONTENT PROVIDER TO CURSOR
         ContentResolver resolver = getContext().getContentResolver();
         Cursor cursor = resolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
-        List<ContactModel> contactListDatabase = new ArrayList<>();
+
         while (cursor.moveToNext()) {
             ContactModel contactModel = new ContactModel();
-            contactModel.setName(cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)) );
+            contactModel.setName(cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)));
             contactModel.setNumber(cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)));
             contactModel.setId(cursor.getInt(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID)));
             contactListDatabase.add(contactModel);
 
-            Log.e("########",cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)));
+        /*    Log.e("########",cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)));
             Log.e("########",cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)));
             Log.e("########",""+cursor.getInt(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID)));
-
+*/
         }
-        Log.e("##############",""+contactListDatabase.size());
-        try {
-            MainActivity.getAidl().addContactToDatabase(contactListDatabase);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+        Log.e("######LIST_SIZE########", "" + contactListDatabase.size());
 
+
+/*
         try {
             contactList = MainActivity.getAidl().getContacts();
         } catch (RemoteException e) {
             e.printStackTrace();
         }
-
+*/
 
 
         swipeRefreshLayoutContacts.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-
-
-           @Override
-
 
 
             @Override
@@ -101,7 +88,7 @@ public class ContactFragment extends Fragment {
                 swipeRefreshLayoutContacts.setRefreshing(false);
                 recyclerView.setAdapter(contactAdapter);
                 contactAdapter.notifyDataSetChanged();
-                contactAdapter = new ContactAdapter( refreshContacts(), getContext());
+                contactAdapter = new ContactAdapter(refreshContacts(), getContext());
 
             }
         });
@@ -114,6 +101,11 @@ public class ContactFragment extends Fragment {
     }
 
     public List<ContactModel> refreshContacts() {
+        try {
+            MainActivity.getAidl().addContactToDatabase(contactListDatabase);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
         try {
             contactList = MainActivity.getAidl().getContacts();
         } catch (RemoteException e) {
