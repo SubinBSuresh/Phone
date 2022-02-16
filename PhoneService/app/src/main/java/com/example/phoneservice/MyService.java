@@ -53,14 +53,14 @@ public class MyService extends Service {
 
 
         @Override
-        public List<RecentModel> getAllRecents() {
+        public List<RecentModel> getAllRecents() throws RemoteException {
             List<RecentModel> recentModelArrayList = new ArrayList<>();
             DBHelper phoneDbHandler = new DBHelper(getApplicationContext());
             return phoneDbHandler.getAllRecents();
         }
 
         @Override
-        public List<ContactModel> getContacts() {
+        public List<ContactModel> getContacts() throws RemoteException {
             DBHelper dbHelper = new DBHelper(getApplicationContext());
             List<ContactModel>list = dbHelper.getContacts();
             Log.e("######",""+list.size());
@@ -139,10 +139,10 @@ public class MyService extends Service {
         }
 
         @Override
-        public  void addContactToDatabase(List<ContactModel> contactListDatabase) throws RemoteException {
-             DBHelper dbHelper = new DBHelper(getApplicationContext());
-             Log.e("######",""+contactListDatabase.size());
-             dbHelper.saveContact(contactListDatabase);
+        public void addContactToDatabase(List<ContactModel> contactListDatabase) throws RemoteException {
+            DBHelper dbHelper = new DBHelper(getApplicationContext());
+            Log.e("######","");
+            dbHelper.saveContact(contactListDatabase);
 
         }
 

@@ -78,7 +78,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     //ADD CONTACTS TO TABLE
-    @SuppressLint("Range")
+
     public void saveContact(List<ContactModel> contactModelList) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
 

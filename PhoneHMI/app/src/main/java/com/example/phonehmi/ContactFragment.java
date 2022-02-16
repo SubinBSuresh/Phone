@@ -33,7 +33,7 @@ public class ContactFragment extends Fragment {
     List<ContactModel> contactList;
     private ContactAdapter contactAdapter;
     SwipeRefreshLayout swipeRefreshLayoutContacts;
-    private ContactModel contactModel;
+
 
 
 
@@ -53,10 +53,8 @@ public class ContactFragment extends Fragment {
 
 
         recyclerView = view.findViewById(R.id.rvView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-
        swipeRefreshLayoutContacts = view.findViewById(R.id.swipeRefreshLayoutContacts);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         //ADDING CONTACTS FROM CONTENT PROVIDER TO CURSOR
         ContentResolver resolver = getContext().getContentResolver();
@@ -74,7 +72,7 @@ public class ContactFragment extends Fragment {
             Log.e("########",""+cursor.getInt(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID)));
 
         }
-
+        Log.e("##############",""+contactListDatabase.size());
         try {
             MainActivity.getAidl().addContactToDatabase(contactListDatabase);
         } catch (RemoteException e) {
