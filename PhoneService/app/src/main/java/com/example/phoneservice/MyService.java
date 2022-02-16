@@ -48,7 +48,7 @@ public class MyService extends Service {
         }
 
 
-        //@Override
+        @Override
         public List<String> getList() throws RemoteException {
             List<String> list = new ArrayList<>();
             list.add("Phone");
@@ -71,7 +71,7 @@ public class MyService extends Service {
         public List<ContactModel> getContacts() throws RemoteException {
             DBHelper dbHelper = new DBHelper(getApplicationContext());
             List<ContactModel> list = dbHelper.getContacts();
-//            Log.e("######",""+list.size());
+//            Log.e("####$$$##",""+list.size());
 
             return list;
         }
@@ -125,7 +125,7 @@ public class MyService extends Service {
             Log.e("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$","HERE IN ADD CONTACT TO FAVORITES"+id);
 
             DBHelper phoneDbHandler = new DBHelper(getApplicationContext());
-            phoneDbHandler.addToFavorites(id);
+            phoneDbHandler.addContactToFavorites(id);
 
         }
 
@@ -143,7 +143,7 @@ public class MyService extends Service {
         public List<FavoritesModel> getFavorites() throws RemoteException {
             List<FavoritesModel> favoriteList = new ArrayList<>();
             DBHelper phoneDbHandler = new DBHelper(getApplicationContext());
-            return phoneDbHandler.getFAvorites();
+            return phoneDbHandler.getFavorites();
         }
 
 
@@ -158,11 +158,6 @@ public class MyService extends Service {
             recentModel.setDate();
             phoneDbHandler.addtoRecent(recentModel);
         }
-
-
-
-
-
 
 
                 /*

@@ -15,20 +15,21 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ServicePackage.FavoritesModel;
 
 // this is some random push file
 
 public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.ViewHolder>{
-    ArrayList<FavoritesModel> favoriteList;
-    private final Context context;
+    List<FavoritesModel> favoriteList;
+     Context context;
 
     private LayoutInflater layoutInflater;
     FavoritesFragment favoritesFragment;
     FavoritesAdapter favoritesAdapter;
 
-    public FavoritesAdapter(ArrayList<FavoritesModel> favoriteList, Context context) {
+    public FavoritesAdapter(List<FavoritesModel> favoriteList, Context context) {
         this.favoriteList = favoriteList;
         this.context = context;
     }
@@ -43,8 +44,8 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
-        holder.name.setText(favoriteList.get(position).getName());
+        FavoritesModel favoritesModel = favoriteList.get(position);
+        holder.name.setText(favoritesModel.getName());
         holder.remBtn.setBackgroundResource(R.drawable.star_on_foreground);
 
     }
