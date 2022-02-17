@@ -5,6 +5,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="5dp"
     android:elevation="4dp"
+    android:layout_marginLeft="12sp"
+    android:layout_marginRight="12sp"
     app:cardUseCompatPadding="true">
 
 
@@ -32,6 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Name"
+                android:layout_marginLeft="47sp"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
 
@@ -39,13 +42,12 @@
         </LinearLayout>
 
 
-        <ToggleButton
+        <ImageButton
             android:id="@+id/btn_add_favorite"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:layout_gravity="right"
-            android:textOn=""
-            android:textOff=""/>
+            android:layout_marginRight="47sp"
+            android:layout_gravity="right" />
     </LinearLayout>
 
 

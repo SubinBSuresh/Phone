@@ -5,6 +5,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="5dp"
     android:elevation="4dp"
+    android:layout_marginLeft="12sp"
+    android:layout_marginRight="12sp"
     app:cardUseCompatPadding="true">
 
 
@@ -32,6 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="No name"
+                android:layout_marginLeft="47sp"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
 
@@ -41,10 +44,11 @@
 
         <ImageButton
             android:id="@+id/btn_remove_favorite"
-            android:layout_width="54dp"
-            android:layout_height="37dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginRight="47sp"
             android:layout_gravity="right"
-            android:background="@drawable/star_on_foreground" />
+            android:background="@drawable/ic_baseline_star_24" />
     </LinearLayout>
 
 
