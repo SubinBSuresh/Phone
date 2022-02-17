@@ -1,6 +1,7 @@
 package com.example.phonehmi;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.text.Editable;
@@ -153,12 +154,21 @@ public class DialerFragment extends Fragment implements View.OnClickListener {
                 Toast.makeText(getContext(), "Cannot be empty", Toast.LENGTH_SHORT).show();
             } else {
                 if (phoneNum.length() >= 10 && phoneNum.length() <= 13) {
-                    try {
+
+                    //ACTUAL CALL
+ /*                   try {
                         MainActivity.getAidl().callNumber(phoneNum, tvCallSelectedName.getText().toString());
                         tvCallSelectedNumber.setText("");
                     } catch (RemoteException e) {
                         e.printStackTrace();
-                    }
+                    }*/
+
+
+
+                    //CALL ACTIVITY SCREEN
+/*                    Intent intent = new Intent();
+                    startActivity(intent, CallScreen.java);*/
+
                 } else {
                     Toast.makeText(getContext(), "Invalid Number", Toast.LENGTH_SHORT).show();
                 }
