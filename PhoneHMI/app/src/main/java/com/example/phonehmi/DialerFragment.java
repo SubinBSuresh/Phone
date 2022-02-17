@@ -168,6 +168,8 @@ public class DialerFragment extends Fragment implements View.OnClickListener {
                     //CALL ACTIVITY SCREEN
 /*                    Intent intent = new Intent();
                     startActivity(intent, CallScreen.java);*/
+                    startActivity(new Intent(getContext(), Calling_Screen.class));
+
 
                 } else {
                     Toast.makeText(getContext(), "Invalid Number", Toast.LENGTH_SHORT).show();
