@@ -19,10 +19,13 @@
         <entry key="..\:/Demo Project/Phone/PhoneHMI/app/src/main/res/layout/fragment_favorites.xml" value="0.2" />
         <entry key="..\:/Demo Project/Phone/PhoneHMI/app/src/main/res/layout/fragment_recent.xml" value="0.2755208333333333" />
         <entry key="..\:/Demo Project/Phone/PhoneHMI/app/src/main/res/layout/row_items.xml" value="0.14375" />
+        <entry key="app/src/main/res/drawable/custom.xml" value="0.1105" />
         <entry key="app/src/main/res/drawable/rounded_corner.xml" value="0.193" />
+        <entry key="app/src/main/res/layout/activity_call_end.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_calling_screen.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.17325227963525835" />
         <entry key="app/src/main/res/layout/contact_suggestion_item.xml" value="0.333786231884058" />
-        <entry key="app/src/main/res/layout/favorites_items.xml" value="0.293354943273906" />
+        <entry key="app/src/main/res/layout/favorites_items.xml" value="0.333786231884058" />
         <entry key="app/src/main/res/layout/fragment_contact.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_dialer.xml" value="0.2572463768115942" />
         <entry key="app/src/main/res/layout/fragment_favorites.xml" value="0.1" />
