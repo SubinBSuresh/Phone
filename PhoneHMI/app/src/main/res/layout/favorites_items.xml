@@ -44,11 +44,11 @@
 
         <ImageButton
             android:id="@+id/btn_remove_favorite"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="67dp"
+            android:layout_height="50dp"
             android:layout_marginRight="47sp"
             android:layout_gravity="right"
-            android:background="@drawable/star_on_foreground" />
+            android:background="@drawable/ic_baseline_star_24" />
     </LinearLayout>
 
 
