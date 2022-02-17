@@ -1,15 +1,12 @@
-package com.example.phoneservice;
+package com.example.phonehmi;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageButton;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import ServicePackage.ContactModel;
-import ServicePackage.RecentModel;
-
-public class Call_End extends AppCompatActivity {
+public class Call_end extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,13 +14,14 @@ public class Call_End extends AppCompatActivity {
         setContentView(R.layout.activity_call_end);
         ImageButton imgeCall = findViewById(R.id.imgecall);
         imgeCall.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), Call_screen.class);
+            Intent intent = new Intent(getApplicationContext(), Calling_Screen.class);
             startActivity(intent);
         });
     }
-       /* @Override
+        @Override
         public void onBackPressed() {
-            Intent intent = new Intent(getApplicationContext(), Co.class);
-            startActivity(intent);*/
-            //super.onBackPressed();
+            Intent intent = new Intent(getApplicationContext(), DialerFragment.class);
+            startActivity(intent);
+    //super.onBackPressed();
     }
+}
