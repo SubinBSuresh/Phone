@@ -93,7 +93,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
 
 //                            Log.e("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$",""+test);
                             MainActivity.getAidl().addContactToFavorites(contactModel.getId());
-                            Toast.makeText(context, "first condition", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Added to favourite", Toast.LENGTH_SHORT).show();
 
                             imageButton.setSelected(true);
                         } else {
@@ -101,7 +101,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
 //                            Log.e("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&",""+test);
 
                             MainActivity.getAidl().removeContactFromFavorites(contactModel.getId());
-                            Toast.makeText(context, "second condition", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Removed favourite", Toast.LENGTH_SHORT).show();
 
                             imageButton.setBackgroundResource(R.drawable.ic_baseline_star_unstar_24);
                             imageButton.setSelected(false);
