@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.RemoteException;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,10 +67,10 @@ public class DialerFragment extends Fragment implements View.OnClickListener {
 
 
 
-/*        CODE WITH ONCLICKLISTENER FOR INDIVIDUAL BUTTONS
-*         TO UNDO CHANGES REMOVE THE "implements View.OnClickListener" AND REMOVE ITS SUPER CONSTRUCTOR
-*
-* */
+        /*        CODE WITH ONCLICKLISTENER FOR INDIVIDUAL BUTTONS
+         *         TO UNDO CHANGES REMOVE THE "implements View.OnClickListener" AND REMOVE ITS SUPER CONSTRUCTOR
+         *
+         * */
 /*        //Button 0
         btn0.setOnClickListener(v -> showPhoneNumber("0"));
 
@@ -164,12 +163,10 @@ public class DialerFragment extends Fragment implements View.OnClickListener {
                     }*/
 
 
-
                     //CALL ACTIVITY SCREEN
-/*                    Intent intent = new Intent();
-                    startActivity(intent, CallScreen.java);*/
-                    startActivity(new Intent(getContext(), Calling_Screen.class));
 
+                    startActivity(new Intent(getContext(), Calling_Screen.class));
+//                    Toast.makeText(getContext(), phoneNum + tvCallSelectedName.getText().toString(), Toast.LENGTH_SHORT).show();
 
                 } else {
                     Toast.makeText(getContext(), "Invalid Number", Toast.LENGTH_SHORT).show();
@@ -194,7 +191,7 @@ public class DialerFragment extends Fragment implements View.OnClickListener {
                     tvCallSelectedName.setText("");
                 } else {
                     try {
-                        suggestionModelList = MainActivity.getAidl().getSuggestions(searchedNumber );
+                        suggestionModelList = MainActivity.getAidl().getSuggestions(searchedNumber);
                     } catch (RemoteException e) {
                         e.printStackTrace();
                     }
@@ -210,7 +207,10 @@ public class DialerFragment extends Fragment implements View.OnClickListener {
             }
         });
         return view;
+
+
     }
+
 
     // Show Phone Number
     @SuppressLint("SetTextI18n")
@@ -265,4 +265,9 @@ public class DialerFragment extends Fragment implements View.OnClickListener {
                 break;
         }
     }
+
+
 }
+
+
+
