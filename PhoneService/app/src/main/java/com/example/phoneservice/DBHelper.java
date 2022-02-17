@@ -20,10 +20,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "PHONE-DB";
     public static final int DATABASE_VERSION = 1;
-    public static final String RECENT_ID = "ID";
-    public static final String RECENT_NAME = "NAME";
-    public static final String RECENT_NUMBER = "NUMBER";
-    public static final String RECENT_DATE = "DATE";
+
     //CONTACT TABLE COLUMNS
     private static final String CONTACT_TABLE = "CONTACTS";
     private static final String CONTACT_ID = "ID";
@@ -36,6 +33,13 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String FAVORITE_NUMBER = "NUMBER";
     //RECENTS TABLE COLUMN
     private static final String RECENTS_TABLE = "RECENTS";
+
+    public static final String RECENT_ID = "ID";
+    public static final String RECENT_NAME = "NAME";
+    public static final String RECENT_NUMBER = "NUMBER";
+    public static final String RECENT_DATE = "DATE";
+
+
     //CREATING TABLES QUERIES
     private static final String CREATE_CONTACTS_TABLE = "CREATE TABLE " + CONTACT_TABLE + " (" + CONTACT_ID + " INTEGER PRIMARY KEY UNIQUE ," + CONTACT_NAME + " TEXT, " + CONTACT_NUMBER + " TEXT" + ")";
     private static final String CREATE_FAVORITES_TABLE = "CREATE TABLE " + FAVORITES_TABLE + " (" + FAVORITE_ID + " INTEGER PRIMARY KEY UNIQUE ," + FAVORITE_NAME + " TEXT, " + FAVORITE_NUMBER + " TEXT" + ")";
@@ -207,6 +211,18 @@ public class DBHelper extends SQLiteOpenHelper {
     /******************************************************* RECENTS TABLE OPERATION *****************************************************/
 
 
+    public void addtoRecent(RecentModel recent) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(RECENT_NAME, recent.getName());
+        values.put(RECENT_NUMBER, recent.getNumber());
+        values.put(RECENT_DATE, recent.getDate());
+        db.insert(RECENTS_TABLE, null, values);
+        Log.d("recentsdb", "Successfully inserted");
+        db.close();
+    }
+
+
     //FETCH RECENTS
     public List<RecentModel> getAllRecents() {
         List<RecentModel> recentsModelList = new ArrayList<>();
@@ -228,16 +244,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
 
-    public void addtoRecent(RecentModel recent) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(RECENT_NAME, recent.getName());
-        values.put(RECENT_NUMBER, recent.getNumber());
-        values.put(RECENT_DATE, recent.getDate());
-        db.insert(RECENTS_TABLE, null, values);
-        Log.d("recentsdb", "Successfully inserted");
-        db.close();
-    }
+
 
 
     /***************************************************OTHERS***************************************************************************/
