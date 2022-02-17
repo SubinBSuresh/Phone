@@ -2,12 +2,18 @@ package com.example.phonehmi;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 
 public class Call_end extends AppCompatActivity {
+
+    private Object Fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,10 +28,15 @@ public class Call_end extends AppCompatActivity {
         imgeBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),DialerFragment.class);
-                startActivity(intent);
+
             }
         });
+    }
+
+    @SuppressLint("ResourceType")
+    @Override
+    public void onBackPressed() {
+            startActivity(new Intent(getApplicationContext(),MainActivity.class));
     }
 
 
