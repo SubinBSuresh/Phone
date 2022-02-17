@@ -5,3 +5,4 @@ PhoneHMI refers to the client side application and PhoneService refers to the se
 Clone this reopository and open the both aplications seperately.
 Run the PhoneService application first, which shows a blank activity.
 Then run the PhoneHMI application, which is where the User interacts with the application.
+Phone application will launch in landscape mode by default
