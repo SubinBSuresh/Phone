@@ -18,7 +18,7 @@ import ServicePackage.RecentModel;
 public class DBHelper extends SQLiteOpenHelper {
 
 
-    public static final String DATABASE_NAME = "PHONE-DB";
+    public static final String DATABASE_NAME = "PHONE";
     public static final int DATABASE_VERSION = 1;
 
     //CONTACT TABLE COLUMNS
@@ -33,7 +33,6 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String FAVORITE_NUMBER = "NUMBER";
     //RECENTS TABLE COLUMN
     private static final String RECENTS_TABLE = "RECENTS";
-
     public static final String RECENT_ID = "ID";
     public static final String RECENT_NAME = "NAME";
     public static final String RECENT_NUMBER = "NUMBER";
@@ -43,7 +42,7 @@ public class DBHelper extends SQLiteOpenHelper {
     //CREATING TABLES QUERIES
     private static final String CREATE_CONTACTS_TABLE = "CREATE TABLE " + CONTACT_TABLE + " (" + CONTACT_ID + " INTEGER PRIMARY KEY UNIQUE ," + CONTACT_NAME + " TEXT, " + CONTACT_NUMBER + " TEXT" + ")";
     private static final String CREATE_FAVORITES_TABLE = "CREATE TABLE " + FAVORITES_TABLE + " (" + FAVORITE_ID + " INTEGER PRIMARY KEY UNIQUE ," + FAVORITE_NAME + " TEXT, " + FAVORITE_NUMBER + " TEXT" + ")";
-    private static final String CREATE_RECENTS_TABLE = "CREATE TABLE " + RECENTS_TABLE + " (" + RECENT_ID + " INTEGER PRIMARY KEY, " + RECENT_NAME + " TEXT, " + RECENT_NUMBER + " TEXT, " + RECENT_DATE + " TEXT " + ")";
+    private static final String CREATE_RECENTS_TABLE = "CREATE TABLE " + RECENTS_TABLE + " (" + RECENT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT ," + RECENT_NAME + " TEXT, " + RECENT_NUMBER + " TEXT, " + RECENT_DATE + " TEXT " + ")";
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -211,15 +210,19 @@ public class DBHelper extends SQLiteOpenHelper {
     /******************************************************* RECENTS TABLE OPERATION *****************************************************/
 
 
-    public void addtoRecent(RecentModel recent) {
+    public void addtoRecent(List<RecentModel> recent) {
         SQLiteDatabase db = this.getReadableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(RECENT_NAME, recent.getName());
-        values.put(RECENT_NUMBER, recent.getNumber());
-        values.put(RECENT_DATE, recent.getDate());
-        db.insert(RECENTS_TABLE, null, values);
-        Log.d("recentsdb", "Successfully inserted");
+        for (int i=0;i<recent.size();i++) {
+            ContentValues values = new ContentValues();
+            RecentModel recentModel=recent.get(i);
+            values.put(RECENT_NAME, recentModel.getName());
+            values.put(RECENT_NUMBER, recentModel.getNumber());
+            values.put(RECENT_DATE, recentModel.getDate());
+            db.insert(RECENTS_TABLE, null, values);
+            Log.d("recentsdb", "Successfully inserted");
+        }
         db.close();
+
     }
 
 
@@ -228,18 +231,20 @@ public class DBHelper extends SQLiteOpenHelper {
         List<RecentModel> recentsModelList = new ArrayList<>();
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
         String query = "SELECT * FROM " + RECENTS_TABLE;
-        @SuppressLint("Recycle") Cursor cursor = sqLiteDatabase.rawQuery(query, null);
+         Cursor cursor = sqLiteDatabase.rawQuery(query, null);
 
-        if (cursor.moveToFirst()) {
-            do {
+        while (cursor.moveToNext()) {
+
                 RecentModel recents = new RecentModel();
                 recents.setId(Integer.parseInt(cursor.getString(0)));
                 recents.setName(cursor.getString(1));
                 recents.setNumber(cursor.getString(2));
-            } while (cursor.moveToNext());
-        }
+                recents.setDate(cursor.getString(3));
+                recentsModelList.add(recents);
+            }
 
         sqLiteDatabase.close();
+        Log.e("recenmodellist"," "+recentsModelList.size());
         return recentsModelList;
     }
 

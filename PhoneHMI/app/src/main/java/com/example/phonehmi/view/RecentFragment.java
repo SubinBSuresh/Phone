@@ -32,6 +32,8 @@ public class RecentFragment extends Fragment implements RecentPresenter.View{
     private  TextView textView;
 
 
+
+
     public RecentFragment() {
         // Required empty public constructor
     }
@@ -55,6 +57,8 @@ public class RecentFragment extends Fragment implements RecentPresenter.View{
         List<RecentModel> listRecents = new ArrayList<>();
         try {
             listRecents.addAll(MainActivity.getAidl().getAllRecents());
+            Log.e("allrecents"," "+listRecents.size());
+
         } catch (NullPointerException|RemoteException e) {
             e.printStackTrace();
         }
