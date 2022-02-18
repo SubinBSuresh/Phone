@@ -32,6 +32,7 @@ public class Call_screen extends AppCompatActivity {
         btnEnd.setOnClickListener(v -> {
             chronometer.stop();
             Toast.makeText(getApplicationContext(), "call ended", Toast.LENGTH_LONG).show();
+
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {

@@ -164,8 +164,11 @@ public class DialerFragment extends Fragment implements View.OnClickListener {
 
 
                     //CALL ACTIVITY SCREEN
+                    Intent intent=new Intent(getContext(), Calling_Screen.class);
+                    intent.putExtra("name", tvCallSelectedName.getText().toString());
+                    intent.putExtra("number", tvCallSelectedNumber.getText().toString());
+                    startActivity(intent);
 
-                    startActivity(new Intent(getContext(), Calling_Screen.class));
 //                    Toast.makeText(getContext(), phoneNum + tvCallSelectedName.getText().toString(), Toast.LENGTH_SHORT).show();
 
                 } else {

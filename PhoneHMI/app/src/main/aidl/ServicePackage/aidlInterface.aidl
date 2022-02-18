@@ -15,7 +15,7 @@ interface aidlInterface {
     void addContactToFavorites(int id);
     boolean checkContactPresentInFavoritesTable(int id);
 
-
+     void addToRecent(in List<RecentModel> recentList);
     List<SuggestionModel> getSuggestions(String searchedNumber);
     List<ContactModel> getContacts();
      List<FavoritesModel> getFavorites();
