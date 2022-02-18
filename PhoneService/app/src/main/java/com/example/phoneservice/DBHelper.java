@@ -14,11 +14,12 @@ import java.util.List;
 import ServicePackage.ContactModel;
 import ServicePackage.FavoritesModel;
 import ServicePackage.RecentModel;
+import ServicePackage.SuggestionModel;
 
 public class DBHelper extends SQLiteOpenHelper {
 
 
-    public static final String DATABASE_NAME = "PHONE";
+    public static final String DATABASE_NAME = "PHONE_d";
     public static final int DATABASE_VERSION = 1;
 
     //CONTACT TABLE COLUMNS
@@ -79,7 +80,7 @@ public class DBHelper extends SQLiteOpenHelper {
             ContactModel contactModel = contactModelList.get(i);
             if (!checkContactPresentInContactTable(contactModel.getId()))
             { contentValues.put(CONTACT_NAME, contactModel.getName());
-            contentValues.put(CONTACT_NUMBER, contactModel.getNumber());
+            contentValues.put(CONTACT_NUMBER, contactModel.getNumber().replaceAll("[^a-zA-Z0-9()]",""));
             contentValues.put(CONTACT_ID, contactModel.getId());
             sqLiteDatabase.insert(CONTACT_TABLE, null, contentValues);
         }
@@ -109,7 +110,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public List<ContactModel> getContacts() {
         List<ContactModel> contactModelList = new ArrayList<>();
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        String query = "SELECT * FROM " + CONTACT_TABLE;
+        String query = "SELECT * FROM " + CONTACT_TABLE +" ORDER BY "+CONTACT_NAME +" COLLATE NOCASE ASC";
 //        String query = "SELECT " + CONTACT_NAME +", " +CONTACT_NUMBER +", " +CONTACT_FAVORITE +", " +CONTACT_ID +" FROM " + CONTACT_TABLE + " WHERE "+ CONTACT_FAVORITE + " = " + "'"+isFav+"'";
 
         Cursor cursor = sqLiteDatabase.rawQuery(query, null);
@@ -133,7 +134,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public List<FavoritesModel> getFavorites() {
         List<FavoritesModel> favoriteModelList = new ArrayList<>();
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        String query = "SELECT * FROM " + FAVORITES_TABLE;
+        String query = "SELECT * FROM " + FAVORITES_TABLE +" ORDER BY "+FAVORITE_NAME +" COLLATE NOCASE ASC";
 
         Cursor cursor = sqLiteDatabase.rawQuery(query, null);
 
@@ -230,7 +231,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public List<RecentModel> getAllRecents() {
         List<RecentModel> recentsModelList = new ArrayList<>();
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        String query = "SELECT * FROM " + RECENTS_TABLE;
+        String query = "SELECT * FROM " + RECENTS_TABLE + " ORDER BY "+ RECENT_DATE +" COLLATE NOCASE DESC";
          Cursor cursor = sqLiteDatabase.rawQuery(query, null);
 
         while (cursor.moveToNext()) {
@@ -254,22 +255,23 @@ public class DBHelper extends SQLiteOpenHelper {
 
     /***************************************************OTHERS***************************************************************************/
     //GET SUGGESTION CONTACTS
-/*    public List<SuggestionModel> getContactSuggestion(String searchedNumber) {
+    public List<SuggestionModel> getContactSuggestion(String searchedNumber) {
         List<SuggestionModel> suggestionModelList = new ArrayList<>();
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        String query = "SELECT " + DBVariables.CONTACT_NAME + ", " + DBVariables.CONTACT_NUMBER + " FROM " + DBVariables.CONTACTS_TABLE + " WHERE " + DBVariables.CONTACT_NUMBER + " LIKE " + "'" + searchedNumber + "%'";
+        String q1 = "SELECT * FROM " + CONTACT_TABLE;
+        Cursor c = sqLiteDatabase.rawQuery(q1,null);
+        String query = "SELECT *  FROM " + CONTACT_TABLE + " WHERE " + CONTACT_NUMBER+ " LIKE " + "'%" + searchedNumber + "%' ORDER BY " +CONTACT_NAME + " COLLATE NOCASE ASC";
 
         Cursor cursor = sqLiteDatabase.rawQuery(query, null);
 
         while (cursor.moveToNext()) {
             SuggestionModel suggestionModel = new SuggestionModel();
-            suggestionModel.setContactName(cursor.getString(0));
-            suggestionModel.setContactNumber(cursor.getString(1));
+            suggestionModel.setContactName(cursor.getString(1));
+            suggestionModel.setContactNumber(cursor.getString(2));
             suggestionModelList.add(suggestionModel);
+//            Log.e("$$$$$$$$$$$$$$$$$$$$$$$$",""+cursor.getString(2).replaceAll("[^a-zA-Z0-9()]",""));
         }
         sqLiteDatabase.close();
         return suggestionModelList;
-    }*/
-
-
+    }
 }

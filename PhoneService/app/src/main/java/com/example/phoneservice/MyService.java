@@ -93,10 +93,10 @@ public class MyService extends Service {
 
             //**********************If Using ContentProvider for Contacts - USE THIS *********************************
 
-            Uri uri = ContactsContract.Contacts.CONTENT_URI;
+/*            Uri uri = ContactsContract.Contacts.CONTENT_URI;
             SuggestionModel suggestionModel;
             List<SuggestionModel> contactModelList = new ArrayList<>();
-            String sort = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC";
+            String sort = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC ";
             Cursor cursor = getContentResolver().query(uri, null, null, null, sort);
             if (cursor.getCount() > 0) {
                 while (cursor.moveToNext()) {
@@ -115,8 +115,9 @@ public class MyService extends Service {
                     }
                 }
                 cursor.close();
-            }
-            return contactModelList;
+            }*/
+            DBHelper dbHelper = new DBHelper(getApplicationContext());
+            return dbHelper.getContactSuggestion(searchedNumber);
             //********************** If Using SQLite DB - USE THIS & DBHelper CODE*********************************
 /*            DBHelper dbHelper = new DBHelper(getApplicationContext());
             return dbHelper.getContactSuggestion(searchedNumber);*/

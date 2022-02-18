@@ -8,25 +8,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ServicePackage.FavoritesModel;
 
 // this is some random push file
 
-public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.ViewHolder>{
+public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.ViewHolder> {
     public static List<FavoritesModel> favoriteList;
-     Context context;
-
-    private LayoutInflater layoutInflater;
+    Context context;
     FavoritesFragment favoritesFragment;
+    private LayoutInflater layoutInflater;
 
     public FavoritesAdapter(List<FavoritesModel> favoriteList, Context context) {
         FavoritesAdapter.favoriteList = favoriteList;
@@ -37,7 +33,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.favorites_items,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.favorites_items, parent, false);
         return new ViewHolder(view);
     }
 
@@ -54,7 +50,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
         return favoriteList.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder  {
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView name;
         ImageButton remBtn;
@@ -64,7 +60,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
 
             name = itemView.findViewById(R.id.favorite_name);
             remBtn = itemView.findViewById(R.id.btn_remove_favorite);
-           // remBtn.setOnClickListener(this);
+            // remBtn.setOnClickListener(this);
 
             remBtn.setOnClickListener(new View.OnClickListener() {
                 @SuppressLint("NotifyDataSetChanged")
