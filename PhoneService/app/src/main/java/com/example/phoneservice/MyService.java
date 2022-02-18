@@ -1,14 +1,19 @@
 package com.example.phoneservice;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.provider.ContactsContract;
 import android.util.Log;
+import android.widget.Toast;
+
+import androidx.core.app.ActivityCompat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,16 +40,15 @@ public class MyService extends Service {
         @Override
         public void callNumber(String phoneNumber, String name) throws RemoteException {
             //MAKE ACTUAL PHONE CALL
-/*           if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+          if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
                 return;
             }
-            startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phoneNumber)));*/
-//            Log.e("############################",phoneNumber+name);
+            startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phoneNumber)));Log.e("############################",phoneNumber+name);
             // GO TO CALL SCREEN FROM ACTIVITY
-/*           startActivity(new Intent(getApplicationContext(),Call_screen.class));
-           Intent intent = new Intent(getApplicationContext());*/
+          startActivity(new Intent(getApplicationContext(),Call_screen.class));
+          Intent intent = new Intent(String.valueOf(getApplicationContext()));
             startActivity(new Intent(getApplicationContext(), Call_screen.class));
-//            Toast.makeText(getApplicationContext(),phoneNumber+name, Toast.LENGTH_SHORT).show();
+       Toast.makeText(getApplicationContext(),phoneNumber+name, Toast.LENGTH_SHORT).show();
         }
 
 
@@ -61,8 +65,9 @@ public class MyService extends Service {
 
         @Override
         public List<RecentModel> getAllRecents() throws RemoteException {
-            List<RecentModel> recentModelArrayList = new ArrayList<>();
+
             DBHelper phoneDbHandler = new DBHelper(getApplicationContext());
+
             return phoneDbHandler.getAllRecents();
         }
 
@@ -150,13 +155,11 @@ public class MyService extends Service {
         //---------------------------------------------------------------------------------------
 
 
-        public void addToRecent(ContactModel contact) throws RemoteException {
+        public void addToRecent(List<RecentModel> recent) throws RemoteException {
             DBHelper phoneDbHandler = new DBHelper(getApplicationContext());
-            RecentModel recentModel = new RecentModel();
-            recentModel.setName(contact.getName());
-            recentModel.setNumber(contact.getNumber());
-            recentModel.setDate();
-            phoneDbHandler.addtoRecent(recentModel);
+
+
+            phoneDbHandler.addtoRecent(recent);
         }
 
 

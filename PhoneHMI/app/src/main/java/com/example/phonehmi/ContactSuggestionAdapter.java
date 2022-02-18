@@ -48,9 +48,9 @@ public class ContactSuggestionAdapter extends RecyclerView.Adapter<ContactSugges
         holder.tvSuggestedNumber.setText(suggestionModel.getContactNumber());
 
         //For live viewing from Run Tab
-        Log.e("Contact name",suggestionModel.getContactName());
+       /* Log.e("Contact name",suggestionModel.getContactName());
         Log.e("Contact Number", suggestionModel.getContactNumber());
-
+*/
 
     }
 

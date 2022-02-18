@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.phonehmi.FavoritesFragment;
 import com.example.phonehmi.R;
 
 import java.util.List;
@@ -25,8 +26,8 @@ public class RecentAdapter extends RecyclerView.Adapter<RecentAdapter.ViewHolder
     private final List<RecentModel> mlistRecents;
 
     public RecentAdapter(Context context, List<RecentModel> listRecents) {
-        mContext = context;
-        mlistRecents = listRecents;
+       this. mContext = context;
+       this. mlistRecents = listRecents;
 
     }
 
@@ -43,14 +44,14 @@ public class RecentAdapter extends RecyclerView.Adapter<RecentAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        TextView name, number, date;
+    /*    TextView name, number, date;
         name = holder.name;
         number = holder.number;
-        date = holder.date;
+        date = holder.date;*/
 
-        name.setText(mlistRecents.get(position).getName());
-//        number.setText(mlistRecents.get(position).getNumber());
-        date.setText(mlistRecents.get(position).getDate());
+        holder.name.setText(mlistRecents.get(position).getName());
+       holder.number.setText(mlistRecents.get(position).getNumber());
+        holder.date.setText(mlistRecents.get(position).getDate());
 
     }
 
@@ -69,10 +70,11 @@ public class RecentAdapter extends RecyclerView.Adapter<RecentAdapter.ViewHolder
 //            itemView.setOnClickListener(this);
 
             name = itemView.findViewById(R.id.contact_name);
-//            number = itemView.findViewById(R.id.call_number);
+            number = itemView.findViewById(R.id.call_number);
             date = itemView.findViewById(R.id.call_date);
             callRecent = itemView.findViewById(R.id.btn_callRecent);
             callRecent.setOnClickListener(this);
+
         }
 
         @Override
