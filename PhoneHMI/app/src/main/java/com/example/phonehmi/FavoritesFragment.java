@@ -58,13 +58,16 @@ public class FavoritesFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         favoriteList = new ArrayList<>();
-        swipeRefreshLayoutFavorites = view.findViewById(R.id.swipeRefreshLayoutFavorites);
+        //swipeRefreshLayoutFavorites = view.findViewById(R.id.swipeRefreshLayoutFavorites);
 
         try {
             favoriteList = MainActivity.getAidl().getFavorites();
         } catch (RemoteException e) {
             e.printStackTrace();
         }
+        favoritesAdapter = new FavoritesAdapter(favoriteList, getContext());
+        recyclerView.setAdapter(favoritesAdapter);
+        /*
 
         swipeRefreshLayoutFavorites.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -74,17 +77,43 @@ listUpdate();
             }
         });
 listUpdate();
+
+         */
         updateVisibility();
 
 
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateFavoriteList();
+        //to display empty call log message
+        updateVisibility();
+    }
+
+    private void updateFavoriteList() {
+        favoriteList = new ArrayList<>();
+        //swipeRefreshLayoutFavorites = view.findViewById(R.id.swipeRefreshLayoutFavorites);
+
+        try {
+            favoriteList = MainActivity.getAidl().getFavorites();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        favoritesAdapter = new FavoritesAdapter(favoriteList, getContext());
+        recyclerView.setAdapter(favoritesAdapter);
+    }
+    /*
+
     private void listUpdate(){
         favoritesAdapter = new FavoritesAdapter(refreshContacts(), getContext());
         recyclerView.setAdapter(favoritesAdapter);
         favoritesAdapter.notifyDataSetChanged();
     }
+
+     */
 
 
     private void updateVisibility() {
