@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
     android:background="@drawable/rounded_corner"
-    android:backgroundTint="#000000"
+    android:backgroundTint="#34495E"
     android:orientation="horizontal"
     android:weightSum="10">
 
@@ -21,25 +21,26 @@
             android:id="@+id/contact_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/amiko"
+            android:fontFamily="@font/poppins_semibold"
             android:text="No name"
             android:textColor="@color/white"
             android:textSize="20sp" />
 
-                <TextView
-                    android:id="@+id/call_number"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="number"
-                    android:textColor="@color/white"
-                    android:textSize="20sp" />
+        <TextView
+            android:id="@+id/call_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_semibold"
+            android:text="number"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/call_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="date"
             android:fontFamily="@font/amiko"
+            android:text="date"
             android:textColor="@color/white"
             android:textSize="16sp" />
 
@@ -47,12 +48,12 @@
 
     <Button
         android:id="@+id/btn_callRecent"
-        android:layout_width="0dp"
-        android:layout_height="32dp"
+        android:layout_width="32sp"
+        android:layout_height="32sp"
         android:layout_gravity="center"
-        android:layout_weight="1"
+
         android:background="@drawable/ic_baseline_phone_24"
 
-         />
+        />
 
 </LinearLayout>
