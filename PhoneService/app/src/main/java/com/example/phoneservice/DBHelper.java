@@ -19,7 +19,7 @@ import ServicePackage.SuggestionModel;
 public class DBHelper extends SQLiteOpenHelper {
 
 
-    public static final String DATABASE_NAME = "PHONE_d";
+    public static final String DATABASE_NAME = "PHONE_DATABASE";
     public static final int DATABASE_VERSION = 1;
 
     //CONTACT TABLE COLUMNS
@@ -80,7 +80,7 @@ public class DBHelper extends SQLiteOpenHelper {
             ContactModel contactModel = contactModelList.get(i);
             if (!checkContactPresentInContactTable(contactModel.getId()))
             { contentValues.put(CONTACT_NAME, contactModel.getName());
-            contentValues.put(CONTACT_NUMBER, contactModel.getNumber().replaceAll("[^a-zA-Z0-9()]",""));
+            contentValues.put(CONTACT_NUMBER, contactModel.getNumber().replaceAll("[^a-zA-Z0-9]",""));
             contentValues.put(CONTACT_ID, contactModel.getId());
             sqLiteDatabase.insert(CONTACT_TABLE, null, contentValues);
         }

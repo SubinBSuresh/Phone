@@ -66,47 +66,6 @@ public class DialerFragment extends Fragment implements View.OnClickListener {
         recyclerView.setLayoutManager(layoutManager);
 
 
-
-        /*        CODE WITH ONCLICKLISTENER FOR INDIVIDUAL BUTTONS
-         *         TO UNDO CHANGES REMOVE THE "implements View.OnClickListener" AND REMOVE ITS SUPER CONSTRUCTOR
-         *
-         * */
-/*        //Button 0
-        btn0.setOnClickListener(v -> showPhoneNumber("0"));
-
-        //Button 1
-        btn1.setOnClickListener(v -> showPhoneNumber("1"));
-
-        //Button 2
-        btn2.setOnClickListener(v -> showPhoneNumber("2"));
-
-        //Button 3
-        btn3.setOnClickListener(v -> showPhoneNumber("3"));
-
-        //Button 4
-        btn4.setOnClickListener(v -> showPhoneNumber("4"));
-
-        //Button 5
-        btn5.setOnClickListener(v -> showPhoneNumber("5"));
-
-        //Button 6
-        btn6.setOnClickListener(v -> showPhoneNumber("6"));
-
-        //Button 7
-        btn7.setOnClickListener(v -> showPhoneNumber("7"));
-
-        //Button 8
-        btn8.setOnClickListener(v -> showPhoneNumber("8"));
-
-        //Button 9
-        btn9.setOnClickListener(v -> showPhoneNumber("9"));
-
-        //Button Star
-        btnStar.setOnClickListener(v -> showPhoneNumber("*"));
-
-        //Button Hash
-        btnHash.setOnClickListener(v -> showPhoneNumber("#"));*/
-
         btn0.setOnClickListener(this);
         btn1.setOnClickListener(this);
         btn2.setOnClickListener(this);
@@ -137,12 +96,12 @@ public class DialerFragment extends Fragment implements View.OnClickListener {
             tvCallSelectedName.setText("");
         });
 
-/*
         imageButtonBack.setOnLongClickListener(view12 -> {
-            showPhoneNumber("");
-            return false;
+            tvCallSelectedName.setText("");
+            tvCallSelectedNumber.setText("");
+            Toast.makeText(getContext(), "Removed Selection", Toast.LENGTH_SHORT).show();
+            return true;
         });
-*/
 
         //Button Call
         btnCall.setOnClickListener(view1 -> {
@@ -164,12 +123,10 @@ public class DialerFragment extends Fragment implements View.OnClickListener {
 
 
                     //CALL ACTIVITY SCREEN
-                    Intent intent=new Intent(getContext(), Calling_Screen.class);
-                    intent.putExtra("name", tvCallSelectedName.getText().toString());
-                    intent.putExtra("number", tvCallSelectedNumber.getText().toString());
+                    Intent intent = new Intent(getContext(), Calling_Screen.class);
+
                     startActivity(intent);
 
-//                    Toast.makeText(getContext(), phoneNum + tvCallSelectedName.getText().toString(), Toast.LENGTH_SHORT).show();
 
                 } else {
                     Toast.makeText(getContext(), "Invalid Number", Toast.LENGTH_SHORT).show();
