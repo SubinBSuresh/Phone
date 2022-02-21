@@ -18,7 +18,7 @@
         android:orientation="horizontal"
         android:layout_gravity="center"
         android:paddingTop="2dp"
-        android:padding="2dp">
+        android:padding="3dp">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -62,7 +62,9 @@
         android:text="Call Ended"
         android:textSize="20dp" />
     </LinearLayout>
+
     <LinearLayout
+
         android:paddingTop="25dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -94,7 +96,8 @@
             android:layout_height="wrap_content"
             android:text="Sms"
             android:layout_marginTop="10dp"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:textSize="10dp"/>
 
 
 
