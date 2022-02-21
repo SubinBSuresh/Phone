@@ -8,6 +8,7 @@ import android.os.RemoteException;
 import android.util.Log;
 import android.widget.Chronometer;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.time.LocalDateTime;
@@ -21,11 +22,12 @@ import ServicePackage.RecentModel;
 
 public class Calling_Screen extends AppCompatActivity {
     Timer timer;
-    private Chronometer chronometer;
+    private Chronometer chronometer;TextView tvNam,tvNum;
     private boolean running;
     RecentModel recentModel=new RecentModel();
     List<RecentModel> recentModelList= new ArrayList<>();
     String name,number;
+    String na,nu;
 
 
     @Override
@@ -33,23 +35,28 @@ public class Calling_Screen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calling_screen);
         ImageButton btnEnd = findViewById(R.id.btnEnd);
+        TextView tvNam = findViewById(R.id.tvName);
+        TextView tvNum = findViewById(R.id.tvNumb);
         chronometer = findViewById(R.id.tvTimer);
         timer = new Timer();
-
-        if (!running) {
-            chronometer.start();
-            running = true;
-        }
         Bundle extras = getIntent().getExtras();
 
 
         if (extras != null) {
             name = extras.getString("name");
             number = extras.getString("number");
+            tvNam.setText(name);
+            tvNum.setText(number);
 
         } else {
             // handle case
         }
+
+        if (!running) {
+            chronometer.start();
+            running = true;
+        }
+
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
         Log.e("name",""+dtf.format(now));
@@ -73,12 +80,17 @@ public class Calling_Screen extends AppCompatActivity {
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    Intent intent = new Intent(getApplicationContext(), Call_end.class);
+                    Intent intent=new Intent(getApplicationContext(), Call_end.class);
+                    intent.putExtra("nam", name);
+                    intent.putExtra("numb", number);
+
                     startActivity(intent);
+
                 }
             }, 4000);
 
 
         });
     }
+
 }

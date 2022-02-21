@@ -4,18 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Calling_Screen">
+    tools:context=".Calling_Screen"
+    android:orientation="horizontal"
+    android:weightSum="100"
+    >
+
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="3dp"
+       android:padding="1dp"
+        android:layout_weight="70"
         android:orientation="vertical">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="5dp"
             android:src="@drawable/index" />
 
         <TextView
@@ -24,9 +29,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:text="1111"
-            android:textSize="30dp" />
+            android:textSize="20dp" />
+        <TextView
+            android:id="@+id/tvNumb"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:text="1111"
+            android:textSize="15dp" />
 
 
         <Chronometer
@@ -34,10 +48,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
 
-            android:textSize="15dp"
-            />
+            android:textSize="12dp"
+            /></LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -215,9 +233,9 @@ android:background="@drawable/custom"
                 />
 
         </LinearLayout>
+    </LinearLayout>
 
     </LinearLayout>
 
 
 
-</LinearLayout>
