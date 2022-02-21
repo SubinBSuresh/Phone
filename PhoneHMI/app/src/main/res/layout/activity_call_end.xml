@@ -94,7 +94,8 @@
             android:layout_height="wrap_content"
             android:text="Sms"
             android:layout_marginTop="10dp"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:textSize="10dp"/>
 
 
 
