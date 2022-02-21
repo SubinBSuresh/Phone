@@ -14,6 +14,7 @@ import android.widget.ImageButton;
 public class Call_end extends AppCompatActivity {
 
     private Object Fragment;
+    String nam,num;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +26,16 @@ public class Call_end extends AppCompatActivity {
             Intent intent = new Intent(getApplicationContext(), Calling_Screen.class);
             startActivity(intent);
         });
+        Bundle extras = getIntent().getExtras();
+
+
+        if (extras != null) {
+            nam = extras.getString("nam");
+            num = extras.getString("num");
+
+        } else {
+            // handle case
+        }
         imgeBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

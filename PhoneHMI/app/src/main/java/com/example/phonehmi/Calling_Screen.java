@@ -21,7 +21,7 @@ import ServicePackage.RecentModel;
 
 public class Calling_Screen extends AppCompatActivity {
     Timer timer;
-    private Chronometer chronometer;
+    private Chronometer chronometer,tvNam,tvNum;
     private boolean running;
     RecentModel recentModel=new RecentModel();
     List<RecentModel> recentModelList= new ArrayList<>();
@@ -46,6 +46,8 @@ public class Calling_Screen extends AppCompatActivity {
         if (extras != null) {
             name = extras.getString("name");
             number = extras.getString("number");
+            tvNam.setText(name);
+           tvNum.setText(number);
 
         } else {
             // handle case
@@ -73,8 +75,11 @@ public class Calling_Screen extends AppCompatActivity {
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    Intent intent = new Intent(getApplicationContext(), Call_end.class);
+                    Intent intent=new Intent(getApplicationContext(), Call_end.class);
+                    intent.putExtra("nam", tvNam.getText().toString());
+                    intent.putExtra("num", tvNam.getText().toString());
                     startActivity(intent);
+
                 }
             }, 4000);
 
