@@ -27,6 +27,7 @@ public class Calling_Screen extends AppCompatActivity {
     RecentModel recentModel=new RecentModel();
     List<RecentModel> recentModelList= new ArrayList<>();
     String name,number;
+    String na,nu;
 
 
     @Override
@@ -91,4 +92,5 @@ public class Calling_Screen extends AppCompatActivity {
 
         });
     }
+
 }

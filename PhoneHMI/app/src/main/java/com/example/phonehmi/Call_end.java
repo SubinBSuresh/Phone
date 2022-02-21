@@ -23,13 +23,9 @@ public class Call_end extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_call_end);
         ImageButton imgeCall = findViewById(R.id.imgecall);
-        ImageButton imgeBack = findViewById(R.id.imgeback);
+
         tvN = findViewById(R.id.tvcallname);
         tvNu = findViewById(R.id.tvcallnum);
-        imgeCall.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), Calling_Screen.class);
-            startActivity(intent);
-        });
         Bundle extras = getIntent().getExtras();
 
 
@@ -42,12 +38,13 @@ public class Call_end extends AppCompatActivity {
         } else {
             // handle case
         }
-        imgeBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        imgeCall.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), Calling_Screen.class);
 
-            }
+            startActivity(intent);
         });
+
+
     }
 
     @SuppressLint("ResourceType")
