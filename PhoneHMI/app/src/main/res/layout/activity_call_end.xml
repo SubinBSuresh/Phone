@@ -62,7 +62,9 @@
         android:text="Call Ended"
         android:textSize="20dp" />
     </LinearLayout>
+
     <LinearLayout
+
         android:paddingTop="25dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
