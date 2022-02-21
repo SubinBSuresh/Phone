@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/swipeRefreshLayoutContacts"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:ignore="MissingClass"
     tools:context=".ContactFragment">
 
 
@@ -29,4 +30,13 @@
         </LinearLayout>
     </ScrollView>
 
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    <TextView
+        android:id="@+id/empty_view_contacts"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="The Contact list is empty"
+        android:textSize="20sp"
+        android:visibility="gone" />
+
+</FrameLayout>
