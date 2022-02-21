@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -27,10 +28,10 @@ public class ContactFragment extends Fragment {
 
     RecyclerView recyclerView; //recyclerview object
     List<ContactModel> contactList;
-    SwipeRefreshLayout swipeRefreshLayoutContacts;
+    //SwipeRefreshLayout swipeRefreshLayoutContacts;
     List<ContactModel> contactListDatabase = new ArrayList<>();
     private ContactAdapter contactAdapter;
-
+    TextView textView;
     public ContactFragment() {
         // Required empty public constructor
     }
@@ -45,7 +46,7 @@ public class ContactFragment extends Fragment {
 
 
         recyclerView = view.findViewById(R.id.rvView);
-        swipeRefreshLayoutContacts = view.findViewById(R.id.swipeRefreshLayoutContacts);
+       // swipeRefreshLayoutContacts = view.findViewById(R.id.swipeRefreshLayoutContacts);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         //ADDING CONTACTS FROM CONTENT PROVIDER TO CURSOR
@@ -75,7 +76,7 @@ public class ContactFragment extends Fragment {
         }
 */
 
-        swipeRefreshLayoutContacts.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+       /* swipeRefreshLayoutContacts.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 
             @Override
 
@@ -90,9 +91,12 @@ public class ContactFragment extends Fragment {
         });
         contactAdapter = new ContactAdapter(refreshContacts(), getContext());
         recyclerView.setAdapter(contactAdapter);
-        contactAdapter.notifyDataSetChanged();
+        contactAdapter.notifyDataSetChanged();*/
 
-        // updateVisibility();
+        contactAdapter = new ContactAdapter(contactList,getContext());
+        recyclerView.setAdapter(contactAdapter);
+
+       // updateVisibility();
         return view;
     }
 
@@ -110,8 +114,26 @@ public class ContactFragment extends Fragment {
         return contactList;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateContactList();
+        //to display empty contacts message
+       // updateVisibility();
+    }
 
-   /* private void updateVisibility() {
+    private void updateContactList() {
+        contactList= new ArrayList<>();
+
+        try {
+            contactList= MainActivity.getAidl().getContacts();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        contactAdapter = new ContactAdapter(contactList, getContext());
+        recyclerView.setAdapter(contactAdapter);
+    }
+    /*private void updateVisibility() {
         if (contactAdapter.getItemCount() == 0) {
             recyclerView.setVisibility(View.GONE);
             textView.setVisibility(View.VISIBLE);
@@ -119,7 +141,7 @@ public class ContactFragment extends Fragment {
             recyclerView.setVisibility(View.VISIBLE);
             textView.setVisibility(View.GONE);
         }
-    }
-*/
+    }*/
+
 
 }
