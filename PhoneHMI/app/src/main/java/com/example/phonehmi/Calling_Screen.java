@@ -1,7 +1,5 @@
 package com.example.phonehmi;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.RemoteException;
@@ -10,6 +8,8 @@ import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -22,13 +22,13 @@ import ServicePackage.RecentModel;
 
 public class Calling_Screen extends AppCompatActivity {
     Timer timer;
-    private Chronometer chronometer;TextView tvNam,tvNum;
-    private boolean running;
-    RecentModel recentModel=new RecentModel();
-    List<RecentModel> recentModelList= new ArrayList<>();
-    String name,number;
-    String na,nu;
 
+    RecentModel recentModel = new RecentModel();
+    List<RecentModel> recentModelList = new ArrayList<>();
+    String name = DialerFragment.tvCallSelectedName.getText().toString(), number = DialerFragment.tvCallSelectedNumber.getText().toString();
+
+    private Chronometer chronometer;
+    private boolean running;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,18 +39,10 @@ public class Calling_Screen extends AppCompatActivity {
         TextView tvNum = findViewById(R.id.tvNumb);
         chronometer = findViewById(R.id.tvTimer);
         timer = new Timer();
-        Bundle extras = getIntent().getExtras();
 
 
-        if (extras != null) {
-            name = extras.getString("name");
-            number = extras.getString("number");
-            tvNam.setText(name);
-            tvNum.setText(number);
-
-        } else {
-            // handle case
-        }
+        tvNam.setText(name);
+        tvNum.setText(number);
 
         if (!running) {
             chronometer.start();
@@ -59,7 +51,7 @@ public class Calling_Screen extends AppCompatActivity {
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
-        Log.e("name",""+dtf.format(now));
+        Log.e("name", "" + dtf.format(now));
         recentModel.setName(name);
         recentModel.setNumber(number);
         recentModel.setDate(dtf.format(now));
@@ -70,8 +62,6 @@ public class Calling_Screen extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
-        Toast.makeText(getApplicationContext(),name+number,Toast.LENGTH_SHORT).show();
         btnEnd.setOnClickListener(v -> {
             chronometer.stop();
 
@@ -80,9 +70,8 @@ public class Calling_Screen extends AppCompatActivity {
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    Intent intent=new Intent(getApplicationContext(), Call_end.class);
-                    intent.putExtra("nam", name);
-                    intent.putExtra("numb", number);
+                    Intent intent = new Intent(getApplicationContext(), Call_end.class);
+
 
                     startActivity(intent);
 

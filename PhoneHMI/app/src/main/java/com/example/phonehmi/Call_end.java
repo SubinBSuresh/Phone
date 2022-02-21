@@ -15,7 +15,7 @@ import android.widget.TextView;
 public class Call_end extends AppCompatActivity {
 
     private Object Fragment;
-    String nam,num;
+    String nam = DialerFragment.tvCallSelectedName.getText().toString(),num = DialerFragment.tvCallSelectedNumber.getText().toString();
     private TextView tvN,tvNu;
 
     @Override
@@ -26,18 +26,9 @@ public class Call_end extends AppCompatActivity {
 
         tvN = findViewById(R.id.tvcallname);
         tvNu = findViewById(R.id.tvcallnum);
-        Bundle extras = getIntent().getExtras();
 
-
-        if (extras != null) {
-            nam = extras.getString("nam");
-            num = extras.getString("numb");
-            tvN.setText(nam);
-            tvNu.setText(num);
-
-        } else {
-            // handle case
-        }
+        tvN.setText(nam);
+        tvNu.setText(num);
         imgeCall.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), Calling_Screen.class);
 
@@ -51,6 +42,7 @@ public class Call_end extends AppCompatActivity {
     @Override
     public void onBackPressed() {
             startActivity(new Intent(getApplicationContext(),MainActivity.class));
+
     }
 
 
