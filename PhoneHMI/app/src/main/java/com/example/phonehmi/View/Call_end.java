@@ -1,4 +1,4 @@
-package com.example.phonehmi.View;
+package com.example.phonehmi.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 

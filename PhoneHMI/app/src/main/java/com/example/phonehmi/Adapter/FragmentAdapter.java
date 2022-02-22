@@ -6,10 +6,10 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.example.phonehmi.View.ContactFragment;
-import com.example.phonehmi.View.DialerFragment;
-import com.example.phonehmi.View.FavoritesFragment;
-import com.example.phonehmi.View.RecentFragment;
+import com.example.phonehmi.view.ContactFragment;
+import com.example.phonehmi.view.DialerFragment;
+import com.example.phonehmi.view.FavoritesFragment;
+import com.example.phonehmi.view.RecentFragment;
 
 public class FragmentAdapter extends FragmentStateAdapter{
 

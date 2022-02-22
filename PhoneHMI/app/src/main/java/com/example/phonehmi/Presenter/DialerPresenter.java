@@ -1,7 +1,7 @@
 package com.example.phonehmi.Presenter;
 
 import com.example.phonehmi.Model.DialerModel;
-import com.example.phonehmi.View.IDialerView;
+import com.example.phonehmi.view.IDialerView;
 
 import java.util.List;
 

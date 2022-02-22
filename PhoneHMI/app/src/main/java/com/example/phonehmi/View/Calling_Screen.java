@@ -1,4 +1,4 @@
-package com.example.phonehmi.View;
+package com.example.phonehmi.view;
 
 import android.content.Intent;
 import android.os.Bundle;

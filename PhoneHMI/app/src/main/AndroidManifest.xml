@@ -21,10 +21,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PhoneHMI">
         <activity
-            android:name=".View.Call_end"
+            android:name=".view.Call_end"
             android:exported="false" />
         <activity
-            android:name=".View.Calling_Screen"
+            android:name=".view.Calling_Screen"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

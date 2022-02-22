@@ -12,7 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.phonehmi.View.FavoritesFragment;
+import com.example.phonehmi.view.FavoritesFragment;
 import com.example.phonehmi.MainActivity;
 import com.example.phonehmi.R;
 
