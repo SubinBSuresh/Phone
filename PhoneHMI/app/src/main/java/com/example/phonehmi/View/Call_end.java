@@ -1,16 +1,15 @@
-package com.example.phonehmi;
+package com.example.phonehmi.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import com.example.phonehmi.MainActivity;
+import com.example.phonehmi.R;
 
 public class Call_end extends AppCompatActivity {
 
@@ -41,7 +40,7 @@ public class Call_end extends AppCompatActivity {
     @SuppressLint("ResourceType")
     @Override
     public void onBackPressed() {
-            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
 
     }
 

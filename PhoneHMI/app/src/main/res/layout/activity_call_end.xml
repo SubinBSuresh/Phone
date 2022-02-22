@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Call_end"
+    tools:context=".View.Call_end"
     android:orientation="horizontal"
     android:weightSum="100">
     <LinearLayout

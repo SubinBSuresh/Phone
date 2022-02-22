@@ -1,4 +1,4 @@
-package com.example.phonehmi;
+package com.example.phonehmi.View;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.phonehmi.MainActivity;
+import com.example.phonehmi.R;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

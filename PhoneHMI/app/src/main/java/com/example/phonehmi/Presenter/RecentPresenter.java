@@ -1,4 +1,4 @@
-package com.example.phonehmi.presenter;
+package com.example.phonehmi.Presenter;
 
 public class RecentPresenter {
     private final View view;

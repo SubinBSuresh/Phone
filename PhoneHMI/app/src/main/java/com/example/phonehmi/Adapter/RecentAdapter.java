@@ -1,4 +1,4 @@
-package com.example.phonehmi.adapter;
+package com.example.phonehmi.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,7 +11,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.phonehmi.FavoritesFragment;
 import com.example.phonehmi.R;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.example.phonehmi;
+package com.example.phonehmi.View;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -6,13 +6,16 @@ import android.os.RemoteException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import com.example.phonehmi.MainActivity;
+import com.example.phonehmi.R;
+import com.example.phonehmi.Adapter.FavoritesAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
