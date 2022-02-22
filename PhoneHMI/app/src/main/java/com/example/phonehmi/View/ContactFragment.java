@@ -31,9 +31,10 @@ public class ContactFragment extends Fragment {
 
     RecyclerView recyclerView; //recyclerview object
     List<ContactModel> contactList;
-    SwipeRefreshLayout swipeRefreshLayoutContacts;
+    //SwipeRefreshLayout swipeRefreshLayoutContacts;
     List<ContactModel> contactListDatabase = new ArrayList<>();
     private ContactAdapter contactAdapter;
+
 
     public ContactFragment() {
         // Required empty public constructor
@@ -49,7 +50,7 @@ public class ContactFragment extends Fragment {
 
 
         recyclerView = view.findViewById(R.id.rvView);
-        swipeRefreshLayoutContacts = view.findViewById(R.id.swipeRefreshLayoutContacts);
+       // swipeRefreshLayoutContacts = view.findViewById(R.id.swipeRefreshLayoutContacts);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         //ADDING CONTACTS FROM CONTENT PROVIDER TO CURSOR
@@ -79,7 +80,7 @@ public class ContactFragment extends Fragment {
         }
 */
 
-        swipeRefreshLayoutContacts.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        /*swipeRefreshLayoutContacts.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 
             @Override
 
@@ -91,13 +92,56 @@ public class ContactFragment extends Fragment {
                 contactAdapter = new ContactAdapter(refreshContacts(), getContext());
 
             }
-        });
-        contactAdapter = new ContactAdapter(refreshContacts(), getContext());
+        });*/
+
+
+        contactList = new ArrayList<>();
+        try {
+            MainActivity.getAidl().addContactToDatabase(contactListDatabase);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        try {
+            contactList = MainActivity.getAidl().getContacts();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        contactAdapter = new ContactAdapter(contactList, getContext());
         recyclerView.setAdapter(contactAdapter);
-        contactAdapter.notifyDataSetChanged();
+
+       /* contactAdapter = new ContactAdapter(refreshContacts(), getContext());
+        recyclerView.setAdapter(contactAdapter);
+        contactAdapter.notifyDataSetChanged();*/
 
         // updateVisibility();
         return view;
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateContactList();
+        //to display empty call log message
+        //updateVisibility();
+    }
+
+    private void updateContactList() {
+      contactList = new ArrayList<>();
+        try {
+            MainActivity.getAidl().addContactToDatabase(contactListDatabase);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        try {
+            contactList = MainActivity.getAidl().getContacts();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        contactAdapter = new ContactAdapter(contactList, getContext());
+        recyclerView.setAdapter(contactAdapter);
+
+
     }
 
     public List<ContactModel> refreshContacts() {
