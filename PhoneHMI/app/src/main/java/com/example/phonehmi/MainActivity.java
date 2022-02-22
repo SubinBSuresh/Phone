@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.phonehmi.Adapter.FragmentAdapter;
 import com.google.android.material.tabs.TabLayout;
 
 import ServicePackage.aidlInterface;

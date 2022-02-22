@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.phonehmi.MainActivity;
 import com.example.phonehmi.R;
-import com.example.phonehmi.adapter.RecentAdapter;
-import com.example.phonehmi.presenter.RecentPresenter;
+import com.example.phonehmi.Adapter.RecentAdapter;
+import com.example.phonehmi.Presenter.RecentPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
