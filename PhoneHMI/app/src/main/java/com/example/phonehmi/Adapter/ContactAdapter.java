@@ -1,4 +1,4 @@
-package com.example.phonehmi.Adapter;
+package com.example.phonehmi.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.phonehmi.MainActivity;
 import com.example.phonehmi.R;
-import com.example.phonehmi.Adapter.RecentAdapter;
-import com.example.phonehmi.Presenter.RecentPresenter;
+import com.example.phonehmi.adapter.RecentAdapter;
+import com.example.phonehmi.presenter.RecentPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,15 +23,12 @@ import java.util.List;
 import ServicePackage.RecentModel;
 
 
-
-public class RecentFragment extends Fragment implements RecentPresenter.View{
+public class RecentFragment extends Fragment implements RecentPresenter.View {
     private RecyclerView recyclerView;
     private View v;
     private RecentPresenter presenter;
     private RecentAdapter recentAdapter;
-    private  TextView textView;
-
-
+    private TextView textView;
 
 
     public RecentFragment() {
@@ -45,9 +42,9 @@ public class RecentFragment extends Fragment implements RecentPresenter.View{
         presenter = new RecentPresenter(this);
 
         // Inflate the layout for this fragment
-        v = inflater.inflate(R.layout.fragment_recent,container, false);
+        v = inflater.inflate(R.layout.fragment_recent, container, false);
         recyclerView = v.findViewById(R.id.rv_recents);
-         textView = v.findViewById(R.id.empty_view);
+        textView = v.findViewById(R.id.empty_view);
 
 
         presenter.recentAdapter();
@@ -57,13 +54,13 @@ public class RecentFragment extends Fragment implements RecentPresenter.View{
         List<RecentModel> listRecents = new ArrayList<>();
         try {
             listRecents.addAll(MainActivity.getAidl().getAllRecents());
-            Log.e("allrecents"," "+listRecents.size());
+            Log.e("allrecents", " " + listRecents.size());
 
-        } catch (NullPointerException|RemoteException e) {
+        } catch (NullPointerException | RemoteException e) {
             e.printStackTrace();
         }
 
-         recentAdapter = new RecentAdapter(getContext(), listRecents);
+        recentAdapter = new RecentAdapter(getContext(), listRecents);
 
         //to display empty call log message
 
@@ -108,7 +105,7 @@ public class RecentFragment extends Fragment implements RecentPresenter.View{
 
         try {
             recentList.addAll(MainActivity.getAidl().getAllRecents());
-        } catch (NullPointerException| RemoteException e) {
+        } catch (NullPointerException | RemoteException e) {
             e.printStackTrace();
         }
 
@@ -116,7 +113,7 @@ public class RecentFragment extends Fragment implements RecentPresenter.View{
         recyclerView.setAdapter(recentAdapter);
     }
 
-    public void updateVisibility(){
+    public void updateVisibility() {
         if (recentAdapter.getItemCount() == 0) {
             recyclerView.setVisibility(View.GONE);
             textView.setVisibility(View.VISIBLE);

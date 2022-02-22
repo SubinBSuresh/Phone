@@ -1,4 +1,4 @@
-package com.example.phonehmi.Adapter;
+package com.example.phonehmi.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;

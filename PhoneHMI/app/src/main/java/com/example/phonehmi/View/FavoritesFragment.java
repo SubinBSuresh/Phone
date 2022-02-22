@@ -15,7 +15,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.phonehmi.MainActivity;
 import com.example.phonehmi.R;
-import com.example.phonehmi.Adapter.FavoritesAdapter;
+import com.example.phonehmi.adapter.FavoritesAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,24 +30,10 @@ public class FavoritesFragment extends Fragment {
     //creating object for recycler view
     RecyclerView recyclerView;
     TextView textView;
-
-
-    SwipeRefreshLayout swipeRefreshLayoutFavorites;
     public static FavoritesAdapter favoritesAdapter;
-
 
     public FavoritesFragment() {
         // Required empty public constructor
-    }
-
-    public static List<FavoritesModel> refreshContacts() {
-        try {
-            favoriteList = MainActivity.getAidl().getFavorites();
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-        //favoriteList = MainActivity.getAidl().getFAvorites();
-        return favoriteList;
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -70,21 +56,7 @@ public class FavoritesFragment extends Fragment {
         }
         favoritesAdapter = new FavoritesAdapter(favoriteList, getContext());
         recyclerView.setAdapter(favoritesAdapter);
-        /*
-
-        swipeRefreshLayoutFavorites.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                swipeRefreshLayoutFavorites.setRefreshing(false);
-listUpdate();
-            }
-        });
-listUpdate();
-
-         */
         updateVisibility();
-
-
         return view;
     }
 
@@ -108,16 +80,6 @@ listUpdate();
         favoritesAdapter = new FavoritesAdapter(favoriteList, getContext());
         recyclerView.setAdapter(favoritesAdapter);
     }
-    /*
-
-    private void listUpdate(){
-        favoritesAdapter = new FavoritesAdapter(refreshContacts(), getContext());
-        recyclerView.setAdapter(favoritesAdapter);
-        favoritesAdapter.notifyDataSetChanged();
-    }
-
-     */
-
 
     private void updateVisibility() {
         if (favoritesAdapter.getItemCount() == 0) {
@@ -128,6 +90,5 @@ listUpdate();
             textView.setVisibility(View.GONE);
         }
     }
-
 
 }

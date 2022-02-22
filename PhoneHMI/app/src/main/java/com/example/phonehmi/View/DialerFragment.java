@@ -17,8 +17,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.phonehmi.Adapter.ContactSuggestionAdapter;
-import com.example.phonehmi.Presenter.DialerPresenter;
+import com.example.phonehmi.adapter.ContactSuggestionAdapter;
+import com.example.phonehmi.presenter.DialerPresenter;
 import com.example.phonehmi.R;
 
 import java.util.List;

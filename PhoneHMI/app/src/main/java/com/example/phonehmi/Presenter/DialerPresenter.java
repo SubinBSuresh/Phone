@@ -1,4 +1,4 @@
-package com.example.phonehmi.Presenter;
+package com.example.phonehmi.presenter;
 
 import com.example.phonehmi.Model.DialerModel;
 import com.example.phonehmi.view.IDialerView;

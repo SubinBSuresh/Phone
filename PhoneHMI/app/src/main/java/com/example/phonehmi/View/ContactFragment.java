@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.phonehmi.Adapter.ContactAdapter;
+import com.example.phonehmi.adapter.ContactAdapter;
 import com.example.phonehmi.MainActivity;
 import com.example.phonehmi.R;
 

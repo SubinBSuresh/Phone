@@ -1,4 +1,4 @@
-package com.example.phonehmi.Presenter;
+package com.example.phonehmi.presenter;
 
 public class RecentPresenter {
     private final View view;
@@ -6,11 +6,12 @@ public class RecentPresenter {
     public RecentPresenter(View view) {
         this.view = view;
     }
-    public void recentAdapter(){
+
+    public void recentAdapter() {
         view.recentAdapterInView();
     }
 
-    public interface  View{
+    public interface View {
         void recentAdapterInView();
     }
 }

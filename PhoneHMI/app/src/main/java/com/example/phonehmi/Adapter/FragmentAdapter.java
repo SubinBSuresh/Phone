@@ -1,4 +1,4 @@
-package com.example.phonehmi.Adapter;
+package com.example.phonehmi.adapter;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
