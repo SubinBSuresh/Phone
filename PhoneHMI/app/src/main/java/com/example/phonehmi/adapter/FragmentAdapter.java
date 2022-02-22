@@ -1,4 +1,4 @@
-package com.example.phonehmi;
+package com.example.phonehmi.adapter;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -6,6 +6,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import com.example.phonehmi.view.ContactFragment;
+import com.example.phonehmi.view.DialerFragment;
+import com.example.phonehmi.view.FavoritesFragment;
 import com.example.phonehmi.view.RecentFragment;
 
 public class FragmentAdapter extends FragmentStateAdapter{

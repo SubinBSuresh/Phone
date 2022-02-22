@@ -1,4 +1,4 @@
-package com.example.phonehmi;
+package com.example.phonehmi.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -11,6 +11,10 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.phonehmi.view.FavoritesFragment;
+import com.example.phonehmi.MainActivity;
+import com.example.phonehmi.R;
 
 import java.util.List;
 

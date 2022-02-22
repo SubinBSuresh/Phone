@@ -1,9 +1,8 @@
-package com.example.phonehmi;
+package com.example.phonehmi.view;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.RemoteException;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -18,12 +17,16 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.phonehmi.adapter.ContactSuggestionAdapter;
+import com.example.phonehmi.presenter.DialerPresenter;
+import com.example.phonehmi.R;
+
 import java.util.List;
 
 import ServicePackage.SuggestionModel;
 
 
-public class DialerFragment extends Fragment implements View.OnClickListener {
+public class DialerFragment extends Fragment implements IDialerView, View.OnClickListener {
     @SuppressLint("StaticFieldLeak")
     public static TextView tvCallSelectedNumber, tvCallSelectedName;
     String number;
@@ -33,6 +36,7 @@ public class DialerFragment extends Fragment implements View.OnClickListener {
     List<SuggestionModel> suggestionModelList;
     String searchedNumber, searchedName;
     ContactSuggestionAdapter contactSuggestionAdapter;
+    DialerPresenter dialerPresenter;
 
     public DialerFragment() {
     }
@@ -43,6 +47,8 @@ public class DialerFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_dialer, container, false);
+
+        dialerPresenter = new DialerPresenter(this);
 
         btn0 = view.findViewById(R.id.button0);
         btn1 = view.findViewById(R.id.button1);
@@ -78,60 +84,22 @@ public class DialerFragment extends Fragment implements View.OnClickListener {
         btn9.setOnClickListener(this);
         btnHash.setOnClickListener(this);
         btnStar.setOnClickListener(this);
+        imageButtonBack.setOnClickListener(this);
+        btnCall.setOnClickListener(this);
 
         //Button 0 Long Press
         btn0.setOnLongClickListener(v -> {
-            showPhoneNumber("+");
+            number = dialerPresenter.showPhoneNumber("+", tvCallSelectedNumber.getText().toString());
+            tvCallSelectedNumber.setText(number);
             return true;
         });
 
-
-        //Button Delete
-        imageButtonBack.setOnClickListener(v -> {
-            StringBuilder stringBuilder = new StringBuilder(tvCallSelectedNumber.getText());
-            if (stringBuilder.length() > 0) {
-                stringBuilder.deleteCharAt(tvCallSelectedNumber.getText().length() - 1);
-            }
-            tvCallSelectedNumber.setText(stringBuilder.toString());
-            tvCallSelectedName.setText("");
-        });
 
         imageButtonBack.setOnLongClickListener(view12 -> {
             tvCallSelectedName.setText("");
             tvCallSelectedNumber.setText("");
-            Toast.makeText(getContext(), "Removed Selection", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Cleared Selection", Toast.LENGTH_SHORT).show();
             return true;
-        });
-
-        //Button Call
-        btnCall.setOnClickListener(view1 -> {
-            String phoneNum = tvCallSelectedNumber.getText().toString();
-            searchedName = tvCallSelectedNumber.getText().toString();
-
-            if (phoneNum.isEmpty()) {
-                Toast.makeText(getContext(), "Cannot be empty", Toast.LENGTH_SHORT).show();
-            } else {
-                if (phoneNum.length() >= 10 && phoneNum.length() <= 13) {
-
-                    //ACTUAL CALL
- /*                   try {
-                        MainActivity.getAidl().callNumber(phoneNum, tvCallSelectedName.getText().toString());
-                        tvCallSelectedNumber.setText("");
-                    } catch (RemoteException e) {
-                        e.printStackTrace();
-                    }*/
-
-
-                    //CALL ACTIVITY SCREEN
-                    Intent intent = new Intent(getContext(), Calling_Screen.class);
-
-                    startActivity(intent);
-
-
-                } else {
-                    Toast.makeText(getContext(), "Invalid Number", Toast.LENGTH_SHORT).show();
-                }
-            }
         });
 
 
@@ -150,11 +118,10 @@ public class DialerFragment extends Fragment implements View.OnClickListener {
                     suggestionModelList.clear();
                     tvCallSelectedName.setText("");
                 } else {
-                    try {
-                        suggestionModelList = MainActivity.getAidl().getSuggestions(searchedNumber);
-                    } catch (RemoteException e) {
-                        e.printStackTrace();
-                    }
+
+                    //MY METHOD CALLED IN DIALER PRESENTER. CHECK IDialerPresenter, then check DialerPresenter
+                    suggestionModelList = dialerPresenter.getSuggestions(searchedNumber);
+
                     contactSuggestionAdapter = new ContactSuggestionAdapter(suggestionModelList, getContext());
                     recyclerView.setAdapter(contactSuggestionAdapter);
                 }
@@ -167,66 +134,102 @@ public class DialerFragment extends Fragment implements View.OnClickListener {
             }
         });
         return view;
-
-
-    }
-
-
-    // Show Phone Number
-    @SuppressLint("SetTextI18n")
-    private void showPhoneNumber(String digit) {
-        number = tvCallSelectedNumber.getText().toString();
-        if (number.length() < 15) {
-            tvCallSelectedNumber.setText(number + digit);
-        }
     }
 
     @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View view) {
+        number = tvCallSelectedNumber.getText().toString();
         switch (view.getId()) {
             case R.id.button0:
-                showPhoneNumber("0");
+                number = dialerPresenter.showPhoneNumber("0", number);
                 break;
+
             case R.id.button1:
-                showPhoneNumber("1");
+                number = dialerPresenter.showPhoneNumber("1", number);
                 break;
+
             case R.id.button2:
-                showPhoneNumber("2");
+                number = dialerPresenter.showPhoneNumber("2", number);
                 break;
+
             case R.id.button3:
-                showPhoneNumber("3");
+                number = dialerPresenter.showPhoneNumber("3", number);
                 break;
+
             case R.id.button4:
-                showPhoneNumber("4");
+                number = dialerPresenter.showPhoneNumber("4", number);
                 break;
+
             case R.id.button5:
-                showPhoneNumber("5");
+                number = dialerPresenter.showPhoneNumber("5", number);
                 break;
+
             case R.id.button6:
-                showPhoneNumber("6");
+                number = dialerPresenter.showPhoneNumber("6", number);
                 break;
+
             case R.id.button7:
-                showPhoneNumber("7");
+                number = dialerPresenter.showPhoneNumber("7", number);
                 break;
+
             case R.id.button8:
-                showPhoneNumber("8");
+                number = dialerPresenter.showPhoneNumber("8", number);
+
                 break;
             case R.id.button9:
-                showPhoneNumber("9");
+                number = dialerPresenter.showPhoneNumber("9", number);
                 break;
+
             case R.id.buttonStar:
-                showPhoneNumber("*");
+                number = dialerPresenter.showPhoneNumber("*", number);
                 break;
+
             case R.id.buttonHash:
-                showPhoneNumber("#");
+                number = dialerPresenter.showPhoneNumber("#", number);
                 break;
+            case R.id.imageButtonBack:
+                StringBuilder stringBuilder = new StringBuilder(tvCallSelectedNumber.getText());
+                if (stringBuilder.length() > 0) {
+                    stringBuilder.deleteCharAt(tvCallSelectedNumber.getText().length() - 1);
+                }
+//                tvCallSelectedNumber.setText(stringBuilder.toString());
+                number = stringBuilder.toString();
+                tvCallSelectedName.setText("");
+                break;
+
+            case R.id.buttonCall:
+                String phoneNum = tvCallSelectedNumber.getText().toString();
+                searchedName = tvCallSelectedNumber.getText().toString();
+
+                if (phoneNum.isEmpty()) {
+                    Toast.makeText(getContext(), "Cannot be empty", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (phoneNum.length() >= 10 && phoneNum.length() <= 13) {
+
+                        //ACTUAL CALL
+ /*                   try {
+                        MainActivity.getAidl().callNumber(phoneNum, tvCallSelectedName.getText().toString());
+                        tvCallSelectedNumber.setText("");
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                    }*/
+
+                        //CALL ACTIVITY SCREEN
+                        Intent intent = new Intent(getContext(), Calling_Screen.class);
+                        startActivity(intent);
+
+                    } else {
+                        Toast.makeText(getContext(), "Invalid Number", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                break;
+
             default:
                 break;
         }
+        tvCallSelectedNumber.setText(number);
     }
-
-
 }
 
 

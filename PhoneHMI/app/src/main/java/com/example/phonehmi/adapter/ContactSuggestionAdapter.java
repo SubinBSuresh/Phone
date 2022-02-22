@@ -1,15 +1,16 @@
-package com.example.phonehmi;
+package com.example.phonehmi.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.phonehmi.view.DialerFragment;
+import com.example.phonehmi.R;
 
 import java.util.List;
 
@@ -25,13 +26,6 @@ public class ContactSuggestionAdapter extends RecyclerView.Adapter<ContactSugges
         this.context = context;
     }
 
-
-
-
-
-
-
-
     @NonNull
     @Override
     public ContactSuggestionAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -46,15 +40,6 @@ public class ContactSuggestionAdapter extends RecyclerView.Adapter<ContactSugges
         SuggestionModel suggestionModel = contactModelList.get(position);
         holder.tvSuggestedName.setText(suggestionModel.getContactName());
         holder.tvSuggestedNumber.setText(suggestionModel.getContactNumber());
-
-        //For live viewing from Run Tab
-       /* Log.e("Contact name",suggestionModel.getContactName());
-        Log.e("Contact Number", suggestionModel.getContactNumber());
-
-
-*/
-
-
     }
 
     @Override
@@ -83,9 +68,6 @@ public class ContactSuggestionAdapter extends RecyclerView.Adapter<ContactSugges
             DialerFragment.tvCallSelectedName.setText(contactName);
             DialerFragment.tvCallSelectedNumber.setText(contactNumber);
 
-            //For testing if the list works
-//            System.out.println(contactNumber+contactName);
-//            Toast.makeText(view.getContext(), contactNumber+contactName, Toast.LENGTH_SHORT).show();
         }
     }
 }
