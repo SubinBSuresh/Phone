@@ -20,9 +20,15 @@ public class DialerModel implements  IDialerModel{
     public DialerModel() {
     }
 
+
+    //HERE IS WHERE ACTUAL EXECUTION OF THE COMMENTS TAKES PLACE
     @Override
     public List<SuggestionModel> getSuggestions(String number) {
         suggestionModelList = null;
+
+        //OUR OLD TRY CATCH
+        //THIS METHOD IS RUN AND THE VALUES ARE RETURNED FIRSTLY TO DialerPresenter.
+        //THEN FROM DialerPresenter, THE VALUES ARE THEN RETURNED TO DialerFragment, FROM WHERE IT IS SHOWN IN THE LIST
         try {
             suggestionModelList = MainActivity.getAidl().getSuggestions(number);
         } catch (RemoteException e) {

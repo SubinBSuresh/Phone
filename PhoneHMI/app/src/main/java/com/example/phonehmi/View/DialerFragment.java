@@ -118,6 +118,8 @@ public class DialerFragment extends Fragment implements IDialerView, View.OnClic
                     suggestionModelList.clear();
                     tvCallSelectedName.setText("");
                 } else {
+
+                    //MY METHOD CALLED IN DIALER PRESENTER. CHECK IDialerPresenter, then check DialerPresenter
                     suggestionModelList = dialerPresenter.getSuggestions(searchedNumber);
 
                     contactSuggestionAdapter = new ContactSuggestionAdapter(suggestionModelList, getContext());

@@ -6,6 +6,7 @@ import ServicePackage.SuggestionModel;
 
 public interface IDialerModel {
 
+    //SIMILAR TO AIDL FILE, OUR METHODS ARE CALLED HERE. GO TO DialerModel file
     List<SuggestionModel> getSuggestions(String number);
     String  showPhoneNumber(String digit, String number);
 }
