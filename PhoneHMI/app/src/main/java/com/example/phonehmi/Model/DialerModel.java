@@ -3,7 +3,9 @@ package com.example.phonehmi.Model;
 import android.os.RemoteException;
 
 import com.example.phonehmi.MainActivity;
-import com.example.phonehmi.Presenter.IDialerPresenter;
+import com.example.phonehmi.presenter.IDialerPresenter;
+import com.example.phonehmi.presenter.DialerPresenter;
+import com.example.phonehmi.presenter.IDialerPresenter;
 
 import java.util.List;
 
@@ -18,6 +20,9 @@ public class DialerModel implements  IDialerModel{
     }
 
     public DialerModel() {
+    }
+
+    public DialerModel(DialerPresenter dialerPresenter) {
     }
 
 

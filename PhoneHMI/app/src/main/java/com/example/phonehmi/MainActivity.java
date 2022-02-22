@@ -12,18 +12,36 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.example.phonehmi.Adapter.FragmentAdapter;
+import com.example.phonehmi.adapter.FragmentAdapter;
 import com.google.android.material.tabs.TabLayout;
 
 import ServicePackage.aidlInterface;
 
 public class MainActivity extends AppCompatActivity {
 
-    static aidlInterface aidlObject ;
+    static aidlInterface aidlObject;
     Context context;
+    FragmentAdapter fragmentAdapter;
+    ServiceConnection serviceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+            Log.d("status", "disconnected");
+
+            aidlObject = aidlInterface.Stub.asInterface(iBinder);
+
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+
+        }
+    };
     private TabLayout tabLayout;
     private ViewPager2 viewPager2;
-    FragmentAdapter fragmentAdapter;
+
+    public static aidlInterface getAidl() {
+        return aidlObject;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentAdapter = new FragmentAdapter(fragmentManager,getLifecycle());
+        fragmentAdapter = new FragmentAdapter(fragmentManager, getLifecycle());
         viewPager2.setAdapter(fragmentAdapter);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -70,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        if(aidlObject == null){
+        if (aidlObject == null) {
             bindToAidlService();
         }
 
@@ -80,22 +98,5 @@ public class MainActivity extends AppCompatActivity {
         ComponentName componentName = new ComponentName("com.example.phoneservice", "com.example.phoneservice.MyService");
         Intent intent = new Intent().setComponent(componentName);
         bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
-    }
-    ServiceConnection serviceConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-            Log.d("status", "disconnected");
-
-            aidlObject = aidlInterface.Stub.asInterface(iBinder);
-
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName componentName) {
-
-        }
-    };
-    public static aidlInterface getAidl(){
-        return aidlObject;
     }
 }
