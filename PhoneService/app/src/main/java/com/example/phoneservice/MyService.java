@@ -161,6 +161,7 @@ public class MyService extends Service {
 
 
             phoneDbHandler.addtoRecent(recent);
+
         }
 
 

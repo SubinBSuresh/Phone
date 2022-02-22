@@ -1,6 +1,6 @@
 package com.example.phonehmi.presenter;
 
-public class RecentPresenter {
+public class RecentPresenter implements IRecentPresenter {
     private final View view;
 
     public RecentPresenter(View view) {
