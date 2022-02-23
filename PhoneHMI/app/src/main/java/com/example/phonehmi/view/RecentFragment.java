@@ -1,7 +1,6 @@
 package com.example.phonehmi.view;
 
 import android.os.Bundle;
-import android.os.RemoteException;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,10 +11,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.phonehmi.MainActivity;
 import com.example.phonehmi.R;
 import com.example.phonehmi.adapter.RecentAdapter;
-import com.example.phonehmi.presenter.RecentPresenter;
+import com.example.phonehmi.presenter.MVPPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,13 +21,13 @@ import java.util.List;
 import ServicePackage.RecentModel;
 
 
-public class RecentFragment extends Fragment implements RecentPresenter.View {
+public class RecentFragment extends Fragment implements IRecentView {
     private RecyclerView recyclerView;
     private View v;
-    private RecentPresenter presenter;
+
     private RecentAdapter recentAdapter;
     private TextView textView;
-    IRecentView IRecentView;
+    MVPPresenter mvpPresenter;
 
 
     public RecentFragment() {
@@ -40,7 +38,7 @@ public class RecentFragment extends Fragment implements RecentPresenter.View {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        presenter = new RecentPresenter(this);
+        mvpPresenter = new MVPPresenter(this);
 
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_recent, container, false);
@@ -48,18 +46,23 @@ public class RecentFragment extends Fragment implements RecentPresenter.View {
         textView = v.findViewById(R.id.empty_view);
 
 
-        presenter.recentAdapter();
 
-        getCallLogs();
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        RecyclerView.LayoutManager layoutManager = linearLayoutManager;
+        recyclerView.setLayoutManager(layoutManager);
+        Log.d("TAG", "recentAdapterInView: ");
 
         List<RecentModel> listRecents = new ArrayList<>();
-        try {
+/*        try {
             listRecents.addAll(MainActivity.getAidl().getAllRecents());
             Log.e("allrecents", " " + listRecents.size());
 
         } catch (NullPointerException | RemoteException e) {
             e.printStackTrace();
-        }
+        }*/
+
+        listRecents =  mvpPresenter.getAllRecents();
 
         recentAdapter = new RecentAdapter(getContext(), listRecents);
 
@@ -77,19 +80,7 @@ public class RecentFragment extends Fragment implements RecentPresenter.View {
         return v;
     }
 
-    private void getCallLogs() {
 
-    }
-
-
-    @Override
-    public void recentAdapterInView() {
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        RecyclerView.LayoutManager layoutManager = linearLayoutManager;
-        recyclerView.setLayoutManager(layoutManager);
-        Log.d("TAG", "recentAdapterInView: ");
-    }
 
 
     @Override
@@ -104,11 +95,13 @@ public class RecentFragment extends Fragment implements RecentPresenter.View {
     public void updateRecentList() {
         List<RecentModel> recentList = new ArrayList<>();
 
-        try {
+/*        try {
             recentList.addAll(MainActivity.getAidl().getAllRecents());
         } catch (NullPointerException | RemoteException e) {
             e.printStackTrace();
-        }
+        }*/
+
+        recentList = mvpPresenter.getAllRecents();
 
         recentAdapter = new RecentAdapter(getContext(), recentList);
         recyclerView.setAdapter(recentAdapter);
@@ -124,6 +117,4 @@ public class RecentFragment extends Fragment implements RecentPresenter.View {
         }
 
     }
-
-
 }
