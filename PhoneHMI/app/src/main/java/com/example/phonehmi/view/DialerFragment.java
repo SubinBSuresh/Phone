@@ -17,9 +17,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.phonehmi.R;
 import com.example.phonehmi.adapter.ContactSuggestionAdapter;
 import com.example.phonehmi.presenter.MVPPresenter;
-import com.example.phonehmi.R;
 
 import java.util.List;
 
@@ -97,6 +97,7 @@ public class DialerFragment extends Fragment implements IDialerView, View.OnClic
 
         imageButtonBack.setOnLongClickListener(view12 -> {
             tvCallSelectedName.setText("");
+            number = "";
             tvCallSelectedNumber.setText("");
             Toast.makeText(getContext(), "Cleared Selection", Toast.LENGTH_SHORT).show();
             return true;

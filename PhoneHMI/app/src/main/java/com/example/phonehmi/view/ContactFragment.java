@@ -1,21 +1,20 @@
 package com.example.phonehmi.view;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.ContentResolver;
-import android.database.Cursor;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.RemoteException;
-import android.provider.ContactsContract;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.phonehmi.MainActivity;
 import com.example.phonehmi.R;
 import com.example.phonehmi.adapter.ContactAdapter;
 import com.example.phonehmi.presenter.MVPPresenter;
@@ -35,6 +34,7 @@ public class ContactFragment extends Fragment implements IContactView {
     List<ContactModel> contactListDatabase = new ArrayList<>();
     MVPPresenter mvpPresenter;
     private ContactAdapter contactAdapter;
+    int REQUEST_PERMISSION_CODE = 123;
 
 
     public ContactFragment() {
@@ -55,35 +55,30 @@ public class ContactFragment extends Fragment implements IContactView {
 
 
         mvpPresenter = new MVPPresenter(this);
-
-        //ADDING CONTACTS FROM CONTENT PROVIDER TO CURSOR
-        ContentResolver resolver = requireContext().getContentResolver();
-        @SuppressLint("Recycle") Cursor cursor = resolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
-
-        while (cursor.moveToNext()) {
-            ContactModel contactModel = new ContactModel();
-            contactModel.setName(cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)));
-            contactModel.setNumber(cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)));
-            contactModel.setId(cursor.getInt(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID)));
-            contactListDatabase.add(contactModel);
-
-        }
-        Log.e("######LIST_SIZE########", "" + contactListDatabase.size());
+        if (checkPermission()) {
+            mvpPresenter.addContactToDatabase(getContext());
 
 
-        contactList = new ArrayList<>();
-        try {
-            MainActivity.getAidl().addContactToDatabase(contactListDatabase);
-        } catch (RemoteException e) {
-            e.printStackTrace();
+            contactList = mvpPresenter.getContacts();
+
+
+            contactAdapter = new ContactAdapter(contactList, getContext());
+            recyclerView.setAdapter(contactAdapter);
+        } else {
+            requestPermission();
         }
 
-
-        contactList = mvpPresenter.getContacts();
-        contactAdapter = new ContactAdapter(contactList, getContext());
-        recyclerView.setAdapter(contactAdapter);
 
         return view;
+    }
+
+    private boolean checkPermission() {
+        return ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestPermission(){
+        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_CONTACTS}, REQUEST_PERMISSION_CODE);
+
     }
 
 
@@ -96,15 +91,16 @@ public class ContactFragment extends Fragment implements IContactView {
     }
 
     private void updateContactList() {
-        contactList = new ArrayList<>();
-        try {
-            MainActivity.getAidl().addContactToDatabase(contactListDatabase);
-        } catch (RemoteException e) {
-            e.printStackTrace();
+
+        if (checkPermission()){
+            contactAdapter = new ContactAdapter(contactList, getContext());
+            contactList = mvpPresenter.getContacts();
+            contactAdapter = new ContactAdapter(contactList, getContext());
+            recyclerView.setAdapter(contactAdapter);
+        }else {
+            requestPermission();
         }
 
-        contactList = mvpPresenter.getContacts();
-        contactAdapter = new ContactAdapter(contactList, getContext());
-        recyclerView.setAdapter(contactAdapter);
+
     }
 }

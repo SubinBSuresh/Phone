@@ -1,18 +1,23 @@
 package com.example.phonehmi.Model;
 
+import android.annotation.SuppressLint;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.database.Cursor;
 import android.os.RemoteException;
+import android.provider.ContactsContract;
+import android.util.Log;
 
 import com.example.phonehmi.MainActivity;
 import com.example.phonehmi.presenter.IMVPPresenter;
 import com.example.phonehmi.presenter.MVPPresenter;
 
+import java.util.ArrayList;
 import java.util.List;
 
-
 import ServicePackage.ContactModel;
-
 import ServicePackage.FavoritesModel;
-
+import ServicePackage.RecentModel;
 import ServicePackage.SuggestionModel;
 
 public class MVPModel implements IMVPModel {
@@ -22,25 +27,22 @@ public class MVPModel implements IMVPModel {
 
     List<FavoritesModel> favoritesModelList;
 
+    List<RecentModel> recentModelList;
 
+    IMVPPresenter imvpPresenter;
 
-    IMVPPresenter iDialerPresenter;
-    public MVPModel(IMVPPresenter iDialerPresenter) {
-        this.iDialerPresenter =iDialerPresenter;
+    public MVPModel(IMVPPresenter imvpPresenter) {
+        this.imvpPresenter = imvpPresenter;
     }
 
     public MVPModel() {
+
     }
 
     public MVPModel(MVPPresenter dialerPresenter) {
     }
 
-
-
-
-
-
-/*************************************************************************************************************************/
+    /*************************************************************************************************************************/
     //GET SUGGESTIONS
     @Override
     public List<SuggestionModel> getSuggestions(String number) {
@@ -72,7 +74,6 @@ public class MVPModel implements IMVPModel {
     /*************************************************************************************************************************/
 
 
-
     @Override
     public List<ContactModel> getContacts() {
         contactModelList = null;
@@ -95,6 +96,86 @@ public class MVPModel implements IMVPModel {
             e.printStackTrace();
         }
         return favoritesModelList;
+    }
+
+
+    @Override
+    public void removeContactFromFavorites(int id) {
+        try {
+            MainActivity.getAidl().removeContactFromFavorites(id);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @SuppressLint("Range")
+    @Override
+    public void addContactToDatabase(Context context) {
+        //ADDING CONTACTS FROM CONTENT PROVIDER TO CURSOR
+        contactModelList = null;
+        contactModelList = new ArrayList<>();
+
+        ContentResolver resolver = context.getContentResolver();
+        @SuppressLint("Recycle") Cursor cursor = resolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
+
+        while (cursor.moveToNext()) {
+            ContactModel contactModel = new ContactModel();
+            contactModel.setName(cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)));
+            contactModel.setNumber(cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)));
+            contactModel.setId(cursor.getInt(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID)));
+            contactModelList.add(contactModel);
+
+        }
+        Log.e("######LIST_SIZE########", "" + contactModelList.size());
+
+
+        try {
+            MainActivity.getAidl().addContactToDatabase(contactModelList);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public boolean checkContactPresentInFavoritesTable(int id) {
+        boolean flag = false;
+        try {
+            flag = MainActivity.getAidl().checkContactPresentInFavoritesTable(id);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        return flag;
+    }
+
+    @Override
+    public void addContactToFavorites(int id) {
+        try {
+            MainActivity.getAidl().addContactToFavorites(id);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void addToRecent(List<RecentModel> recentModelList) {
+        try {
+            MainActivity.getAidl().addToRecent(recentModelList);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public List<RecentModel> getAllRecents() {
+        recentModelList = null;
+        try {
+            recentModelList = MainActivity.getAidl().getAllRecents();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
+        return recentModelList;
     }
 
 }

@@ -9,8 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.phonehmi.view.DialerFragment;
 import com.example.phonehmi.R;
+import com.example.phonehmi.view.DialerFragment;
 
 import java.util.List;
 
@@ -62,9 +62,9 @@ public class ContactSuggestionAdapter extends RecyclerView.Adapter<ContactSugges
         public void onClick(View view) {
             TextView clickedContactName = view.findViewById(R.id.tvContactSuggestionName);
             TextView clickedContactNumber = view.findViewById(R.id.tvContactSuggestionNumber);
-             String contactName = clickedContactName.getText().toString();
-             String contactNumber = clickedContactNumber.getText().toString();
-             //Add contact to the main contact space
+            String contactName = clickedContactName.getText().toString();
+            String contactNumber = clickedContactNumber.getText().toString();
+            //Add contact to the main contact space
             DialerFragment.tvCallSelectedName.setText(contactName);
             DialerFragment.tvCallSelectedNumber.setText(contactNumber);
 
