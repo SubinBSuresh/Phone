@@ -3,26 +3,25 @@ package com.example.phonehmi.Model;
 import android.os.RemoteException;
 
 import com.example.phonehmi.MainActivity;
-import com.example.phonehmi.presenter.IDialerPresenter;
-import com.example.phonehmi.presenter.DialerPresenter;
-import com.example.phonehmi.presenter.IDialerPresenter;
+import com.example.phonehmi.presenter.IMVPPresenter;
+import com.example.phonehmi.presenter.MVPPresenter;
 
 import java.util.List;
 
 import ServicePackage.SuggestionModel;
 
-public class DialerModel implements  IDialerModel{
+public class MVPModel implements IMVPModel {
     List<SuggestionModel> suggestionModelList;
 
-    IDialerPresenter iDialerPresenter;
-    public DialerModel(IDialerPresenter iDialerPresenter) {
+    IMVPPresenter iDialerPresenter;
+    public MVPModel(IMVPPresenter iDialerPresenter) {
         this.iDialerPresenter =iDialerPresenter;
     }
 
-    public DialerModel() {
+    public MVPModel() {
     }
 
-    public DialerModel(DialerPresenter dialerPresenter) {
+    public MVPModel(MVPPresenter dialerPresenter) {
     }
 
 

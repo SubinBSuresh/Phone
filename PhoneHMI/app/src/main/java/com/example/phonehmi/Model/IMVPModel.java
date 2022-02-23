@@ -4,7 +4,7 @@ import java.util.List;
 
 import ServicePackage.SuggestionModel;
 
-public interface IDialerModel {
+public interface IMVPModel {
 
     //SIMILAR TO AIDL FILE, OUR METHODS ARE CALLED HERE. GO TO DialerModel file
     List<SuggestionModel> getSuggestions(String number);
