@@ -1,23 +1,38 @@
 package com.example.phonehmi.presenter;
 
+import android.os.RemoteException;
+
+import com.example.phonehmi.MainActivity;
 import com.example.phonehmi.Model.MVPModel;
 import com.example.phonehmi.view.IContactView;
 import com.example.phonehmi.view.IDialerView;
+import com.example.phonehmi.view.IFavoritesView;
 
 import java.util.List;
 
+
 import ServicePackage.ContactModel;
+=======
+import ServicePackage.FavoritesModel;
+
 import ServicePackage.SuggestionModel;
 
 public class MVPPresenter implements IMVPPresenter {
 
 
     List<SuggestionModel> suggestionModelList;
+
     List<ContactModel> contactModelList;
 
 
     IDialerView iDialerView;
     IContactView iContactView;
+
+
+    List<FavoritesModel> favoritesModelList;
+
+    IDialerView iDialerView;
+    IFavoritesView iFavoritesView;
 
     MVPModel mvpModel;
     MVPPresenter mvpPresenter;
@@ -26,11 +41,13 @@ public class MVPPresenter implements IMVPPresenter {
     public MVPPresenter(IDialerView iDialerView) {
         this.iDialerView = iDialerView;
         mvpModel = new MVPModel(mvpPresenter);
+<
     }
 
     public MVPPresenter(IContactView iContactView) {
         this.iContactView = iContactView;
         mvpModel = new MVPModel(mvpPresenter);
+
     }
 
     // BOTH THE METHODS MENTIONED IN IDialerInterface IS CALLED HERE
@@ -47,6 +64,21 @@ public class MVPPresenter implements IMVPPresenter {
     public String showPhoneNumber(String digit, String number) {
         return mvpModel.showPhoneNumber(digit, number);
 
+
+
+    }
+
+
+    public MVPPresenter(IFavoritesView iFavoritesView) {
+        this.iFavoritesView = iFavoritesView;
+        mvpModel = new MVPModel(mvpPresenter);
+    }
+
+    @Override
+    public List<FavoritesModel> getFavorites() {
+        favoritesModelList = null;
+        favoritesModelList = mvpModel.getFavorites();
+        return favoritesModelList;
     }
 
     @Override

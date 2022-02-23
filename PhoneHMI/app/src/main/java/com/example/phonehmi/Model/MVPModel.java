@@ -8,12 +8,20 @@ import com.example.phonehmi.presenter.MVPPresenter;
 
 import java.util.List;
 
+
 import ServicePackage.ContactModel;
+
+import ServicePackage.FavoritesModel;
+
 import ServicePackage.SuggestionModel;
 
 public class MVPModel implements IMVPModel {
     List<SuggestionModel> suggestionModelList;
+
     List<ContactModel> contactModelList;
+
+    List<FavoritesModel> favoritesModelList;
+
 
 
     IMVPPresenter iDialerPresenter;
@@ -60,6 +68,7 @@ public class MVPModel implements IMVPModel {
         return number;
     }
 
+
     /*************************************************************************************************************************/
 
 
@@ -74,6 +83,18 @@ public class MVPModel implements IMVPModel {
         }
 
         return contactModelList;
+    }
+
+
+    @Override
+    public List<FavoritesModel> getFavorites() {
+        favoritesModelList = null;
+        try {
+            favoritesModelList = MainActivity.getAidl().getFavorites();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        return favoritesModelList;
     }
 
 }
