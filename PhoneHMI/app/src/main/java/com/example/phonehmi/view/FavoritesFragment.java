@@ -16,6 +16,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.phonehmi.MainActivity;
 import com.example.phonehmi.R;
 import com.example.phonehmi.adapter.FavoritesAdapter;
+import com.example.phonehmi.presenter.MVPPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,7 @@ import java.util.List;
 import ServicePackage.FavoritesModel;
 
 
-public class FavoritesFragment extends Fragment {
+public class FavoritesFragment extends Fragment implements IFavoritesView{
     private static List<FavoritesModel> favoriteList;
     @SuppressLint("StaticFieldLeak")
 
@@ -31,6 +32,7 @@ public class FavoritesFragment extends Fragment {
     RecyclerView recyclerView;
     TextView textView;
     public static FavoritesAdapter favoritesAdapter;
+    MVPPresenter mvpPresenter;
 
     public FavoritesFragment() {
         // Required empty public constructor
@@ -45,15 +47,18 @@ public class FavoritesFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recView);
         textView = view.findViewById(R.id.empty_view_favorite);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
+        mvpPresenter = new MVPPresenter(this);
         favoriteList = new ArrayList<>();
         //swipeRefreshLayoutFavorites = view.findViewById(R.id.swipeRefreshLayoutFavorites);
-
+/*
         try {
             favoriteList = MainActivity.getAidl().getFavorites();
         } catch (RemoteException e) {
             e.printStackTrace();
         }
+
+ */
+        favoriteList = mvpPresenter.getFavorites();
         favoritesAdapter = new FavoritesAdapter(favoriteList, getContext());
         recyclerView.setAdapter(favoritesAdapter);
         updateVisibility();
@@ -72,11 +77,14 @@ public class FavoritesFragment extends Fragment {
         favoriteList = new ArrayList<>();
         //swipeRefreshLayoutFavorites = view.findViewById(R.id.swipeRefreshLayoutFavorites);
 
-        try {
+       /* try {
             favoriteList = MainActivity.getAidl().getFavorites();
         } catch (RemoteException e) {
             e.printStackTrace();
         }
+
+        */
+        favoriteList = mvpPresenter.getFavorites();
         favoritesAdapter = new FavoritesAdapter(favoriteList, getContext());
         recyclerView.setAdapter(favoritesAdapter);
     }
