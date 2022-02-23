@@ -2,7 +2,6 @@ package com.example.phonehmi.view;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.os.RemoteException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +10,7 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.phonehmi.MainActivity;
 import com.example.phonehmi.R;
 import com.example.phonehmi.adapter.FavoritesAdapter;
 import com.example.phonehmi.presenter.MVPPresenter;
@@ -24,14 +21,14 @@ import java.util.List;
 import ServicePackage.FavoritesModel;
 
 
-public class FavoritesFragment extends Fragment implements IFavoritesView{
+public class FavoritesFragment extends Fragment implements IFavoritesView {
+    public static FavoritesAdapter favoritesAdapter;
     private static List<FavoritesModel> favoriteList;
     @SuppressLint("StaticFieldLeak")
 
     //creating object for recycler view
     RecyclerView recyclerView;
     TextView textView;
-    public static FavoritesAdapter favoritesAdapter;
     MVPPresenter mvpPresenter;
 
     public FavoritesFragment() {
@@ -49,15 +46,8 @@ public class FavoritesFragment extends Fragment implements IFavoritesView{
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mvpPresenter = new MVPPresenter(this);
         favoriteList = new ArrayList<>();
-        //swipeRefreshLayoutFavorites = view.findViewById(R.id.swipeRefreshLayoutFavorites);
-/*
-        try {
-            favoriteList = MainActivity.getAidl().getFavorites();
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
 
- */
+
         favoriteList = mvpPresenter.getFavorites();
         favoritesAdapter = new FavoritesAdapter(favoriteList, getContext());
         recyclerView.setAdapter(favoritesAdapter);
@@ -75,15 +65,7 @@ public class FavoritesFragment extends Fragment implements IFavoritesView{
 
     private void updateFavoriteList() {
         favoriteList = new ArrayList<>();
-        //swipeRefreshLayoutFavorites = view.findViewById(R.id.swipeRefreshLayoutFavorites);
 
-       /* try {
-            favoriteList = MainActivity.getAidl().getFavorites();
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-
-        */
         favoriteList = mvpPresenter.getFavorites();
         favoritesAdapter = new FavoritesAdapter(favoriteList, getContext());
         recyclerView.setAdapter(favoritesAdapter);

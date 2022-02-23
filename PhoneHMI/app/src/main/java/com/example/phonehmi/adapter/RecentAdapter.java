@@ -17,16 +17,15 @@ import java.util.List;
 
 import ServicePackage.RecentModel;
 
-public class RecentAdapter extends RecyclerView.Adapter<RecentAdapter.ViewHolder>{
+public class RecentAdapter extends RecyclerView.Adapter<RecentAdapter.ViewHolder> {
 
-    private LayoutInflater layoutInflater;
     private final Context mContext;
-
     private final List<RecentModel> mlistRecents;
+    private LayoutInflater layoutInflater;
 
     public RecentAdapter(Context context, List<RecentModel> listRecents) {
-       this. mContext = context;
-       this. mlistRecents = listRecents;
+        this.mContext = context;
+        this.mlistRecents = listRecents;
 
     }
 
@@ -35,7 +34,7 @@ public class RecentAdapter extends RecyclerView.Adapter<RecentAdapter.ViewHolder
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         layoutInflater = LayoutInflater.from(mContext);
 
-        View view = layoutInflater.inflate(R.layout.item_recent,parent, false);
+        View view = layoutInflater.inflate(R.layout.item_recent, parent, false);
 
 
         return new ViewHolder(view);
@@ -49,7 +48,7 @@ public class RecentAdapter extends RecyclerView.Adapter<RecentAdapter.ViewHolder
         date = holder.date;*/
 
         holder.name.setText(mlistRecents.get(position).getName());
-       holder.number.setText(mlistRecents.get(position).getNumber());
+        holder.number.setText(mlistRecents.get(position).getNumber());
         holder.date.setText(mlistRecents.get(position).getDate());
 
     }

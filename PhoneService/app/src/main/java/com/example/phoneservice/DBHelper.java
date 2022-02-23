@@ -232,7 +232,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public List<RecentModel> getAllRecents() {
         List<RecentModel> recentsModelList = new ArrayList<>();
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        String query = "SELECT * FROM " + RECENTS_TABLE + " ORDER BY "+ RECENT_DATE +" COLLATE NOCASE DESC LIMIT 3";
+        String query = "SELECT * FROM " + RECENTS_TABLE + " ORDER BY "+ RECENT_DATE +" COLLATE NOCASE DESC LIMIT 30";
          Cursor cursor = sqLiteDatabase.rawQuery(query, null);
 
         while (cursor.moveToNext()) {

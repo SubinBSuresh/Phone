@@ -11,7 +11,7 @@ import com.example.phonehmi.view.DialerFragment;
 import com.example.phonehmi.view.FavoritesFragment;
 import com.example.phonehmi.view.RecentFragment;
 
-public class FragmentAdapter extends FragmentStateAdapter{
+public class FragmentAdapter extends FragmentStateAdapter {
 
     public FragmentAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
         super(fragmentManager, lifecycle);
@@ -20,7 +20,7 @@ public class FragmentAdapter extends FragmentStateAdapter{
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        switch (position){
+        switch (position) {
             case 1:
                 return new ContactFragment();
             case 2:
