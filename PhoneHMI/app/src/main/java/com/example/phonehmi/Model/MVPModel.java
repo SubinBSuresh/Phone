@@ -8,10 +8,13 @@ import com.example.phonehmi.presenter.MVPPresenter;
 
 import java.util.List;
 
+import ServicePackage.ContactModel;
 import ServicePackage.SuggestionModel;
 
 public class MVPModel implements IMVPModel {
     List<SuggestionModel> suggestionModelList;
+    List<ContactModel> contactModelList;
+
 
     IMVPPresenter iDialerPresenter;
     public MVPModel(IMVPPresenter iDialerPresenter) {
@@ -25,7 +28,12 @@ public class MVPModel implements IMVPModel {
     }
 
 
-    //HERE IS WHERE ACTUAL EXECUTION OF THE COMMENTS TAKES PLACE
+
+
+
+
+/*************************************************************************************************************************/
+    //GET SUGGESTIONS
     @Override
     public List<SuggestionModel> getSuggestions(String number) {
         suggestionModelList = null;
@@ -41,6 +49,8 @@ public class MVPModel implements IMVPModel {
         return suggestionModelList;
     }
 
+
+    //SHOW PHONE NUMBER IN DIALER SCREEN
     @Override
     public String showPhoneNumber(String digit, String number) {
 
@@ -49,4 +59,21 @@ public class MVPModel implements IMVPModel {
         }
         return number;
     }
+
+    /*************************************************************************************************************************/
+
+
+
+    @Override
+    public List<ContactModel> getContacts() {
+        contactModelList = null;
+        try {
+            contactModelList = MainActivity.getAidl().getContacts();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
+        return contactModelList;
+    }
+
 }
