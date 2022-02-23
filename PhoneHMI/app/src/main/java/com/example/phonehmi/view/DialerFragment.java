@@ -97,6 +97,7 @@ public class DialerFragment extends Fragment implements IDialerView, View.OnClic
 
         imageButtonBack.setOnLongClickListener(view12 -> {
             tvCallSelectedName.setText("");
+            number = "";
             tvCallSelectedNumber.setText("");
             Toast.makeText(getContext(), "Cleared Selection", Toast.LENGTH_SHORT).show();
             return true;

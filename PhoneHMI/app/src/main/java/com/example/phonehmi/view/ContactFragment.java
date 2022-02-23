@@ -1,11 +1,16 @@
 package com.example.phonehmi.view;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,6 +34,7 @@ public class ContactFragment extends Fragment implements IContactView {
     List<ContactModel> contactListDatabase = new ArrayList<>();
     MVPPresenter mvpPresenter;
     private ContactAdapter contactAdapter;
+    int REQUEST_PERMISSION_CODE = 123;
 
 
     public ContactFragment() {
@@ -49,18 +55,30 @@ public class ContactFragment extends Fragment implements IContactView {
 
 
         mvpPresenter = new MVPPresenter(this);
+        if (checkPermission()) {
+            mvpPresenter.addContactToDatabase(getContext());
 
 
-        mvpPresenter.addContactToDatabase(getContext());
+            contactList = mvpPresenter.getContacts();
 
 
-        contactList = mvpPresenter.getContacts();
+            contactAdapter = new ContactAdapter(contactList, getContext());
+            recyclerView.setAdapter(contactAdapter);
+        } else {
+            requestPermission();
+        }
 
-
-        contactAdapter = new ContactAdapter(contactList, getContext());
-        recyclerView.setAdapter(contactAdapter);
 
         return view;
+    }
+
+    private boolean checkPermission() {
+        return ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestPermission(){
+        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_CONTACTS}, REQUEST_PERMISSION_CODE);
+
     }
 
 
@@ -74,11 +92,15 @@ public class ContactFragment extends Fragment implements IContactView {
 
     private void updateContactList() {
 
-        contactAdapter = new ContactAdapter(contactList, getContext());
+        if (checkPermission()){
+            contactAdapter = new ContactAdapter(contactList, getContext());
+            contactList = mvpPresenter.getContacts();
+            contactAdapter = new ContactAdapter(contactList, getContext());
+            recyclerView.setAdapter(contactAdapter);
+        }else {
+            requestPermission();
+        }
 
 
-        contactList = mvpPresenter.getContacts();
-        contactAdapter = new ContactAdapter(contactList, getContext());
-        recyclerView.setAdapter(contactAdapter);
     }
 }
