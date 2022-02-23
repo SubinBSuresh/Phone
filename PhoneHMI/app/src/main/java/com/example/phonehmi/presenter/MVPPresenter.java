@@ -1,25 +1,25 @@
 package com.example.phonehmi.presenter;
 
-import com.example.phonehmi.Model.DialerModel;
+import com.example.phonehmi.Model.MVPModel;
 import com.example.phonehmi.view.IDialerView;
 
 import java.util.List;
 
 import ServicePackage.SuggestionModel;
 
-public class DialerPresenter implements IDialerPresenter {
+public class MVPPresenter implements IMVPPresenter {
 
 
     List<SuggestionModel> suggestionModelList;
 
     IDialerView iDialerView;
-    DialerModel dialerModel;
-    DialerPresenter dialerPresenter;
+    MVPModel dialerModel;
+    MVPPresenter dialerPresenter;
 
 
-    public DialerPresenter(IDialerView iDialerView) {
+    public MVPPresenter(IDialerView iDialerView) {
         this.iDialerView = iDialerView;
-        dialerModel = new DialerModel(dialerPresenter);
+        dialerModel = new MVPModel(dialerPresenter);
     }
 
     // BOTH THE METHODS MENTIONED IN IDialerInterface IS CALLED HERE

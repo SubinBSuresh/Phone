@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.phonehmi.adapter.ContactSuggestionAdapter;
-import com.example.phonehmi.presenter.DialerPresenter;
+import com.example.phonehmi.presenter.MVPPresenter;
 import com.example.phonehmi.R;
 
 import java.util.List;
@@ -36,7 +36,7 @@ public class DialerFragment extends Fragment implements IDialerView, View.OnClic
     List<SuggestionModel> suggestionModelList;
     String searchedNumber, searchedName;
     ContactSuggestionAdapter contactSuggestionAdapter;
-    DialerPresenter dialerPresenter;
+    MVPPresenter dialerPresenter;
 
     public DialerFragment() {
     }
@@ -48,7 +48,7 @@ public class DialerFragment extends Fragment implements IDialerView, View.OnClic
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_dialer, container, false);
 
-        dialerPresenter = new DialerPresenter(this);
+        dialerPresenter = new MVPPresenter(this);
 
         btn0 = view.findViewById(R.id.button0);
         btn1 = view.findViewById(R.id.button1);
