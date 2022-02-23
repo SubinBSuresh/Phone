@@ -29,6 +29,7 @@ public class RecentFragment extends Fragment implements RecentPresenter.View {
     private RecentPresenter presenter;
     private RecentAdapter recentAdapter;
     private TextView textView;
+    IRecentView IRecentView;
 
 
     public RecentFragment() {
