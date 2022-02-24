@@ -91,31 +91,7 @@ public class MyService extends Service {
         @Override
         public List<SuggestionModel> getSuggestions(String searchedNumber) throws RemoteException {
 
-            //**********************If Using ContentProvider for Contacts - USE THIS *********************************
 
-/*            Uri uri = ContactsContract.Contacts.CONTENT_URI;
-            SuggestionModel suggestionModel;
-            List<SuggestionModel> contactModelList = new ArrayList<>();
-            String sort = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC ";
-            Cursor cursor = getContentResolver().query(uri, null, null, null, sort);
-            if (cursor.getCount() > 0) {
-                while (cursor.moveToNext()) {
-                    @SuppressLint("Range") String id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
-                    @SuppressLint("Range") String name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-                    Uri uriPhone = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
-                    String selection = ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " =? AND " + ContactsContract.CommonDataKinds.Phone.NUMBER + " LIKE ?";
-                    Cursor phoneCursor = getContentResolver().query(uriPhone, null, selection, new String[]{id, searchedNumber + "%"}, null);
-                    if (phoneCursor.moveToNext()) {
-                        @SuppressLint("Range") String number = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                        suggestionModel = new SuggestionModel();
-                        suggestionModel.setContactName(name);
-                        suggestionModel.setContactNumber(number);
-                        contactModelList.add(suggestionModel);
-                        phoneCursor.close();
-                    }
-                }
-                cursor.close();
-            }*/
             DBHelper dbHelper = new DBHelper(getApplicationContext());
             return dbHelper.getContactSuggestion(searchedNumber);
             //********************** If Using SQLite DB - USE THIS & DBHelper CODE*********************************
@@ -161,6 +137,7 @@ public class MyService extends Service {
 
 
             phoneDbHandler.addtoRecent(recent);
+
         }
 
 

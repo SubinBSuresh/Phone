@@ -7,7 +7,7 @@
     android:background="@color/light_color"
     android:paddingLeft="40sp"
     android:paddingRight="40sp"
-    tools:context=".DialerFragment">
+    tools:context=".view.DialerFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
