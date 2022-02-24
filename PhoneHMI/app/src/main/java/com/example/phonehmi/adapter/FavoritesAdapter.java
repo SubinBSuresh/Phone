@@ -49,7 +49,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         favoritesModel = favoriteList.get(position);
         holder.name.setText(favoritesModel.getName());
-        holder.remBtn.setBackgroundResource(R.drawable.star_on_foreground);
+        holder.remBtn.setBackgroundResource(R.drawable.ic_baseline_star_24);
 
     }
 
