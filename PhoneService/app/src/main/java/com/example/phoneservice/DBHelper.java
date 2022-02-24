@@ -169,22 +169,6 @@ public class DBHelper extends SQLiteOpenHelper {
         cursor.close();
     }
 
-/*    public void addToFavorites(Integer id) {
-        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
-        Log.e("#################################", "HERE INSIDE DBHANDLER "+id);
-
-        String query = "SELECT * FROM " + CONTACT_TABLE + " WHERE " + CONTACT_ID + " = '" + id + "'";
-        Cursor cursor = sqLiteDatabase.rawQuery(query, null);
-
-        int contactId = cursor.getInt(0);
-        String contactName = cursor.getString(1);
-        String contactNumber = cursor.getString(2);
-        Log.e("#################################", contactName+contactNumber+contactId);
-        String addQuery = "INSERT INTO " + FAVORITES_TABLE + " VALUES (" + contactId + ", " + contactName + ", " + contactNumber + ")";
-        sqLiteDatabase.execSQL(addQuery);
-        cursor.close();
-        sqLiteDatabase.close();
-    }*/
 
 
     // REMOVE A FAVORITE FROM FAVORITES TABLE

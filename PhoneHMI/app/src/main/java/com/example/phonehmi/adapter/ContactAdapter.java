@@ -90,17 +90,16 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
                 public void onClick(View view) {
                     int position = getAdapterPosition();
                     contactModel = contactList.get(position);
-//                    Toast.makeText(view.getContext(), "toastworking" + contactModel.getId(), Toast.LENGTH_SHORT).show();
+
                     // CODE FOR ADDING DATA TO FAVORITE TABLE
 
                     if (!mvpPresenter.checkContactPresentInFavoritesTable(contactModel.getId())) {
                         imageButton.setBackgroundResource(R.drawable.ic_baseline_star_24);
 
-//                            Log.e("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$",""+test);
+
 
                         mvpPresenter.addContactToFavorites(contactModel.getId());
                         Toast.makeText(context, "Added to favourite", Toast.LENGTH_SHORT).show();
-
                         imageButton.setSelected(true);
                     } else {
 //
@@ -113,7 +112,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
                     }
                     notifyDataSetChanged();
                 }
-//                    Toast.makeText(view.getContext(), "toastworking"+test,Toast.LENGTH_SHORT).show();
+
 
 
             });
@@ -122,7 +121,6 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
 
         @Override
         public void onClick(View view) {
-            Log.e("$$$$$$$","Clicked");
             TextView clickedContactName = view.findViewById(R.id.contact_name);
             String contactName = clickedContactName.getText().toString();
             //Add contact to the main contact space
