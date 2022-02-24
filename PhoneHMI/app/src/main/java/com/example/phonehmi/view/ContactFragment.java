@@ -30,8 +30,6 @@ public class ContactFragment extends Fragment implements IContactView {
 
     RecyclerView recyclerView; //recyclerview object
     List<ContactModel> contactList;
-    //SwipeRefreshLayout swipeRefreshLayoutContacts;
-    List<ContactModel> contactListDatabase = new ArrayList<>();
     MVPPresenter mvpPresenter;
     private ContactAdapter contactAdapter;
     int REQUEST_PERMISSION_CODE = 123;
@@ -50,7 +48,6 @@ public class ContactFragment extends Fragment implements IContactView {
 
 
         recyclerView = view.findViewById(R.id.rvView);
-        // swipeRefreshLayoutContacts = view.findViewById(R.id.swipeRefreshLayoutContacts);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
 

@@ -117,7 +117,9 @@ public class MVPModel implements IMVPModel {
         contactModelList = new ArrayList<>();
 
         ContentResolver resolver = context.getContentResolver();
-        @SuppressLint("Recycle") Cursor cursor = resolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
+        @SuppressLint("Recycle")
+        Cursor cursor = resolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                null, null, null, null);
 
         while (cursor.moveToNext()) {
             ContactModel contactModel = new ContactModel();
