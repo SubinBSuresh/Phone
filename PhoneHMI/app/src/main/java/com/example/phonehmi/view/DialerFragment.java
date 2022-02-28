@@ -86,6 +86,7 @@ public class DialerFragment extends Fragment implements IDialerView, View.OnClic
         btnStar.setOnClickListener(this);
         imageButtonBack.setOnClickListener(this);
         btnCall.setOnClickListener(this);
+        btnCall.setEnabled(false);
 
         //Button 0 Long Press
         btn0.setOnLongClickListener(v -> {
@@ -116,7 +117,8 @@ public class DialerFragment extends Fragment implements IDialerView, View.OnClic
                 // Check the number with database and get suggestions and populate the recycler view
                 if (searchedNumber.isEmpty()) {
                     searchedNumber = "";
-                    suggestionModelList.clear();
+                        suggestionModelList.clear();
+
                     tvCallSelectedName.setText("");
                 } else {
 
